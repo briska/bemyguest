@@ -5,7 +5,7 @@ from setuptools import setup
 setup(
     name='beMyGuest',
     version='1.0',
-    description='Lightweight hotel room scheduler',
+    description='A lightweight hotel room booking system.',
     author='briska',
     author_email='brisova.majka@gmail.com',
     url='https://github.com/briska/',
