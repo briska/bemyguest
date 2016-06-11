@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block body_classes %}
+login
+{% endblock %}
+
+{% block content %}
+	<div id="login" class="col-sm-12">
+		<form id="login-form" class="form" method="post" action="{% url 'login' %}">
+			{% csrf_token %}
+			{{ login_form }}
+			<input type="hidden" name="next" value="{{ request.path }}"/>
+			<input type="submit" class="btn btn-primary" name="login" value="Log in" />
+		</form>
+	</div>
+{% endblock %}
