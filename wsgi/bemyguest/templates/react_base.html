@@ -7,13 +7,13 @@
 
 {% block main %}
 <div id="content" class="col-sm-12">
-    {{ context }}
 </div>
 {% endblock %}
 
 {% block js %}
 <script>
-	var context = {{ context|safe }};
+	var page = '{{ page }}';
+	var additionalContext = {{ additional_context|safe }};
 </script>
-<script type='text/javascript' src='{% static "dist/core/bundle.js" %}'></script>
+<script type='text/javascript' src='{% static "js/core/bundle.js" %}'></script>
 {% endblock %}

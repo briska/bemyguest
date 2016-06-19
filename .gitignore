@@ -6,3 +6,4 @@
 .project
 .pydevproject
 .settings/org.eclipse.ltk.core.refactoring.prefs
+wsgi/bemyguest/node_modules

@@ -12,3 +12,11 @@ def serialize_room(room):
         'house': room.house_id,
         'capacity': room.capacity,
     }
+
+def serialize_reservation(reservation):
+    return {
+        'id': reservation.id,
+        'contact_name': reservation.contact_name,
+        'contact_mail': reservation.contact_mail,
+        'contact_phone': reservation.contact_phone,
+    }

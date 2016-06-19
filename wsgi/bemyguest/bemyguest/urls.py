@@ -18,13 +18,16 @@ from django.conf.urls import include, url, patterns
 from django.contrib import admin
 from bemyguest import settings
 import core.views
+import core.api
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^login/$', core.views.user_login, name='login'),
     url(r'^logout/$', core.views.user_logout, name='logout'),
     url(r'^$', core.views.react_base, {'page': 'calendar'}, name='calendar'),
-    url(r'^$', core.views.react_base, {'page': 'stats'}, name='stats'),
+    url(r'^stats/$', core.views.react_base, {'page': 'stats'}, name='stats'),
+    
+    url(r'^api/reservations/$', core.api.reservations, name='reservations'),
 ]
 
 if settings.DEBUG:

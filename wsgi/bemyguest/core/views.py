@@ -29,7 +29,7 @@ def react_base(request, page):
         houses[house.id] = serialize_house(house)
         for room in house.rooms.all():
             rooms[room.id] = serialize_room(room)
-    context = {
+    additional_context = {
         'user': {
             'id': request.user.id,
             'username': request.user.username,
@@ -40,7 +40,7 @@ def react_base(request, page):
     }
     data = {
         'page': page,
-        'context': json.dumps(context),
+        'additional_context': json.dumps(additional_context),
         'static_version': STATIC_VERSION,
     }
     return render(request, 'react_base.html', data)
