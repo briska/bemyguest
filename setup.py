@@ -10,9 +10,11 @@ setup(
     author_email='brisova.majka@gmail.com',
     url='https://github.com/briska/',
     install_requires=[
-        'Django==1.8.4'
+        'Django==1.8.4',
+        'django-debug-panel==0.8.2',
+        'django-debug-toolbar==1.4',
     ],
     dependency_links=[
-        'https://pypi.python.org/simple/django/'
+        'https://pypi.python.org/simple/django/',
     ],
 )
