@@ -15,5 +15,5 @@
 	var page = '{{ page }}';
 	var additionalContext = {{ additional_context|safe }};
 </script>
-<script type='text/javascript' src='{% static "js/core/bundle.js" %}'></script>
+<script type='text/javascript' src='{% static "js/core/bundle.js" %}?v={{ static_version }}'></script>
 {% endblock %}
