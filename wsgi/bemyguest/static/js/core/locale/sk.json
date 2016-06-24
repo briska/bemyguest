@@ -1,4 +1,8 @@
 {
-	"CALENDAR": "Kalendár",
-	"STATS": "Štatistiky"
+	'CALENDAR': 'Kalendár',
+	'STATS': 'Štatistiky',
+	'LOGGED_OUT': 'Platnosť vašej relácie vypršala. Pre pokračovanie sa prihláste.',
+	'USERNAME': 'Prihlasovacie meno',
+	'PASSWORD': 'Heslo',
+	'LOG_IN': 'Prihlásiť'
 }

@@ -2,17 +2,14 @@
 
 var Fluxible = require('fluxible');
 var ReservationsStore = require('core/calendar/reservationsStore');
-
-function getPage(page) {
-    if (page == 'calendar') return require('core/calendar/calendar');else if (page == 'stats') return require('core/stats/stats');else return null;
-};
-
-if (!_.isString(page)) page = '';
+var UserStore = require('core/user/userStore');
+var Page = require('core/page');
 
 var app = new Fluxible({
-    component: getPage(page)
+    component: Page
 });
 
 app.registerStore(ReservationsStore);
+app.registerStore(UserStore);
 
 module.exports = app;

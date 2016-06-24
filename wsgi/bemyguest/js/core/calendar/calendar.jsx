@@ -1,13 +1,11 @@
 const _ = require('lodash');
 const React = require('react');
-const xhr = require('core/utils/xhr');
 const trans = require('core/utils/trans');
 const cx = require('classnames');
 const provideContext = require('fluxible-addons-react/provideContext');
 const connectToStores = require('fluxible-addons-react/connectToStores');
-const actions = require('core/calendar/actions');
+const actions = require('core/actions');
 const ReservationsStore = require('core/calendar/reservationsStore');
-const Spinner = require('core/utils/spinner');
 
 let Calendar = React.createClass({
     loadReservations: function() {
@@ -22,6 +20,7 @@ let Calendar = React.createClass({
         return (
             <div className="calendar">
                 <h1>{trans('CALENDAR')}</h1>
+                <button onClick={this.loadReservations}>load</button>
                 {_.map(this.props.reservations, (reservation) => {
                     return (
                         <div key={reservation.id}>{reservation.contact_name}, {reservation.contact_mail}, {reservation.contact_phone}</div>

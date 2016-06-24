@@ -20,3 +20,10 @@ def serialize_reservation(reservation):
         'contact_mail': reservation.contact_mail,
         'contact_phone': reservation.contact_phone,
     }
+
+def serialize_user(user):
+    return {
+        'id': user.id,
+        'username': user.username,
+        'mail': user.email,
+    }

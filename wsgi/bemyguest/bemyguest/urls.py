@@ -27,7 +27,9 @@ urlpatterns = [
     url(r'^$', core.views.react_base, {'page': 'calendar'}, name='calendar'),
     url(r'^stats/$', core.views.react_base, {'page': 'stats'}, name='stats'),
     
-    url(r'^api/reservations/$', core.api.reservations, name='reservations'),
+    url(r'^api/user/$', core.api.user, name='api_user'),
+    url(r'^api/login/$', core.api.user_login, name='api_login'),
+    url(r'^api/reservations/$', core.api.reservations, name='api_reservations'),
 ]
 
 if settings.DEBUG:
