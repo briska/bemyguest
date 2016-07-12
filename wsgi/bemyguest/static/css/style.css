@@ -1,2 +1,84 @@
 body {
-  background: #eeeeee; }
+  background: #eeeeee;
+  font-size: 14px;
+  font-family: sans-serif;
+  color: #444;
+  box-sizing: border-box;
+  -moz-boz-sizing: border-box; }
+
+.rooms {
+  width: 120px;
+  float: left;
+  border-top: 1px solid #eeeebb; }
+  .rooms .room {
+    width: 120px;
+    border: 1px solid #eeeebb;
+    border-top: none;
+    background: #ffffcc;
+    line-height: 1;
+    padding: 5px;
+    font-size: 12px;
+    text-transform: uppercase; }
+
+.calendar-sheet-container {
+  overflow: auto;
+  margin-left: 120px; }
+  .calendar-sheet-container .calendar-months .calendar-month {
+    float: left; }
+    .calendar-sheet-container .calendar-months .calendar-month .month-name {
+      display: block;
+      border-bottom: 1px solid #bbb;
+      margin: 0 2px 4px; }
+  .calendar-sheet-container .calendar-sheet {
+    position: relative;
+    border-collapse: collapse; }
+    .calendar-sheet-container .calendar-sheet .calendar-head-cell {
+      border: 1px solid #eeeebb;
+      background: #ffffcc;
+      line-height: 1;
+      padding: 5px; }
+      .calendar-sheet-container .calendar-sheet .calendar-head-cell .day-number {
+        display: block; }
+      .calendar-sheet-container .calendar-sheet .calendar-head-cell .day-name {
+        display: block;
+        font-size: 10px;
+        font-weight: 400; }
+    .calendar-sheet-container .calendar-sheet .calendar-cell {
+      border: 1px solid #ddd; }
+      .calendar-sheet-container .calendar-sheet .calendar-cell.odd {
+        background: #fff; }
+      .calendar-sheet-container .calendar-sheet .calendar-cell.even {
+        background: #f3f3f3; }
+    .calendar-sheet-container .calendar-sheet .calendar-reservation {
+      position: absolute;
+      text-align: center;
+      line-height: 1; }
+      .calendar-sheet-container .calendar-sheet .calendar-reservation.reservation-1 {
+        background: #fcfc88; }
+      .calendar-sheet-container .calendar-sheet .calendar-reservation.reservation-2 {
+        background: #9999ff; }
+      .calendar-sheet-container .calendar-sheet .calendar-reservation.reservation-3 {
+        background: #54fcfc; }
+      .calendar-sheet-container .calendar-sheet .calendar-reservation.reservation-new {
+        background: #DDFF66; }
+      .calendar-sheet-container .calendar-sheet .calendar-reservation .reservation-body {
+        padding: 5px;
+        overflow: hidden;
+        position: relative;
+        white-space: nowrap; }
+        .calendar-sheet-container .calendar-sheet .calendar-reservation .reservation-body .contact-name {
+          display: block;
+          font-size: 12px; }
+        .calendar-sheet-container .calendar-sheet .calendar-reservation .reservation-body .contact-mail, .calendar-sheet-container .calendar-sheet .calendar-reservation .reservation-body .contact-phone {
+          font-size: 11px;
+          padding-right: 6px; }
+        .calendar-sheet-container .calendar-sheet .calendar-reservation .reservation-body .new-label {
+          display: block;
+          padding-top: 7px; }
+        .calendar-sheet-container .calendar-sheet .calendar-reservation .reservation-body .glyphicon-remove {
+          position: absolute;
+          top: 3px;
+          right: 3px;
+          cursor: pointer; }
+          .calendar-sheet-container .calendar-sheet .calendar-reservation .reservation-body .glyphicon-remove:hover {
+            color: #222; }

@@ -29,6 +29,6 @@ def user_login(request):
 def reservations(request):
     if request.user.is_anonymous():
         return JsonResponse({'error': 'loggedOut'})
-    reservations = [serialize_reservation(reservation) for reservation in Reservation.objects.all()]
+    reservations = [serialize_reservation(reservation) for reservation in Reservation.objects.all().prefetch_related('room_reservations')]
     return JsonResponse({'reservations': reservations})
 

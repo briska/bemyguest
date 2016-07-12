@@ -13,12 +13,21 @@ def serialize_room(room):
         'capacity': room.capacity,
     }
 
+def serialize_room_reservation(room_reservation):
+    return {
+        'id': room_reservation.id,
+        'room': room_reservation.room_id,
+        'dateFrom': room_reservation.date_from,
+        'dateTo': room_reservation.date_to,
+    }
+
 def serialize_reservation(reservation):
     return {
         'id': reservation.id,
-        'contact_name': reservation.contact_name,
-        'contact_mail': reservation.contact_mail,
-        'contact_phone': reservation.contact_phone,
+        'contactName': reservation.contact_name,
+        'contactMail': reservation.contact_mail,
+        'contactPhone': reservation.contact_phone,
+        'roomReservations': [serialize_room_reservation(room_reservation) for room_reservation in reservation.room_reservations.all()],
     }
 
 def serialize_user(user):

@@ -13,7 +13,9 @@
     	"react-textarea-autosize": "latest",
     	"react-bootstrap": "latest",
     	"counterpart": "latest",
-    	"fluxible-addons-react": "latest"
+    	"fluxible-addons-react": "latest",
+    	"react-bootstrap-date-picker": "latest",
+    	"moment": "latest"
   	},
   	"devDependencies": {
     	"browserify": "latest",

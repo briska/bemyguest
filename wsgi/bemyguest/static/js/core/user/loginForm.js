@@ -1,9 +1,13 @@
 'use strict';
 
+var _reactBootstrap = require('react-bootstrap');
+
 var React = require('react');
+var ReactDOM = require('react-dom');
 var provideContext = require('fluxible-addons-react/provideContext');
 var actions = require('core/actions');
 var trans = require('core/utils/trans');
+
 
 var LoginForm = React.createClass({
     displayName: 'LoginForm',
@@ -19,7 +23,7 @@ var LoginForm = React.createClass({
     submitForm: function submitForm(event) {
         event.preventDefault();
         event.stopPropagation();
-        this.props.context.executeAction(actions.logIn, { 'username': this.state.username, 'password': this.refs.password.value });
+        this.props.context.executeAction(actions.logIn, { 'username': this.state.username, 'password': ReactDOM.findDOMNode(this.refs.password).value });
     },
 
     render: function render() {
@@ -27,26 +31,30 @@ var LoginForm = React.createClass({
             'form',
             { className: 'login-form', onSubmit: this.submitForm },
             React.createElement(
-                'div',
-                null,
+                _reactBootstrap.FormGroup,
+                { controlId: 'login-username' },
                 React.createElement(
-                    'label',
+                    _reactBootstrap.ControlLabel,
                     null,
                     trans('USERNAME')
                 ),
-                React.createElement('input', { type: 'text', name: 'username', value: this.state.username, onChange: this.handleUsernameChange })
+                React.createElement(_reactBootstrap.FormControl, { type: 'text', value: this.state.username, onChange: this.handleUsernameChange })
             ),
             React.createElement(
-                'div',
-                null,
+                _reactBootstrap.FormGroup,
+                { controlId: 'login-password' },
                 React.createElement(
-                    'label',
+                    _reactBootstrap.ControlLabel,
                     null,
                     trans('PASSWORD')
                 ),
-                React.createElement('input', { type: 'password', name: 'password', ref: 'password' })
+                React.createElement(_reactBootstrap.FormControl, { type: 'password', ref: 'password' })
             ),
-            React.createElement('input', { type: 'submit', name: 'submit', value: trans('LOG_IN') })
+            React.createElement(
+                _reactBootstrap.Button,
+                { type: 'submit' },
+                trans('LOG_IN')
+            )
         );
     }
 });

@@ -23,18 +23,13 @@ def react_base(request, page):
             'login_form': AuthenticationForm(request)
         }
         return render(request, 'login.html', data)
-    houses = {}
-    rooms = {}
+    houses = []
+    rooms = []
     for house in House.objects.all().prefetch_related(Prefetch('rooms', queryset=Room.objects.all().order_by('name'))):
-        houses[house.id] = serialize_house(house)
+        houses.append(serialize_house(house))
         for room in house.rooms.all():
-            rooms[room.id] = serialize_room(room)
+            rooms.append(serialize_room(room))
     additional_context = {
-        'user': {
-            'id': request.user.id,
-            'username': request.user.username,
-            'mail': request.user.email,
-        },
         'houses': houses,
         'rooms': rooms,
     }

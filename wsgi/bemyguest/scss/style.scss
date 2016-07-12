@@ -1,3 +1,129 @@
+$colors: #fcfc88, #9999ff, #54fcfc;
+
 body {
-	background: #eeeeee;
+    background: #eeeeee;
+    font-size: 14px;
+    font-family: sans-serif;
+    color: #444;
+    box-sizing: border-box;
+    -moz-boz-sizing: border-box;
+}
+
+.rooms {
+	width: 120px;
+	float: left;
+	border-top: 1px solid #eeeebb;
+	
+	.room {
+	    width: 120px;
+	    border: 1px solid #eeeebb;
+	    border-top: none;
+        background: #ffffcc;
+        line-height: 1;
+        padding: 5px;
+        font-size: 12px;
+        text-transform: uppercase;
+	}
+}
+
+.calendar-sheet-container {
+    overflow: auto;
+    margin-left: 120px;
+    
+    .calendar-months {
+        .calendar-month {
+            float: left;
+            
+            .month-name {
+                display: block;
+                border-bottom: 1px solid #bbb;
+                margin: 0 2px 4px;
+            }
+        }
+    }
+    
+    .calendar-sheet {
+        position: relative;
+        border-collapse: collapse;
+        
+        .calendar-head-cell {
+            border: 1px solid #eeeebb;
+            background: #ffffcc;
+            line-height: 1;
+            padding: 5px;
+            
+            .day-number {
+                display: block;
+            }
+            
+            .day-name {
+                display: block;
+                font-size: 10px;
+                font-weight: 400;
+            }
+        }
+        
+        .calendar-cell {
+            border: 1px solid #ddd;
+            
+            &.odd {
+                background: #fff;
+            }
+            
+            &.even {
+                background: #f3f3f3;
+            }
+        }
+        
+        .calendar-reservation {
+            position: absolute;
+            text-align: center;
+            line-height: 1;
+            
+            @for $i from 1 through length($colors) {
+                $color: nth($colors, $i);
+            
+                &.reservation-#{$i} {
+                    background: $color;
+                }
+            }
+            
+            &.reservation-new {
+                background: #DDFF66;
+            }
+            
+            .reservation-body {
+                padding: 5px;
+                overflow: hidden;
+                position: relative;
+                white-space: nowrap;
+                
+                .contact-name {
+                    display: block;
+                    font-size: 12px;
+                }
+                
+                .contact-mail, .contact-phone {
+                    font-size: 11px;
+                    padding-right: 6px;
+                }
+                
+                .new-label {
+                    display: block;
+                    padding-top: 7px;
+                }
+                
+                .glyphicon-remove {
+                    position: absolute;
+                    top: 3px;
+                    right: 3px;
+                    cursor: pointer;
+                    
+                    &:hover {
+                        color: #222;
+                    }
+                }
+            }
+        }
+    }
 }

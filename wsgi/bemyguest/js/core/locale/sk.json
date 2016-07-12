@@ -1,5 +1,8 @@
 {
 	'CALENDAR': 'Kalendár',
+	'FROM': 'Od',
+	'TODAY': 'Dnes',
+	'NEW_RESERVATION': 'Nová rezervácia',
 	'STATS': 'Štatistiky',
 	'LOGGED_OUT': 'Platnosť vašej relácie vypršala. Pre pokračovanie sa prihláste.',
 	'USERNAME': 'Prihlasovacie meno',

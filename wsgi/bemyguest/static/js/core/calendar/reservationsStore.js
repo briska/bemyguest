@@ -1,6 +1,8 @@
 'use strict';
 
 var createStore = require('fluxible/addons/createStore');
+var moment = require('moment');
+require('moment/locale/sk');
 
 var ReservationsStore = createStore({
     storeName: 'ReservationsStore',
@@ -17,7 +19,14 @@ var ReservationsStore = createStore({
         'RESERVATIONS_LOADED': function RESERVATIONS_LOADED(_ref) {
             var reservations = _ref.reservations;
 
-            this._reservations = reservations;
+            this._reservations = _.map(reservations, function (reservation) {
+                reservation.roomReservations = _.map(reservation.roomReservations, function (roomReservation) {
+                    roomReservation.dateFrom = moment(roomReservation.dateFrom);
+                    roomReservation.dateTo = moment(roomReservation.dateTo);
+                    return roomReservation;
+                });
+                return reservation;
+            });
             this.emitChange();
         }
     },
