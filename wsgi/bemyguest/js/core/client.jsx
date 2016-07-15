@@ -11,8 +11,6 @@ app.rehydrate(dehydratedState, (err, context) => {
     }
 
     if (!_.isString(page)) page = '';
-    // TODO: validate additionalContext
-    context._componentContext = _.assign(context.getComponentContext(), additionalContext); // additional context from django request
     window.context = context; // For accessing from browser console
     
     var mountNode = document.getElementById('app');

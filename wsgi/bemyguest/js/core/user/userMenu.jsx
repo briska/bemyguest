@@ -9,14 +9,15 @@ const UserStore = require('core/user/userStore');
 
 let UserMenu = React.createClass({
     render: function() {
+        let {context, user, isLoggedOut} = this.props;
         return (
             <div className="user-menu">
-                {this.props.user && <h3>{this.props.user.username}</h3>}
-                {this.props.user && <div>{this.props.user.mail}</div>}
-                <Modal show={this.props.isLoggedOut}>
+                {user && <h3>{user.username}</h3>}
+                {user && <div>{user.mail}</div>}
+                <Modal show={isLoggedOut}>
                     <Modal.Body>
                         <h4>{trans('LOGGED_OUT')}</h4>
-                        <LoginForm context={this.props.context} username={this.props.user ? this.props.user.username : ''} />
+                        <LoginForm context={context} username={user ? user.username : ''} />
                     </Modal.Body>
                 </Modal>
             </div>

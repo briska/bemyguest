@@ -15,18 +15,20 @@ var NewReservationStore = createStore({
         return this._roomReservations;
     },
 
-    deselectRoom: function deselectRoom(room) {
+    deselectRoom: function deselectRoom(roomId) {
         this._roomReservations = _.filter(this._roomReservations, function (roomReservation) {
-            return roomReservation.room != room;
+            return roomReservation.room != roomId;
         });
         this.emitChange();
     },
 
-    selectRoom: function selectRoom(room, date) {
-        var roomReservation = _.find(this._roomReservations, { room: room });
+    selectRoom: function selectRoom(roomId, date) {
+        var roomReservation = _.find(this._roomReservations, { roomId: roomId });
         if (roomReservation) {
             if (date < roomReservation.dateFrom) roomReservation.dateFrom = date;else if (date > roomReservation.dateTo) roomReservation.dateTo = date;
-        } else this._roomReservations = _.concat(this._roomReservations, { room: room, dateFrom: date, dateTo: date });
+        } else {
+            this._roomReservations = _.concat(this._roomReservations, { roomId: roomId, dateFrom: date, dateTo: date });
+        }
         this.emitChange();
     },
 

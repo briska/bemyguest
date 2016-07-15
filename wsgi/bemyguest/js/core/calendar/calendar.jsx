@@ -14,6 +14,8 @@ import {Button} from 'react-bootstrap';
 import {cellWidth, cellHeight, headHeight, monthHeight} from 'core/enums';
 import SheetNewReservation from 'core/calendar/sheetNewReservation';
 import SheetReservations from 'core/calendar/sheetReservations';
+import NewReservation from 'core/calendar/newReservation';
+import RoomsStore from 'core/roomsStore';
 
 let Calendar = React.createClass({
     loadReservations: function() {
@@ -37,14 +39,14 @@ let Calendar = React.createClass({
         this.setState({startDate: date});
     },
     
-    selectNewReservation(room, date) {
-        if (this.state.selectingNewReservation == room) {
-            this.props.context.getStore(NewReservationStore).selectRoom(room, date);
+    selectNewReservation(roomId, date) {
+        if (this.state.selectingNewReservation == roomId) {
+            this.props.context.getStore(NewReservationStore).selectRoom(roomId, date);
         }
     },
     
-    startSelectingNewReservation(room, date) {
-        this.setState({selectingNewReservation: room}, () => {this.selectNewReservation(room, date);});
+    startSelectingNewReservation(roomId, date) {
+        this.setState({selectingNewReservation: roomId}, () => {this.selectNewReservation(roomId, date);});
         global.window.addEventListener('mouseup', this.stopSelectingNewReservation);
     },
     
@@ -58,8 +60,7 @@ let Calendar = React.createClass({
     
     render: function() {
         let {startDate, dateFrom, dateTo} = this.state;
-        let {context} = this.props;
-        let {rooms} = context;
+        let {context, rooms} = this.props;
         let sheetDates = [];
         let sheetMonths = [];
         for (let d = moment(dateFrom); d.isSameOrBefore(dateTo); d.add(1, 'days')) {
@@ -155,9 +156,14 @@ let Calendar = React.createClass({
                         <SheetNewReservation context={context} dateFrom={dateFrom} dateTo={dateTo} />
                     </div>
                 </div>
+                <NewReservation context={context} />
             </div>
         );
     }
 });
+
+Calendar = connectToStores(Calendar, [RoomsStore], (context, props) => ({
+    rooms: context.getStore(RoomsStore).getRooms()
+}));
 
 module.exports = provideContext(Calendar);

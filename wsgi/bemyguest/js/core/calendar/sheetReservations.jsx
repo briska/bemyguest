@@ -8,11 +8,11 @@ const provideContext = require('fluxible-addons-react/provideContext');
 const connectToStores = require('fluxible-addons-react/connectToStores');
 const ReservationsStore = require('core/calendar/reservationsStore');
 import {cellWidth, cellHeight, headHeight, monthHeight} from 'core/enums';
+import RoomsStore from 'core/roomsStore';
 
 let SheetReservations = React.createClass({
     render: function() {
         let {context, dateFrom, dateTo, reservations} = this.props;
-        let {rooms} = context;
         return (
             <div className='sheet-reservations'>
                 {_.map(reservations, (reservation, i) => {
@@ -20,7 +20,7 @@ let SheetReservations = React.createClass({
                         _.map(reservation.roomReservations, (roomReservation) => {
                             let daysFromStart = roomReservation.dateFrom.diff(dateFrom, 'days');
                             let reservationDays = moment(roomReservation.dateTo).startOf('day').diff(moment(roomReservation.dateFrom).startOf('day'), 'days') + 1;
-                            let roomIndex = _.findIndex(rooms, {'id': roomReservation.room});
+                            let roomIndex = context.getStore(RoomsStore).getRoomIndex(roomReservation.roomId);
                             return (
                                 <div
                                     key={'reservation-' + roomReservation.id + '-' + reservation.id}

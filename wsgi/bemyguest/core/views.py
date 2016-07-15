@@ -29,13 +29,13 @@ def react_base(request, page):
         houses.append(serialize_house(house))
         for room in house.rooms.all():
             rooms.append(serialize_room(room))
-    additional_context = {
+    request_data = {
         'houses': houses,
         'rooms': rooms,
     }
     data = {
         'page': page,
-        'additional_context': json.dumps(additional_context),
+        'request_data': json.dumps(request_data),
         'static_version': STATIC_VERSION,
     }
     return render(request, 'react_base.html', data)

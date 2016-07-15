@@ -4,6 +4,12 @@ var _enums = require('core/enums');
 
 var _reactBootstrap = require('react-bootstrap');
 
+var _roomsStore = require('core/roomsStore');
+
+var _roomsStore2 = _interopRequireDefault(_roomsStore);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 var _ = require('lodash');
 var React = require('react');
 var trans = require('core/utils/trans');
@@ -19,8 +25,8 @@ var NewReservationStore = require('core/calendar/newReservationStore');
 var SheetNewReservation = React.createClass({
     displayName: 'SheetNewReservation',
 
-    deselectRoom: function deselectRoom(room) {
-        this.props.context.getStore(NewReservationStore).deselectRoom(room);
+    deselectRoom: function deselectRoom(roomId) {
+        this.props.context.getStore(NewReservationStore).deselectRoom(roomId);
     },
 
     render: function render() {
@@ -31,7 +37,6 @@ var SheetNewReservation = React.createClass({
         var dateFrom = _props.dateFrom;
         var dateTo = _props.dateTo;
         var roomReservations = _props.roomReservations;
-        var rooms = this.props.context.rooms;
 
         return React.createElement(
             'div',
@@ -39,11 +44,11 @@ var SheetNewReservation = React.createClass({
             _.map(roomReservations, function (roomReservation, i) {
                 var daysFromStart = roomReservation.dateFrom.diff(dateFrom, 'days');
                 var reservationDays = moment(roomReservation.dateTo).startOf('day').diff(moment(roomReservation.dateFrom).startOf('day'), 'days') + 1;
-                var roomIndex = _.findIndex(rooms, { 'id': roomReservation.room });
+                var roomIndex = context.getStore(_roomsStore2.default).getRoomIndex(roomReservation.roomId);
                 return React.createElement(
                     'div',
                     {
-                        key: 'new-reservation-' + i,
+                        key: 'sheet-new-reservation-' + i,
                         className: cx('calendar-reservation', 'reservation-new'),
                         style: {
                             width: reservationDays * _enums.cellWidth + 'px',
@@ -59,7 +64,7 @@ var SheetNewReservation = React.createClass({
                             trans('NEW_RESERVATION')
                         ),
                         React.createElement(_reactBootstrap.Glyphicon, { glyph: 'remove', onClick: function onClick() {
-                                _this.deselectRoom(roomReservation.room);
+                                _this.deselectRoom(roomReservation.roomId);
                             } })
                     )
                 );

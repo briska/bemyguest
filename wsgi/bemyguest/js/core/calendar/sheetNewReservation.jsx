@@ -10,24 +10,24 @@ const actions = require('core/actions');
 const NewReservationStore = require('core/calendar/newReservationStore');
 import {cellWidth, cellHeight, headHeight, monthHeight} from 'core/enums';
 import {Glyphicon} from 'react-bootstrap';
+import RoomsStore from 'core/roomsStore';
 
 let SheetNewReservation = React.createClass({
-    deselectRoom: function(room) {
-        this.props.context.getStore(NewReservationStore).deselectRoom(room);
+    deselectRoom: function(roomId) {
+        this.props.context.getStore(NewReservationStore).deselectRoom(roomId);
     },
     
     render: function() {
         let {context, dateFrom, dateTo, roomReservations} = this.props;
-        let {rooms} = this.props.context;
         return (
             <div className="sheet-new-reservation">
                 {_.map(roomReservations, (roomReservation, i) => {
                     let daysFromStart = roomReservation.dateFrom.diff(dateFrom, 'days');
                     let reservationDays = moment(roomReservation.dateTo).startOf('day').diff(moment(roomReservation.dateFrom).startOf('day'), 'days') + 1;
-                    let roomIndex = _.findIndex(rooms, {'id': roomReservation.room});
+                    let roomIndex = context.getStore(RoomsStore).getRoomIndex(roomReservation.roomId);
                     return (
                         <div
-                            key={'new-reservation-' + i}
+                            key={'sheet-new-reservation-' + i}
                             className={cx('calendar-reservation', 'reservation-new')}
                             style={{
                                 width: reservationDays * cellWidth + 'px',
@@ -36,7 +36,7 @@ let SheetNewReservation = React.createClass({
                                 top: headHeight + monthHeight + roomIndex * cellHeight + 'px'}}>
                             <div className="reservation-body">
                                 <span className="new-label">{trans('NEW_RESERVATION')}</span>
-                                <Glyphicon glyph="remove" onClick={() => {this.deselectRoom(roomReservation.room);}} />
+                                <Glyphicon glyph="remove" onClick={() => {this.deselectRoom(roomReservation.roomId);}} />
                             </div>
                         </div>
                     );

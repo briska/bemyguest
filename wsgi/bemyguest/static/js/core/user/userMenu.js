@@ -12,22 +12,27 @@ var UserMenu = React.createClass({
     displayName: 'UserMenu',
 
     render: function render() {
+        var _props = this.props;
+        var context = _props.context;
+        var user = _props.user;
+        var isLoggedOut = _props.isLoggedOut;
+
         return React.createElement(
             'div',
             { className: 'user-menu' },
-            this.props.user && React.createElement(
+            user && React.createElement(
                 'h3',
                 null,
-                this.props.user.username
+                user.username
             ),
-            this.props.user && React.createElement(
+            user && React.createElement(
                 'div',
                 null,
-                this.props.user.mail
+                user.mail
             ),
             React.createElement(
                 Modal,
-                { show: this.props.isLoggedOut },
+                { show: isLoggedOut },
                 React.createElement(
                     Modal.Body,
                     null,
@@ -36,7 +41,7 @@ var UserMenu = React.createClass({
                         null,
                         trans('LOGGED_OUT')
                     ),
-                    React.createElement(LoginForm, { context: this.props.context, username: this.props.user ? this.props.user.username : '' })
+                    React.createElement(LoginForm, { context: context, username: user ? user.username : '' })
                 )
             )
         );

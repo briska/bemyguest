@@ -2,21 +2,21 @@ def serialize_house(house):
     return {
         'id': house.id,
         'name': house.name,
-        'rooms': [room.id for room in house.rooms.all()],
+        'roomIds': [room.id for room in house.rooms.all()],
     }
 
 def serialize_room(room):
     return {
         'id': room.id,
         'name': room.name,
-        'house': room.house_id,
+        'houseId': room.house_id,
         'capacity': room.capacity,
     }
 
 def serialize_room_reservation(room_reservation):
     return {
         'id': room_reservation.id,
-        'room': room_reservation.room_id,
+        'roomId': room_reservation.room_id,
         'dateFrom': room_reservation.date_from,
         'dateTo': room_reservation.date_to,
     }

@@ -127,3 +127,22 @@ body {
         }
     }
 }
+
+.new-reservation {
+	.new-reservation-room {
+	   h3 {
+	       float: left;
+	       
+	       .room-name {
+               text-transform: uppercase;
+           }
+	       
+		   .house-name {
+		       font-size: 0.8em;
+		       font-weight: 400;
+		   }
+        }
+        
+        
+	}
+}

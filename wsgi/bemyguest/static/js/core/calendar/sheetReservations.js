@@ -2,6 +2,12 @@
 
 var _enums = require('core/enums');
 
+var _roomsStore = require('core/roomsStore');
+
+var _roomsStore2 = _interopRequireDefault(_roomsStore);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 var _ = require('lodash');
 var React = require('react');
 var trans = require('core/utils/trans');
@@ -22,7 +28,6 @@ var SheetReservations = React.createClass({
         var dateFrom = _props.dateFrom;
         var dateTo = _props.dateTo;
         var reservations = _props.reservations;
-        var rooms = context.rooms;
 
         return React.createElement(
             'div',
@@ -31,7 +36,7 @@ var SheetReservations = React.createClass({
                 return _.map(reservation.roomReservations, function (roomReservation) {
                     var daysFromStart = roomReservation.dateFrom.diff(dateFrom, 'days');
                     var reservationDays = moment(roomReservation.dateTo).startOf('day').diff(moment(roomReservation.dateFrom).startOf('day'), 'days') + 1;
-                    var roomIndex = _.findIndex(rooms, { 'id': roomReservation.room });
+                    var roomIndex = context.getStore(_roomsStore2.default).getRoomIndex(roomReservation.roomId);
                     return React.createElement(
                         'div',
                         {

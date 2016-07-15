@@ -3,6 +3,16 @@
 	'FROM': 'Od',
 	'TODAY': 'Dnes',
 	'NEW_RESERVATION': 'Nová rezervácia',
+	'FULL_CAPACITY': {
+       'OTHER': 'Počet miest celkom: %(count)s'
+    },
+	'CAPACITY': {
+	   '1': '%(count)s miesto',
+       '2-4': '%(count)s miesta',
+	   'OTHER': '%(count)s miest'
+	},
+	'CREATE_RESERVATION': 'Vytvoriť rezerváciu',
+	'SAVE_RESERVATION': 'Uložiť rezerváciu',
 	'STATS': 'Štatistiky',
 	'LOGGED_OUT': 'Platnosť vašej relácie vypršala. Pre pokračovanie sa prihláste.',
 	'USERNAME': 'Prihlasovacie meno',

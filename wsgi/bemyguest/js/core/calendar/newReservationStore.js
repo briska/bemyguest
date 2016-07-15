@@ -13,18 +13,20 @@ let NewReservationStore = createStore({
         return this._roomReservations;
     },
     
-    deselectRoom: function(room) {
-        this._roomReservations = _.filter(this._roomReservations, function(roomReservation) {return roomReservation.room != room;});
+    deselectRoom: function(roomId) {
+        this._roomReservations = _.filter(this._roomReservations, function(roomReservation) {return roomReservation.room != roomId;});
         this.emitChange();
     },
     
-    selectRoom: function(room, date) {
-        let roomReservation = _.find(this._roomReservations, {room: room});
+    selectRoom: function(roomId, date) {
+        let roomReservation = _.find(this._roomReservations, {roomId: roomId});
         if (roomReservation) {
             if (date < roomReservation.dateFrom) roomReservation.dateFrom = date;
             else if (date > roomReservation.dateTo) roomReservation.dateTo = date;
         }
-        else this._roomReservations = _.concat(this._roomReservations, {room: room, dateFrom: date, dateTo: date});
+        else {
+            this._roomReservations = _.concat(this._roomReservations, {roomId: roomId, dateFrom: date, dateTo: date});
+        }
         this.emitChange();
     },
     

@@ -82,3 +82,11 @@ body {
           cursor: pointer; }
           .calendar-sheet-container .calendar-sheet .calendar-reservation .reservation-body .glyphicon-remove:hover {
             color: #222; }
+
+.new-reservation .new-reservation-room h3 {
+  float: left; }
+  .new-reservation .new-reservation-room h3 .room-name {
+    text-transform: uppercase; }
+  .new-reservation .new-reservation-room h3 .house-name {
+    font-size: 0.8em;
+    font-weight: 400; }

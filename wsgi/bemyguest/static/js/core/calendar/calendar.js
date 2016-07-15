@@ -12,6 +12,14 @@ var _sheetReservations = require('core/calendar/sheetReservations');
 
 var _sheetReservations2 = _interopRequireDefault(_sheetReservations);
 
+var _newReservation = require('core/calendar/newReservation');
+
+var _newReservation2 = _interopRequireDefault(_newReservation);
+
+var _roomsStore = require('core/roomsStore');
+
+var _roomsStore2 = _interopRequireDefault(_roomsStore);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var _ = require('lodash');
@@ -52,16 +60,16 @@ var Calendar = React.createClass({
         this.setState({ startDate: date });
     },
 
-    selectNewReservation: function selectNewReservation(room, date) {
-        if (this.state.selectingNewReservation == room) {
-            this.props.context.getStore(NewReservationStore).selectRoom(room, date);
+    selectNewReservation: function selectNewReservation(roomId, date) {
+        if (this.state.selectingNewReservation == roomId) {
+            this.props.context.getStore(NewReservationStore).selectRoom(roomId, date);
         }
     },
-    startSelectingNewReservation: function startSelectingNewReservation(room, date) {
+    startSelectingNewReservation: function startSelectingNewReservation(roomId, date) {
         var _this = this;
 
-        this.setState({ selectingNewReservation: room }, function () {
-            _this.selectNewReservation(room, date);
+        this.setState({ selectingNewReservation: roomId }, function () {
+            _this.selectNewReservation(roomId, date);
         });
         global.window.addEventListener('mouseup', this.stopSelectingNewReservation);
     },
@@ -81,8 +89,9 @@ var Calendar = React.createClass({
         var startDate = _state.startDate;
         var dateFrom = _state.dateFrom;
         var dateTo = _state.dateTo;
-        var context = this.props.context;
-        var rooms = context.rooms;
+        var _props = this.props;
+        var context = _props.context;
+        var rooms = _props.rooms;
 
         var sheetDates = [];
         var sheetMonths = [];
@@ -225,9 +234,16 @@ var Calendar = React.createClass({
                     React.createElement(_sheetReservations2.default, { context: context, dateFrom: dateFrom, dateTo: dateTo }),
                     React.createElement(_sheetNewReservation2.default, { context: context, dateFrom: dateFrom, dateTo: dateTo })
                 )
-            )
+            ),
+            React.createElement(_newReservation2.default, { context: context })
         );
     }
+});
+
+Calendar = connectToStores(Calendar, [_roomsStore2.default], function (context, props) {
+    return {
+        rooms: context.getStore(_roomsStore2.default).getRooms()
+    };
 });
 
 module.exports = provideContext(Calendar);
