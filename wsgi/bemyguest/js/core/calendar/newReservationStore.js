@@ -14,7 +14,7 @@ let NewReservationStore = createStore({
     },
     
     deselectRoom: function(roomId) {
-        this._roomReservations = _.filter(this._roomReservations, function(roomReservation) {return roomReservation.room != roomId;});
+        this._roomReservations = _.filter(this._roomReservations, function(roomReservation) {return roomReservation.roomId != roomId;});
         this.emitChange();
     },
     

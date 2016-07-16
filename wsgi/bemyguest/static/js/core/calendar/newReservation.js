@@ -75,7 +75,7 @@ var NewReservation = React.createClass({
                     )
                 ),
                 React.createElement(_reactBootstrap.Glyphicon, { glyph: 'remove', onClick: function onClick() {
-                        _this.deselectRoom(roomReservation.room.id);
+                        _this.deselectRoom(roomReservation.roomId);
                     } }),
                 React.createElement(
                     'p',
