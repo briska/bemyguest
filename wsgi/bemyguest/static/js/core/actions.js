@@ -19,7 +19,7 @@ function logIn(actionContext, payload, done) {
         done();
     }, function (resp) {
         if (resp.body.error == 'wrongCredentials') {
-            console.log('error');
+            console.log('wrongCredentials');
         }
     });
 };
@@ -33,4 +33,31 @@ function loadReservations(actionContext, _ref2, done) {
     });
 };
 
-module.exports = { loadUser: loadUser, logIn: logIn, loadReservations: loadReservations };
+function createReservation(actionContext, payload, done) {
+    xhr.post(actionContext, '/api/reservations/', payload, function (resp) {
+        actionContext.dispatch('RESERVATION_CREATED', { reservation: resp.body.reservation });
+        done();
+    });
+};
+
+function editReservation(actionContext, _ref3, done) {
+    var id = _ref3.id;
+    var data = _ref3.data;
+
+    xhr.post(actionContext, '/api/reservations/' + id + '/', data, function (resp) {
+        actionContext.dispatch('RESERVATION_EDITED', { reservation: resp.body.reservation });
+        done();
+    });
+};
+
+function removeReservation(actionContext, _ref4, done) {
+    var id = _ref4.id;
+    var data = _ref4.data;
+
+    xhr.delete(actionContext, '/api/reservations/' + id + '/', data, function (resp) {
+        actionContext.dispatch('RESERVATION_REMOVED', { id: id });
+        done();
+    });
+};
+
+module.exports = { loadUser: loadUser, logIn: logIn, loadReservations: loadReservations, createReservation: createReservation, editReservation: editReservation, removeReservation: removeReservation };

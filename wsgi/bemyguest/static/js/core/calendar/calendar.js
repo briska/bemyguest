@@ -20,6 +20,12 @@ var _roomsStore = require('core/roomsStore');
 
 var _roomsStore2 = _interopRequireDefault(_roomsStore);
 
+var _calendarHeader = require('core/calendar/calendarHeader');
+
+var _calendarHeader2 = _interopRequireDefault(_calendarHeader);
+
+var _utils = require('core/utils/utils');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var _ = require('lodash');
@@ -28,12 +34,11 @@ var trans = require('core/utils/trans');
 var cx = require('classnames');
 var moment = require('moment');
 require('moment/locale/sk');
-var provideContext = require('fluxible-addons-react/provideContext');
 var connectToStores = require('fluxible-addons-react/connectToStores');
 var actions = require('core/actions');
 var ReservationsStore = require('core/calendar/reservationsStore');
 var NewReservationStore = require('core/calendar/newReservationStore');
-var DatePicker = require('react-bootstrap-date-picker');
+var DatePicker = require('react-datepicker');
 
 
 var Calendar = React.createClass({
@@ -69,12 +74,17 @@ var Calendar = React.createClass({
         var _this = this;
 
         this.setState({ selectingNewReservation: roomId }, function () {
-            _this.selectNewReservation(roomId, date);
+            _this.props.context.getStore(NewReservationStore).deselectRoom(roomId);
+            _this.props.context.getStore(NewReservationStore).selectRoom(roomId, date);
         });
         global.window.addEventListener('mouseup', this.stopSelectingNewReservation);
     },
     stopSelectingNewReservation: function stopSelectingNewReservation() {
+        if (this.props.context.getStore(NewReservationStore).getRoomReservationDays(this.state.selectingNewReservation) <= 1) {
+            this.props.context.getStore(NewReservationStore).deselectRoom(this.state.selectingNewReservation);
+        }
         this.setState({ selectingNewReservation: false });
+        global.window.removeEventListener('mouseup', this.stopSelectingNewReservation);
     },
 
 
@@ -93,31 +103,17 @@ var Calendar = React.createClass({
         var context = _props.context;
         var rooms = _props.rooms;
 
-        var sheetDates = [];
-        var sheetMonths = [];
-        for (var d = moment(dateFrom); d.isSameOrBefore(dateTo); d.add(1, 'days')) {
-            sheetDates.push(moment(d));
-        }
-        for (var _d = moment(dateFrom); _d.isSameOrBefore(dateTo, 'month'); _d.add(1, 'months')) {
-            var days = void 0;
-            if (_d.isSame(dateFrom, 'month')) {
-                days = moment(dateFrom).endOf('month').diff(dateFrom, 'days') + 1;
-            } else if (_d.isSame(dateTo, 'month')) {
-                days = dateTo.date();
-            } else {
-                days = moment(_d).endOf('month').date();
-            }
-            sheetMonths.push({ name: _d.format('MMMM'), days: days });
-        }
+        var sheetDates = (0, _utils.getDatesRange)(dateFrom, dateTo);
         return React.createElement(
             'div',
             { className: 'calendar' },
+            React.createElement(_newReservation2.default, { context: context }),
             React.createElement(
                 'h1',
                 null,
                 trans('CALENDAR')
             ),
-            React.createElement(
+            false && React.createElement(
                 'div',
                 { className: 'top-selector' },
                 React.createElement(
@@ -139,14 +135,14 @@ var Calendar = React.createClass({
             ),
             React.createElement(
                 'div',
-                { className: 'rooms', style: { marginTop: _enums.monthHeight + 'px' } },
-                React.createElement('div', { className: 'room', style: { height: _enums.headHeight + 'px' } }),
+                { className: 'rooms calendar-aside', style: { marginTop: _enums.monthHeight + 'px' } },
+                React.createElement('div', { className: 'room aside-cell', style: { height: _enums.headHeight + 'px' } }),
                 _.map(rooms, function (room, i) {
                     return React.createElement(
                         'div',
                         {
                             key: 'room-' + room.id,
-                            className: 'room',
+                            className: 'room aside-cell',
                             style: { height: _enums.cellHeight + 'px' } },
                         room.name
                     );
@@ -154,88 +150,39 @@ var Calendar = React.createClass({
             ),
             React.createElement(
                 'div',
-                { className: 'calendar-sheet-container' },
+                { className: 'calendar-sheet-container reservation-sheet' },
                 React.createElement(
                     'div',
                     { className: 'calendar-sheet', style: { width: _.size(sheetDates) * _enums.cellWidth + 'px' } },
+                    React.createElement(_calendarHeader2.default, { context: context, dates: sheetDates }),
                     React.createElement(
                         'div',
-                        { className: 'calendar-months' },
-                        _.map(sheetMonths, function (month, i) {
+                        { className: 'calendar-table' },
+                        _.map(rooms, function (room, i) {
                             return React.createElement(
                                 'div',
                                 {
-                                    key: 'month-' + i,
-                                    className: 'calendar-month',
-                                    style: { height: _enums.monthHeight + 'px', width: month.days * _enums.cellWidth + 'px' } },
-                                React.createElement(
-                                    'span',
-                                    { className: 'month-name' },
-                                    month.name
-                                )
+                                    key: 'row-' + i,
+                                    className: 'calendar-row' },
+                                _.map(sheetDates, function (date, j) {
+                                    return React.createElement('div', {
+                                        key: 'cell-' + j,
+                                        className: cx('calendar-cell', i % 2 ? 'odd' : 'even'),
+                                        style: { width: _enums.cellWidth + 'px', height: _enums.cellHeight + 'px' },
+                                        onMouseDown: function onMouseDown(e) {
+                                            if (e.button == 0) _this2.startSelectingNewReservation(room.id, date);
+                                        },
+                                        onMouseEnter: function onMouseEnter() {
+                                            _this2.selectNewReservation(room.id, date);
+                                        } });
+                                })
                             );
                         })
                     ),
-                    React.createElement(
-                        'table',
-                        { className: 'calendar-table', style: { width: '100%' } },
-                        React.createElement(
-                            'thead',
-                            null,
-                            React.createElement(
-                                'tr',
-                                null,
-                                _.map(sheetDates, function (date, i) {
-                                    return React.createElement(
-                                        'th',
-                                        {
-                                            key: 'date-' + i,
-                                            className: 'calendar-head-cell',
-                                            style: { width: _enums.cellWidth + 'px', height: _enums.headHeight + 'px' } },
-                                        React.createElement(
-                                            'span',
-                                            { className: 'day-number' },
-                                            date.format('Do')
-                                        ),
-                                        React.createElement(
-                                            'span',
-                                            { className: 'day-name' },
-                                            date.format('dddd')
-                                        )
-                                    );
-                                })
-                            )
-                        ),
-                        React.createElement(
-                            'tbody',
-                            null,
-                            _.map(rooms, function (room, i) {
-                                return React.createElement(
-                                    'tr',
-                                    {
-                                        key: 'row-' + i,
-                                        className: 'calendar-row' },
-                                    _.map(sheetDates, function (date, j) {
-                                        return React.createElement('td', {
-                                            key: 'cell-' + j,
-                                            className: cx('calendar-cell', i % 2 ? 'odd' : 'even'),
-                                            style: { width: _enums.cellWidth + 'px', height: _enums.cellHeight + 'px' },
-                                            onMouseDown: function onMouseDown() {
-                                                _this2.startSelectingNewReservation(room.id, date);
-                                            },
-                                            onMouseEnter: function onMouseEnter() {
-                                                _this2.selectNewReservation(room.id, date);
-                                            } });
-                                    })
-                                );
-                            })
-                        )
-                    ),
-                    React.createElement(_sheetReservations2.default, { context: context, dateFrom: dateFrom, dateTo: dateTo }),
+                    React.createElement(_sheetReservations2.default, { context: context, dateFrom: dateFrom, dateTo: dateTo, stopSelectingNewReservation: this.stopSelectingNewReservation }),
                     React.createElement(_sheetNewReservation2.default, { context: context, dateFrom: dateFrom, dateTo: dateTo })
                 )
-            ),
-            React.createElement(_newReservation2.default, { context: context })
+            )
         );
     }
 });
@@ -246,4 +193,4 @@ Calendar = connectToStores(Calendar, [_roomsStore2.default], function (context, 
     };
 });
 
-module.exports = provideContext(Calendar);
+module.exports = Calendar;

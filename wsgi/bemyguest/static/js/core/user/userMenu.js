@@ -1,7 +1,6 @@
 'use strict';
 
 var React = require('react');
-var provideContext = require('fluxible-addons-react/provideContext');
 var connectToStores = require('fluxible-addons-react/connectToStores');
 var trans = require('core/utils/trans');
 var LoginForm = require('core/user/loginForm');
@@ -20,16 +19,6 @@ var UserMenu = React.createClass({
         return React.createElement(
             'div',
             { className: 'user-menu' },
-            user && React.createElement(
-                'h3',
-                null,
-                user.username
-            ),
-            user && React.createElement(
-                'div',
-                null,
-                user.mail
-            ),
             React.createElement(
                 Modal,
                 { show: isLoggedOut },
@@ -55,4 +44,4 @@ UserMenu = connectToStores(UserMenu, [UserStore], function (context, props) {
     };
 });
 
-module.exports = provideContext(UserMenu);
+module.exports = UserMenu;

@@ -1,31 +1,34 @@
 {% load staticfiles %}
+{% load i18n %}
 
 <!DOCTYPE HTML>
 <html>
 <head>
 	<meta charset='utf-8'> 
-	<title>{% block title %}beMyGuest v Sampore{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>{% block title %}{% trans 'WEB_TITLE' %}{% endblock %}</title>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 	<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
-	<link rel="stylesheet" type="text/css" href='{% static "css/style.css" %}?v={{ static_version }}' />
+	<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}?v={{ static_version }}" />
 	{% block head %}{% endblock %}
 </head>
 <body>
-	<div id="main-container" class="container-fluid {% block body_classes %}{% endblock %}">
-		<div id="header">
-			{% block header %}{% endblock %}
+	<div id="main" class="{% block body_classes %}{% endblock %}">
+		<div id="header" class="container-fluid">
+			<img class="logo hidden-xs" src="{% static 'img/bemyguest.png' %}" />
+            <img class="logo-mini visible-xs" src="{% static 'img/bemyguest_mini.png' %}" />
+            <h2 class="logo-title hidden-xs">{% trans 'AT_SAMPOR' %}</h2>
+            <ul class="menu">
+                <li><a href="{% url 'calendar' %}">{% trans 'CALENDAR' %}</a></li>
+                <li><a href="{% url 'stats' %}">{% trans 'STATS' %}</a></li>
+                <li><a href="{% url 'logout' %}">{% trans 'LOG_OUT' %}</a></li>
+            </ul>
 		</div>
-		<div id="main" class="row">
-			{% block main %}
-				<div id="content" class="col-sm-12">
-					{% include "messages.html" %}
-					{% block content %}
-					{% endblock %}
-				</div>
+		<div id="content" class="container-fluid">
+			{% block content %}
 			{% endblock %}
 		</div>
-		<div id="footer">
-			{% block footer %}{% endblock %}
+		<div id="footer" class="container-fluid">
 		</div>
 	</div>
 	{% block js %}{% endblock %}

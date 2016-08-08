@@ -2,7 +2,6 @@
 
 var React = require('react');
 var trans = require('core/utils/trans');
-var provideContext = require('fluxible-addons-react/provideContext');
 
 var Stats = React.createClass({
     displayName: 'Stats',
@@ -20,4 +19,4 @@ var Stats = React.createClass({
     }
 });
 
-module.exports = provideContext(Stats);
+module.exports = Stats;

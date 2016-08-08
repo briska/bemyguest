@@ -1,14 +1,34 @@
 'use strict';
 
-var _enums = require('core/enums');
-
 var _reactBootstrap = require('react-bootstrap');
 
 var _roomsStore = require('core/roomsStore');
 
 var _roomsStore2 = _interopRequireDefault(_roomsStore);
 
+var _reactTextareaAutosize = require('react-textarea-autosize');
+
+var _reactTextareaAutosize2 = _interopRequireDefault(_reactTextareaAutosize);
+
+var _createReservationGuest = require('core/calendar/createReservationGuest');
+
+var _createReservationGuest2 = _interopRequireDefault(_createReservationGuest);
+
+var _createReservationMeal = require('core/calendar/createReservationMeal');
+
+var _createReservationMeal2 = _interopRequireDefault(_createReservationMeal);
+
+var _calendarHeader = require('core/calendar/calendarHeader');
+
+var _calendarHeader2 = _interopRequireDefault(_calendarHeader);
+
+var _enums = require('core/enums');
+
+var _utils = require('core/utils/utils');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 var _ = require('lodash');
 var React = require('react');
@@ -16,21 +36,35 @@ var trans = require('core/utils/trans');
 var cx = require('classnames');
 var moment = require('moment');
 require('moment/locale/sk');
-var provideContext = require('fluxible-addons-react/provideContext');
-var connectToStores = require('fluxible-addons-react/connectToStores');
 var actions = require('core/actions');
-var NewReservationStore = require('core/calendar/newReservationStore');
 
 
 var CreateReservation = React.createClass({
     displayName: 'CreateReservation',
 
     getInitialState: function getInitialState() {
-        return { show: false };
+        return {
+            show: false,
+            name: '',
+            guestsCount: this.props.capacity,
+            purpose: '',
+            spiritualGuide: '',
+            contactName: '',
+            contactMail: '',
+            contactPhone: '',
+            notes: '',
+            mailCommunication: ''
+        };
     },
 
-    deselectRoom: function deselectRoom(roomId) {
-        this.props.context.getStore(NewReservationStore).deselectRoom(roomId);
+    componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
+        if (nextProps.capacity != this.props.capacity || !_.isEqual(nextProps.datesRange, this.props.datesRange)) {
+            this.setState({ guestsCount: nextProps.capacity });
+        }
+    },
+
+    shouldComponentUpdate: function shouldComponentUpdate(nextProps, nextState) {
+        return this.state.show || nextState.show;
     },
 
     open: function open() {
@@ -41,29 +75,76 @@ var CreateReservation = React.createClass({
         this.setState({ show: false });
     },
 
-    render: function render() {
+    handleChange: function handleChange(e) {
+        this.setState(_defineProperty({}, e.target.name, e.target.value));
+    },
+
+    saveReservation: function saveReservation(event) {
         var _this = this;
 
+        var roomReservations = _.map(this.props.roomReservations, function (roomReservation) {
+            var room = _this.props.context.getStore(_roomsStore2.default).getRoom(roomReservation.roomId);
+            roomReservation.dateFrom.hour(14);
+            roomReservation.dateTo.hour(10);
+            roomReservation.guests = [];
+            for (var index = 0; index < room.capacity; index++) {
+                var guest = _this.refs['guestR' + room.id + 'I' + index].getGuest();
+                if (guest) {
+                    roomReservation.guests.push(guest);
+                }
+            }
+            return roomReservation;
+        });
+        //        let meals = _.map(this.props.datesRange, (date, i) => {
+        //            return {
+        //                date: date,
+        //                counts: _.map(MEAL_TYPES, (type) => {
+        //                    return this.refs['mealD' + i + 'T' + type].getCounts();
+        //                })
+        //            };
+        //        });
+        var reservation = {
+            name: this.state.name,
+            guestsCount: this.state.guestsCount,
+            purpose: this.state.purpose,
+            spiritualGuide: this.state.spiritualGuide,
+            contactName: this.state.contactName,
+            contactMail: this.state.contactMail,
+            contactPhone: this.state.contactPhone,
+            notes: this.state.notes,
+            mailCommunication: this.state.mailCommunication,
+            priceHousing: (0, _utils.getHousingPrice)(_.size(this.props.datesRange)),
+            priceSpiritual: (0, _utils.getSpiritualPrice)(_.size(this.props.datesRange)),
+            roomReservations: roomReservations
+        };
+        //            meals: meals
+        this.props.context.executeAction(actions.createReservation, reservation);
+    },
+
+    render: function render() {
         var _props = this.props;
         var context = _props.context;
         var roomReservations = _props.roomReservations;
+        var datesRange = _props.datesRange;
         var _state = this.state;
-        var reservationName = _state.reservationName;
+        var show = _state.show;
+        var name = _state.name;
         var guestsCount = _state.guestsCount;
+        var purpose = _state.purpose;
+        var spiritualGuide = _state.spiritualGuide;
         var contactName = _state.contactName;
         var contactMail = _state.contactMail;
         var contactPhone = _state.contactPhone;
+        var notes = _state.notes;
+        var mailCommunication = _state.mailCommunication;
 
-        var fullCapacity = 0;
-        var roomReservationsToRender = _.map(roomReservations, function (roomReservation, i) {
-            var reservationDays = moment(roomReservation.dateTo).startOf('day').diff(moment(roomReservation.dateFrom).startOf('day'), 'days') + 1;
+        var roomReservationsToRender = _.map(roomReservations, function (roomReservation) {
             var room = context.getStore(_roomsStore2.default).getRoom(roomReservation.roomId);
-            fullCapacity += room.capacity;
             return React.createElement(
                 'div',
                 {
-                    key: 'new-reservation-' + i,
-                    className: 'new-reservation-room' },
+                    key: 'create-reservation-' + room.id,
+                    className: 'form-group' },
                 React.createElement(
                     'h4',
                     null,
@@ -81,32 +162,45 @@ var CreateReservation = React.createClass({
                         ')'
                     )
                 ),
-                React.createElement(_reactBootstrap.Glyphicon, { glyph: 'remove', onClick: function onClick() {
-                        _this.deselectRoom(roomReservation.room.id);
-                    } }),
-                React.createElement(
-                    'p',
-                    { className: 'capacity' },
-                    trans('CAPACITY', { count: room.capacity })
-                ),
                 React.createElement(
                     'p',
                     { className: 'date' },
                     roomReservation.dateFrom.format('D. MMMM YYYY'),
                     ' - ',
                     roomReservation.dateTo.format('D. MMMM YYYY')
-                )
+                ),
+                _.map(_.range(room.capacity), function (index) {
+                    return React.createElement(_createReservationGuest2.default, {
+                        key: 'guest-' + room.id + '-' + index,
+                        ref: 'guestR' + room.id + 'I' + index,
+                        context: context });
+                })
             );
         });
+        //        let mealsToRender = _.map(MEAL_TYPES, (type) => {
+        //            return (
+        //                <div className="calendar-row">
+        //                    {_.map(datesRange, (date, i) => {
+        //                        return (
+        //                            <CreateReservationMeal
+        //                                key={'meal-' + i + '-' + type}
+        //                                ref={'mealD' + i + 'T' + type}
+        //                                context={context}
+        //                                count={guestsCount} />
+        //                        )
+        //                    })}
+        //                </div>
+        //            );
+        //        });
         return React.createElement(
             _reactBootstrap.Modal,
-            { dialogClassName: 'create-reservation', show: this.state.show },
+            { dialogClassName: 'create-reservation', bsSize: 'lg', show: show },
             React.createElement(
                 _reactBootstrap.Modal.Header,
                 { closeButton: true, onHide: this.close },
                 React.createElement(
-                    'h2',
-                    { className: 'new-label' },
+                    'h3',
+                    { className: 'title' },
                     trans('NEW_RESERVATION')
                 )
             ),
@@ -114,75 +208,151 @@ var CreateReservation = React.createClass({
                 _reactBootstrap.Modal.Body,
                 null,
                 React.createElement(
-                    _reactBootstrap.FormGroup,
-                    { controlId: 'reservation-name' },
+                    'div',
+                    { className: 'form-group' },
                     React.createElement(
-                        _reactBootstrap.ControlLabel,
+                        'div',
                         null,
-                        trans('RESERVATION_NAME')
+                        React.createElement(
+                            'label',
+                            { className: 'inline' },
+                            trans('RESERVATION_NAME')
+                        ),
+                        React.createElement('input', { type: 'text', value: name, name: 'name', onChange: this.handleChange })
                     ),
-                    React.createElement(_reactBootstrap.FormControl, { type: 'text', value: reservationName, onChange: function onChange() {
-                            _this.handleChange('reservationName');
-                        } })
-                ),
-                React.createElement(
-                    _reactBootstrap.FormGroup,
-                    { controlId: 'guests-count' },
                     React.createElement(
-                        _reactBootstrap.ControlLabel,
+                        'div',
                         null,
-                        trans('GUESTS_COUNT')
-                    ),
-                    React.createElement(_reactBootstrap.FormControl, { type: 'number', value: guestsCount, onChange: function onChange() {
-                            _this.handleChange('guestsCount');
-                        } })
-                ),
-                roomReservationsToRender,
-                React.createElement(
-                    'h4',
-                    null,
-                    trans('CONTACT')
+                        React.createElement(
+                            'label',
+                            { className: 'inline' },
+                            trans('GUESTS_COUNT')
+                        ),
+                        React.createElement('input', { type: 'number', value: guestsCount, name: 'guestsCount', onChange: this.handleChange })
+                    )
                 ),
                 React.createElement(
-                    _reactBootstrap.FormGroup,
-                    { controlId: 'contact-name' },
+                    'div',
+                    { className: 'form-group rooms' },
+                    roomReservationsToRender
+                ),
+                false && // hide meals when creating reservation
+                React.createElement(
+                    'div',
+                    { className: 'form-group meals' },
                     React.createElement(
-                        _reactBootstrap.ControlLabel,
-                        null,
-                        trans('CONTACT_NAME')
+                        'div',
+                        { className: 'meal-types calendar-aside', style: { marginTop: _enums.monthHeight + 'px' } },
+                        React.createElement('div', { className: 'aside-cell', style: { height: _enums.headHeight + 'px' } }),
+                        React.createElement(
+                            'div',
+                            { className: 'aside-cell', style: { height: _enums.cellHeight + 'px' } },
+                            trans('BREAKFAST')
+                        ),
+                        React.createElement(
+                            'div',
+                            { className: 'aside-cell', style: { height: _enums.cellHeight + 'px' } },
+                            trans('LUNCH')
+                        ),
+                        React.createElement(
+                            'div',
+                            { className: 'aside-cell', style: { height: _enums.cellHeight + 'px' } },
+                            trans('DINNER')
+                        )
                     ),
-                    React.createElement(_reactBootstrap.FormControl, { type: 'text', value: contactName, onChange: function onChange() {
-                            _this.handleChange('contactName');
-                        } })
-                ),
-                React.createElement(
-                    _reactBootstrap.FormGroup,
-                    { controlId: 'contact-mail' },
                     React.createElement(
-                        _reactBootstrap.ControlLabel,
-                        null,
-                        trans('CONTACT_MAIL')
-                    ),
-                    React.createElement(_reactBootstrap.FormControl, { type: 'email', value: contactMail, onChange: function onChange() {
-                            _this.handleChange('contactMail');
-                        } })
+                        'div',
+                        { className: 'calendar-sheet-container' },
+                        React.createElement(
+                            'div',
+                            { className: 'calendar-sheet', style: { width: _.size(datesRange) * _enums.cellWidth + 'px' } },
+                            React.createElement(_calendarHeader2.default, { context: context, dates: datesRange }),
+                            React.createElement(
+                                'div',
+                                { className: 'calendar-table' },
+                                mealsToRender
+                            )
+                        )
+                    )
                 ),
                 React.createElement(
-                    _reactBootstrap.FormGroup,
-                    { controlId: 'contact-phone' },
+                    'div',
+                    { className: 'form-group' },
                     React.createElement(
-                        _reactBootstrap.ControlLabel,
-                        null,
-                        trans('CONTACT_PHONE')
+                        'label',
+                        { className: 'block' },
+                        trans('PURPOSE')
                     ),
-                    React.createElement(_reactBootstrap.FormControl, { type: 'text', value: contactPhone, onChange: function onChange() {
-                            _this.handleChange('contactPhone');
-                        } })
+                    React.createElement(_reactTextareaAutosize2.default, { value: purpose, name: 'purpose', onChange: this.handleChange })
                 ),
                 React.createElement(
-                    _reactBootstrap.Button,
-                    { bsStyle: 'primary' },
-                    trans('SAVE_RESERVATION')
+                    'div',
+                    { className: 'form-group' },
+                    React.createElement(
+                        'label',
+                        { className: 'block' },
+                        trans('SPIRITUAL_GUIDE')
+                    ),
+                    React.createElement('input', { type: 'text', value: spiritualGuide, name: 'spiritualGuide', onChange: this.handleChange })
+                ),
+                React.createElement(
+                    'div',
+                    { className: 'form-group contact' },
+                    React.createElement(
+                        'h4',
+                        null,
+                        trans('CONTACT')
+                    ),
+                    React.createElement(
+                        'div',
+                        null,
+                        React.createElement(
+                            'label',
+                            { className: 'inline' },
+                            trans('CONTACT_NAME')
+                        ),
+                        React.createElement('input', { type: 'text', value: contactName, name: 'contactName', onChange: this.handleChange })
+                    ),
+                    React.createElement(
+                        'div',
+                        null,
+                        React.createElement(
+                            'label',
+                            { className: 'inline' },
+                            trans('CONTACT_MAIL')
+                        ),
+                        React.createElement('input', { type: 'email', value: contactMail, name: 'contactMail', onChange: this.handleChange })
+                    ),
+                    React.createElement(
+                        'div',
+                        null,
+                        React.createElement(
+                            'label',
+                            { className: 'inline' },
+                            trans('CONTACT_PHONE')
+                        ),
+                        React.createElement('input', { type: 'text', value: contactPhone, name: 'contactPhone', onChange: this.handleChange })
+                    )
+                ),
+                React.createElement(
+                    'div',
+                    { className: 'form-group' },
+                    React.createElement(
+                        'label',
+                        { className: 'block' },
+                        trans('NOTES')
+                    ),
+                    React.createElement(_reactTextareaAutosize2.default, { value: notes, name: 'notes', onChange: this.handleChange })
+                ),
+                React.createElement(
+                    'div',
+                    { className: 'form-group' },
+                    React.createElement(
+                        'label',
+                        { className: 'block' },
+                        trans('MAIL_COMMUNICATION')
+                    ),
+                    React.createElement('textarea', { className: 'mail-communication', value: mailCommunication, name: 'mailCommunication', onChange: this.handleChange })
                 )
             ),
             React.createElement(
@@ -191,11 +361,16 @@ var CreateReservation = React.createClass({
                 React.createElement(
                     _reactBootstrap.Button,
                     { onClick: this.close },
-                    'Close'
+                    trans('CANCEL')
+                ),
+                React.createElement(
+                    _reactBootstrap.Button,
+                    { bsStyle: 'primary', onClick: this.saveReservation },
+                    trans('SAVE_RESERVATION')
                 )
             )
         );
     }
 });
 
-module.exports = provideContext(CreateReservation);
+module.exports = CreateReservation;

@@ -30,6 +30,7 @@ urlpatterns = [
     url(r'^api/user/$', core.api.user, name='api_user'),
     url(r'^api/login/$', core.api.user_login, name='api_login'),
     url(r'^api/reservations/$', core.api.reservations, name='api_reservations'),
+    url(r'^api/reservations/(?P<pk>\d+)/$', core.api.reservation, name='api_reservation'),
 ]
 
 if settings.DEBUG:

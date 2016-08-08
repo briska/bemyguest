@@ -1,7 +1,5 @@
 'use strict';
 
-var _enums = require('core/enums');
-
 var _reactBootstrap = require('react-bootstrap');
 
 var _roomsStore = require('core/roomsStore');
@@ -12,6 +10,8 @@ var _createReservation = require('core/calendar/createReservation');
 
 var _createReservation2 = _interopRequireDefault(_createReservation);
 
+var _utils = require('core/utils/utils');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var _ = require('lodash');
@@ -20,9 +20,7 @@ var trans = require('core/utils/trans');
 var cx = require('classnames');
 var moment = require('moment');
 require('moment/locale/sk');
-var provideContext = require('fluxible-addons-react/provideContext');
 var connectToStores = require('fluxible-addons-react/connectToStores');
-var actions = require('core/actions');
 var NewReservationStore = require('core/calendar/newReservationStore');
 
 
@@ -34,7 +32,7 @@ var NewReservation = React.createClass({
     },
 
     createReservation: function createReservation() {
-        this.refs.createReservation.refs.wrappedElement.open();
+        this.refs.createReservation.open();
     },
 
     render: function render() {
@@ -46,47 +44,54 @@ var NewReservation = React.createClass({
         var dateTo = _props.dateTo;
         var roomReservations = _props.roomReservations;
 
-        if (_.isEmpty(roomReservations)) return null;
-        var fullCapacity = 0;
+        if (_.isEmpty(roomReservations) || _.isEmpty(_.filter(roomReservations, function (roomReservation) {
+            return !roomReservation.dateFrom.isSame(roomReservation.dateTo, 'day');
+        }))) return null;
+        var capacity = 0;
+        var reservationDateFrom = roomReservations[0].dateFrom;
+        var reservationDateTo = roomReservations[0].dateTo;
         var roomReservationsToRender = _.map(roomReservations, function (roomReservation, i) {
-            var reservationDays = moment(roomReservation.dateTo).startOf('day').diff(moment(roomReservation.dateFrom).startOf('day'), 'days') + 1;
+            if (roomReservation.dateFrom.isSame(roomReservation.dateTo, 'day')) return null;
             var room = context.getStore(_roomsStore2.default).getRoom(roomReservation.roomId);
-            fullCapacity += room.capacity;
+            capacity += room.capacity;
+            if (roomReservation.dateFrom.isBefore(reservationDateFrom)) {
+                reservationDateFrom = roomReservation.dateFrom;
+            }
+            if (roomReservation.dateTo.isAfter(reservationDateTo)) {
+                reservationDateTo = roomReservation.dateTo;
+            }
             return React.createElement(
                 'div',
                 {
                     key: 'new-reservation-' + i,
                     className: 'new-reservation-room' },
                 React.createElement(
-                    'h4',
-                    null,
-                    React.createElement(
-                        'span',
-                        { className: 'room-name' },
-                        room.name
-                    ),
-                    ' ',
-                    React.createElement(
-                        'span',
-                        { className: 'house-name' },
-                        '(',
-                        room.house.name,
-                        ')'
-                    )
+                    'p',
+                    { className: 'room-name' },
+                    room.name
                 ),
                 React.createElement(_reactBootstrap.Glyphicon, { glyph: 'remove', onClick: function onClick() {
                         _this.deselectRoom(roomReservation.roomId);
                     } }),
                 React.createElement(
                     'p',
-                    { className: 'capacity' },
+                    { className: 'house-name-capacity' },
+                    room.house.name,
+                    ', ',
                     trans('CAPACITY', { count: room.capacity })
                 ),
                 React.createElement(
                     'p',
-                    { className: 'date' },
-                    roomReservation.dateFrom.format('D. MMMM YYYY'),
-                    ' - ',
+                    { className: 'date-from' },
+                    trans('FROM'),
+                    ': ',
+                    roomReservation.dateFrom.format('D. MMMM YYYY')
+                ),
+                React.createElement(
+                    'p',
+                    { className: 'date-to' },
+                    trans('TO'),
+                    ': ',
                     roomReservation.dateTo.format('D. MMMM YYYY')
                 )
             );
@@ -95,14 +100,14 @@ var NewReservation = React.createClass({
             'div',
             { className: 'new-reservation' },
             React.createElement(
-                'h2',
+                'h3',
                 { className: 'new-label' },
                 trans('NEW_RESERVATION')
             ),
             React.createElement(
                 'p',
-                { className: 'full-capacity' },
-                trans('FULL_CAPACITY', { count: fullCapacity })
+                { className: 'capacity' },
+                trans('CAPACITY', { count: capacity })
             ),
             roomReservationsToRender,
             React.createElement(
@@ -110,7 +115,12 @@ var NewReservation = React.createClass({
                 { bsStyle: 'primary', onClick: this.createReservation },
                 trans('CREATE_RESERVATION')
             ),
-            React.createElement(_createReservation2.default, { ref: 'createReservation', context: context, roomReservations: roomReservations })
+            React.createElement(_createReservation2.default, {
+                ref: 'createReservation',
+                context: context,
+                roomReservations: roomReservations,
+                capacity: capacity,
+                datesRange: (0, _utils.getDatesRange)(reservationDateFrom, reservationDateTo) })
         );
     }
 });
@@ -121,4 +131,4 @@ NewReservation = connectToStores(NewReservation, [NewReservationStore], function
     };
 });
 
-module.exports = provideContext(NewReservation);
+module.exports = NewReservation;

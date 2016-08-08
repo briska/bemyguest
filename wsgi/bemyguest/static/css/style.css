@@ -1,16 +1,365 @@
-body {
-  background: #eeeeee;
-  font-size: 14px;
-  font-family: sans-serif;
-  color: #444;
-  box-sizing: border-box;
-  -moz-boz-sizing: border-box; }
+.react-datepicker__tether-element-attached-top .react-datepicker__triangle, .react-datepicker__tether-element-attached-bottom .react-datepicker__triangle, .react-datepicker__year-read-view--down-arrow {
+  margin-left: -8px;
+  position: absolute; }
 
-.rooms {
+.react-datepicker__tether-element-attached-top .react-datepicker__triangle, .react-datepicker__tether-element-attached-bottom .react-datepicker__triangle, .react-datepicker__year-read-view--down-arrow, .react-datepicker__tether-element-attached-top .react-datepicker__triangle::before, .react-datepicker__tether-element-attached-bottom .react-datepicker__triangle::before, .react-datepicker__year-read-view--down-arrow::before {
+  box-sizing: content-box;
+  position: absolute;
+  border: 8px solid transparent;
+  height: 0;
+  width: 1px; }
+
+.react-datepicker__tether-element-attached-top .react-datepicker__triangle::before, .react-datepicker__tether-element-attached-bottom .react-datepicker__triangle::before, .react-datepicker__year-read-view--down-arrow::before {
+  content: "";
+  z-index: -1;
+  border-width: 8px;
+  left: -8px;
+  border-bottom-color: #aeaeae; }
+
+.react-datepicker__tether-element-attached-top .react-datepicker__triangle {
+  top: 0;
+  margin-top: -8px; }
+
+.react-datepicker__tether-element-attached-top .react-datepicker__triangle, .react-datepicker__tether-element-attached-top .react-datepicker__triangle::before {
+  border-top: none;
+  border-bottom-color: #f0f0f0; }
+
+.react-datepicker__tether-element-attached-top .react-datepicker__triangle::before {
+  top: -1px;
+  border-bottom-color: #aeaeae; }
+
+.react-datepicker__tether-element-attached-bottom .react-datepicker__triangle, .react-datepicker__year-read-view--down-arrow {
+  bottom: 0;
+  margin-bottom: -8px; }
+
+.react-datepicker__tether-element-attached-bottom .react-datepicker__triangle, .react-datepicker__year-read-view--down-arrow, .react-datepicker__tether-element-attached-bottom .react-datepicker__triangle::before, .react-datepicker__year-read-view--down-arrow::before {
+  border-bottom: none;
+  border-top-color: #fff; }
+
+.react-datepicker__tether-element-attached-bottom .react-datepicker__triangle::before, .react-datepicker__year-read-view--down-arrow::before {
+  bottom: -1px;
+  border-top-color: #aeaeae; }
+
+.react-datepicker {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 11px;
+  background-color: #fff;
+  color: #000;
+  border: 1px solid #aeaeae;
+  border-radius: 4px;
+  display: inline-block;
+  position: relative; }
+
+.react-datepicker__triangle {
+  position: absolute;
+  left: 50px; }
+
+.react-datepicker__tether-element-attached-bottom.react-datepicker__tether-element {
+  margin-top: -20px; }
+
+.react-datepicker__header {
+  text-align: center;
+  background-color: #f0f0f0;
+  border-bottom: 1px solid #aeaeae;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  padding-top: 8px;
+  position: relative; }
+
+.react-datepicker__current-month {
+  margin-top: 0;
+  color: #000;
+  font-weight: bold;
+  font-size: 13px; }
+
+.react-datepicker__current-month--hasYearDropdown {
+  margin-bottom: 16px; }
+
+.react-datepicker__navigation {
+  line-height: 24px;
+  text-align: center;
+  cursor: pointer;
+  position: absolute;
+  top: 10px;
+  width: 0;
+  border: 6px solid transparent; }
+
+.react-datepicker__navigation--previous {
+  left: 10px;
+  border-right-color: #ccc; }
+
+.react-datepicker__navigation--previous:hover {
+  border-right-color: #b3b3b3; }
+
+.react-datepicker__navigation--next {
+  right: 10px;
+  border-left-color: #ccc; }
+
+.react-datepicker__navigation--next:hover {
+  border-left-color: #b3b3b3; }
+
+.react-datepicker__navigation--years {
+  position: relative;
+  top: 0;
+  display: block;
+  margin-left: auto;
+  margin-right: auto; }
+
+.react-datepicker__navigation--years-previous {
+  top: 4px;
+  border-top-color: #ccc; }
+
+.react-datepicker__navigation--years-previous:hover {
+  border-top-color: #b3b3b3; }
+
+.react-datepicker__navigation--years-upcoming {
+  top: -4px;
+  border-bottom-color: #ccc; }
+
+.react-datepicker__navigation--years-upcoming:hover {
+  border-bottom-color: #b3b3b3; }
+
+.react-datepicker__month {
+  margin: 5px;
+  text-align: center; }
+
+.react-datepicker__day-name,
+.react-datepicker__day {
+  color: #000;
+  display: inline-block;
+  width: 24px;
+  line-height: 24px;
+  text-align: center;
+  margin: 2px; }
+
+.react-datepicker__day {
+  cursor: pointer; }
+
+.react-datepicker__day:hover {
+  border-radius: 4px;
+  background-color: #f0f0f0; }
+
+.react-datepicker__day--today {
+  font-weight: bold; }
+
+.react-datepicker__day--selected, .react-datepicker__day--in-range {
+  border-radius: 4px;
+  background-color: #216ba5;
+  color: #fff; }
+
+.react-datepicker__day--selected:hover, .react-datepicker__day--in-range:hover {
+  background-color: #1d5d90; }
+
+.react-datepicker__day--disabled {
+  cursor: default;
+  color: #ccc; }
+
+.react-datepicker__day--disabled:hover {
+  background-color: transparent; }
+
+.react-datepicker__input-container {
+  position: relative;
+  display: inline-block; }
+
+.react-datepicker__year-read-view {
+  width: 50%;
+  left: 25%;
+  position: absolute;
+  bottom: 25px;
+  border: 1px solid transparent;
+  border-radius: 4px; }
+
+.react-datepicker__year-read-view:hover {
+  cursor: pointer; }
+
+.react-datepicker__year-read-view:hover .react-datepicker__year-read-view--down-arrow {
+  border-top-color: #b3b3b3; }
+
+.react-datepicker__year-read-view--down-arrow {
+  border-top-color: #ccc;
+  margin-bottom: 3px;
+  left: 5px;
+  top: 9px;
+  position: relative;
+  border-width: 6px; }
+
+.react-datepicker__year-read-view--selected-year {
+  right: 6px;
+  position: relative; }
+
+.react-datepicker__year-dropdown {
+  background-color: #f0f0f0;
+  position: absolute;
+  width: 50%;
+  left: 25%;
+  top: 30px;
+  text-align: center;
+  border-radius: 4px;
+  border: 1px solid #aeaeae; }
+
+.react-datepicker__year-dropdown:hover {
+  cursor: pointer; }
+
+.react-datepicker__year-option {
+  line-height: 20px;
+  width: 100%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto; }
+
+.react-datepicker__year-option:first-of-type {
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px; }
+
+.react-datepicker__year-option:last-of-type {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px; }
+
+.react-datepicker__year-option:hover {
+  background-color: #ccc; }
+
+.react-datepicker__year-option:hover .react-datepicker__navigation--years-upcoming {
+  border-bottom-color: #b3b3b3; }
+
+.react-datepicker__year-option:hover .react-datepicker__navigation--years-previous {
+  border-top-color: #b3b3b3; }
+
+.react-datepicker__year-option--selected {
+  position: absolute;
+  left: 30px; }
+
+.react-datepicker__close-icon {
+  background-color: transparent;
+  border: 0;
+  cursor: pointer;
+  display: inline-block;
+  height: 0;
+  outline: 0;
+  padding: 0;
+  vertical-align: middle; }
+
+.react-datepicker__close-icon::after {
+  background-color: #216ba5;
+  border-radius: 50%;
+  bottom: 0;
+  box-sizing: border-box;
+  color: #fff;
+  content: "\00d7";
+  cursor: pointer;
+  font-size: 12px;
+  height: 16px;
+  width: 16px;
+  line-height: 1;
+  margin: -8px auto 0;
+  padding: 2px;
+  position: absolute;
+  right: 7px;
+  text-align: center;
+  top: 50%; }
+
+.react-datepicker__today-button {
+  background: #f0f0f0;
+  border-top: 1px solid #aeaeae;
+  cursor: pointer;
+  text-align: center;
+  font-weight: bold;
+  padding: 5px 0; }
+
+.react-datepicker__tether-element {
+  z-index: 2147483647; }
+
+* {
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box; }
+
+body {
+  background: #eee;
+  font-size: 14px;
+  font-family: Open Sans, sans-serif;
+  color: #444; }
+
+#header {
+  background: #fff;
+  height: 68px;
+  position: relative; }
+  @media (max-width: 767px) {
+    #header {
+      height: 46px; } }
+  #header .logo {
+    position: absolute;
+    top: 5px; }
+  #header .logo-mini {
+    position: absolute;
+    top: 3px; }
+  #header .logo-title {
+    font-size: 25px;
+    position: absolute;
+    left: 340px;
+    bottom: 10px;
+    margin: 0; }
+  #header .menu {
+    font-size: 16px;
+    position: absolute;
+    right: 15px;
+    bottom: 9px;
+    margin: 0; }
+    #header .menu li {
+      display: inline-block;
+      list-style: none;
+      margin-left: 20px; }
+
+a {
+  color: #3cad99; }
+  a:hover {
+    color: #de564a;
+    text-decoration: none; }
+
+.text-warning {
+  color: #f2a23f; }
+
+.separator {
+  height: 1px;
+  width: 100%;
+  background: #bbb;
+  margin-top: 10px;
+  margin-bottom: 10px; }
+
+.glyphicon-remove {
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  cursor: pointer; }
+
+button .glyphicon-remove {
+  position: relative;
+  top: 1px;
+  right: 0; }
+
+button.close {
+  position: relative;
+  z-index: 100; }
+
+#login-form {
+  margin-top: 30px;
+  text-align: center; }
+  #login-form label {
+    display: block; }
+  #login-form input {
+    display: block;
+    margin: 0 auto; }
+  #login-form .btn {
+    display: block;
+    margin: 15px auto; }
+
+.calendar-aside {
   width: 120px;
-  float: left;
-  border-top: 1px solid #eeeebb; }
-  .rooms .room {
+  float: left; }
+  .calendar-aside .aside-cell {
     width: 120px;
     border: 1px solid #eeeebb;
     border-top: none;
@@ -19,74 +368,244 @@ body {
     padding: 5px;
     font-size: 12px;
     text-transform: uppercase; }
+    .calendar-aside .aside-cell:first-of-type {
+      border-top: 1px solid #eeeebb;
+      margin-top: 0; }
 
 .calendar-sheet-container {
   overflow: auto;
   margin-left: 120px; }
-  .calendar-sheet-container .calendar-months .calendar-month {
-    float: left; }
-    .calendar-sheet-container .calendar-months .calendar-month .month-name {
-      display: block;
-      border-bottom: 1px solid #bbb;
-      margin: 0 2px 4px; }
   .calendar-sheet-container .calendar-sheet {
     position: relative;
-    border-collapse: collapse; }
-    .calendar-sheet-container .calendar-sheet .calendar-head-cell {
-      border: 1px solid #eeeebb;
-      background: #ffffcc;
-      line-height: 1;
-      padding: 5px; }
-      .calendar-sheet-container .calendar-sheet .calendar-head-cell .day-number {
-        display: block; }
-      .calendar-sheet-container .calendar-sheet .calendar-head-cell .day-name {
-        display: block;
-        font-size: 10px;
-        font-weight: 400; }
-    .calendar-sheet-container .calendar-sheet .calendar-cell {
-      border: 1px solid #ddd; }
-      .calendar-sheet-container .calendar-sheet .calendar-cell.odd {
-        background: #fff; }
-      .calendar-sheet-container .calendar-sheet .calendar-cell.even {
-        background: #f3f3f3; }
-    .calendar-sheet-container .calendar-sheet .calendar-reservation {
-      position: absolute;
-      text-align: center;
-      line-height: 1; }
-      .calendar-sheet-container .calendar-sheet .calendar-reservation.reservation-1 {
-        background: #fcfc88; }
-      .calendar-sheet-container .calendar-sheet .calendar-reservation.reservation-2 {
-        background: #9999ff; }
-      .calendar-sheet-container .calendar-sheet .calendar-reservation.reservation-3 {
-        background: #54fcfc; }
-      .calendar-sheet-container .calendar-sheet .calendar-reservation.reservation-new {
-        background: #DDFF66; }
-      .calendar-sheet-container .calendar-sheet .calendar-reservation .reservation-body {
-        padding: 5px;
-        overflow: hidden;
-        position: relative;
-        white-space: nowrap; }
-        .calendar-sheet-container .calendar-sheet .calendar-reservation .reservation-body .contact-name {
+    overflow: hidden; }
+    .calendar-sheet-container .calendar-sheet .calendar-header .calendar-months {
+      overflow: hidden; }
+      .calendar-sheet-container .calendar-sheet .calendar-header .calendar-months .calendar-month {
+        float: left; }
+        .calendar-sheet-container .calendar-sheet .calendar-header .calendar-months .calendar-month .month-name {
           display: block;
-          font-size: 12px; }
-        .calendar-sheet-container .calendar-sheet .calendar-reservation .reservation-body .contact-mail, .calendar-sheet-container .calendar-sheet .calendar-reservation .reservation-body .contact-phone {
-          font-size: 11px;
-          padding-right: 6px; }
-        .calendar-sheet-container .calendar-sheet .calendar-reservation .reservation-body .new-label {
+          border-bottom: 1px solid #bbb;
+          margin: 0 2px 4px; }
+    .calendar-sheet-container .calendar-sheet .calendar-header .calendar-days {
+      overflow: hidden; }
+      .calendar-sheet-container .calendar-sheet .calendar-header .calendar-days .calendar-day {
+        float: left;
+        border: 1px solid #eeeebb;
+        border-left: 0;
+        background: #ffffcc;
+        line-height: 1;
+        padding: 8px 5px 0; }
+        .calendar-sheet-container .calendar-sheet .calendar-header .calendar-days .calendar-day .day-number {
+          display: block; }
+        .calendar-sheet-container .calendar-sheet .calendar-header .calendar-days .calendar-day .day-name {
           display: block;
-          padding-top: 7px; }
-        .calendar-sheet-container .calendar-sheet .calendar-reservation .reservation-body .glyphicon-remove {
-          position: absolute;
-          top: 3px;
-          right: 3px;
-          cursor: pointer; }
-          .calendar-sheet-container .calendar-sheet .calendar-reservation .reservation-body .glyphicon-remove:hover {
-            color: #222; }
+          font-size: 10px;
+          font-weight: 400; }
+    .calendar-sheet-container .calendar-sheet .calendar-table {
+      width: 100%; }
+      .calendar-sheet-container .calendar-sheet .calendar-table .calendar-row {
+        overflow: hidden; }
+        .calendar-sheet-container .calendar-sheet .calendar-table .calendar-row .calendar-cell {
+          border-right: 1px solid #ddd;
+          border-bottom: 1px solid #ddd;
+          padding: 5px;
+          float: left; }
+          .calendar-sheet-container .calendar-sheet .calendar-table .calendar-row .calendar-cell.odd {
+            background: #fff; }
+          .calendar-sheet-container .calendar-sheet .calendar-table .calendar-row .calendar-cell.even {
+            background: #f3f3f3; }
+  .calendar-sheet-container .room-reservation {
+    position: absolute;
+    text-align: center;
+    line-height: 1;
+    cursor: pointer;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none; }
+    .calendar-sheet-container .room-reservation.reservation-new {
+      background: #eeff41;
+      cursor: default; }
+    .calendar-sheet-container .room-reservation .reservation-body {
+      padding: 9px 5px 5px;
+      overflow: hidden;
+      position: relative;
+      white-space: nowrap;
+      font-size: 13px; }
+  .calendar-sheet-container .reservation-sheet .calendar-cell {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none; }
 
-.new-reservation .new-reservation-room h4 {
-  float: left; }
-  .new-reservation .new-reservation-room h4 .room-name {
-    text-transform: uppercase; }
-  .new-reservation .new-reservation-room h4 .house-name {
-    font-size: 0.8em;
-    font-weight: 400; }
+.room-reservation-details {
+  position: absolute;
+  background: #fff;
+  border: 1px solid #ddd;
+  padding: 10px;
+  z-index: 50;
+  width: 400px;
+  max-width: 100%; }
+  .room-reservation-details h4 {
+    margin: 0 0 5px; }
+  .room-reservation-details p {
+    font-size: 12px;
+    margin-bottom: 5px; }
+    .room-reservation-details p .caption {
+      font-weight: 700; }
+    .room-reservation-details p.approval {
+      margin-top: 10px; }
+    .room-reservation-details p:last-of-type {
+      margin-bottom: 0; }
+
+.new-reservation {
+  float: right;
+  margin-left: 15px;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 10px;
+  z-index: 100; }
+  .new-reservation .new-reservation-room {
+    background: #eeff41;
+    border: 1px solid #eeeebb;
+    padding: 13px 10px 10px;
+    position: relative;
+    margin-bottom: 10px; }
+    .new-reservation .new-reservation-room p {
+      margin: 0;
+      font-size: 13px; }
+    .new-reservation .new-reservation-room .room-name {
+      text-transform: uppercase;
+      font-size: 16px; }
+    .new-reservation .new-reservation-room .house-name-capacity {
+      font-style: italic;
+      font-size: 11px;
+      margin-bottom: 5px; }
+
+.create-reservation .title {
+  margin: 5px 0 0; }
+
+.create-reservation .form-group {
+  margin-bottom: 30px; }
+  .create-reservation .form-group:last-of-type {
+    margin-bottom: 0; }
+
+.create-reservation label {
+  font-weight: 400; }
+  .create-reservation label.inline {
+    margin-right: 10px;
+    width: 80px; }
+  .create-reservation label.block {
+    display: block; }
+
+.create-reservation textarea {
+  width: 100%;
+  height: 30px; }
+  .create-reservation textarea.mail-communication {
+    height: 100px; }
+
+.create-reservation .rooms h4 {
+  margin-bottom: 5px; }
+
+.create-reservation .rooms .guest {
+  margin-top: 15px; }
+  .create-reservation .rooms .guest input {
+    margin-right: 5px; }
+  .create-reservation .rooms .guest .glyphicon {
+    margin-right: 5px;
+    width: 20px; }
+  .create-reservation .rooms .guest .glyphicon-minus, .create-reservation .rooms .guest .glyphicon-plus {
+    cursor: pointer; }
+  .create-reservation .rooms .guest .guest-address, .create-reservation .rooms .guest .guest-phone {
+    margin-left: 30px;
+    margin-top: 5px; }
+
+.create-reservation .meals input {
+  width: 40px;
+  height: 22px; }
+
+.reservation-details .title {
+  margin: 5px 0 0; }
+
+.reservation-details .form-group {
+  position: relative;
+  margin-bottom: 30px; }
+  .reservation-details .form-group:last-of-type, .reservation-details .form-group.name {
+    margin-bottom: 0; }
+
+.reservation-details label.inline {
+  margin-right: 10px;
+  margin-bottom: 0; }
+
+.reservation-details label.block {
+  display: block; }
+
+.reservation-details textarea {
+  width: 100%;
+  height: 30px; }
+
+.reservation-details .form-group-button {
+  position: absolute;
+  top: -2px;
+  font-size: 12px;
+  padding: 2px 5px 1px;
+  z-index: 100; }
+  .reservation-details .form-group-button.cancel {
+    right: 0; }
+  .reservation-details .form-group-button.save {
+    right: 30px; }
+  .reservation-details .form-group-button.remove {
+    right: 60px; }
+
+.reservation-details .room-reservation h4 {
+  margin-bottom: 5px; }
+
+.reservation-details .room-reservation select {
+  padding: 5px 2px 4px;
+  margin-bottom: 10px; }
+
+.reservation-details .room-reservation .date {
+  margin: 0 0 10px; }
+
+.reservation-details .room-reservation .guest {
+  margin-top: 15px; }
+  .reservation-details .room-reservation .guest input {
+    margin-right: 5px; }
+  .reservation-details .room-reservation .guest .glyphicon {
+    margin-right: 5px;
+    width: 20px; }
+  .reservation-details .room-reservation .guest .glyphicon-minus, .reservation-details .room-reservation .guest .glyphicon-plus {
+    cursor: pointer; }
+  .reservation-details .room-reservation .guest .guest-address, .reservation-details .room-reservation .guest .guest-phone {
+    margin-left: 30px;
+    margin-top: 5px; }
+
+.reservation-details .room-reservation .form-control {
+  width: 150px;
+  display: inline-block; }
+
+.reservation-details .room-reservation .input-group-addon {
+  display: none; }
+
+.reservation-details .meals h4 {
+  margin-bottom: -20px; }
+
+.reservation-details .meals input {
+  width: 40px;
+  height: 22px; }
+
+.reservation-details .mail-communication .mail-communication-box {
+  width: 100%;
+  height: 200px;
+  overflow: auto;
+  padding-right: 5px; }
+
+.reservation-details .mail-communication textarea {
+  height: 200px; }
+
+.reservation-details .edit-label {
+  float: left;
+  padding-top: 8px; }

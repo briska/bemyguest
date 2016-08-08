@@ -1,7 +1,6 @@
 'use strict';
 
 var React = require('react');
-var provideContext = require('fluxible-addons-react/provideContext');
 var actions = require('core/actions');
 var UserMenu = require('core/user/userMenu');
 var Calendar = require('core/calendar/calendar');
@@ -29,4 +28,4 @@ var Page = React.createClass({
     }
 });
 
-module.exports = provideContext(Page);
+module.exports = Page;

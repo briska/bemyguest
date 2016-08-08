@@ -1,10 +1,8 @@
 'use strict';
 
-var _enums = require('core/enums');
+var _sheetReservation = require('core/calendar/sheetReservation');
 
-var _roomsStore = require('core/roomsStore');
-
-var _roomsStore2 = _interopRequireDefault(_roomsStore);
+var _sheetReservation2 = _interopRequireDefault(_sheetReservation);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -14,7 +12,6 @@ var trans = require('core/utils/trans');
 var cx = require('classnames');
 var moment = require('moment');
 require('moment/locale/sk');
-var provideContext = require('fluxible-addons-react/provideContext');
 var connectToStores = require('fluxible-addons-react/connectToStores');
 var ReservationsStore = require('core/calendar/reservationsStore');
 
@@ -33,41 +30,12 @@ var SheetReservations = React.createClass({
             'div',
             { className: 'sheet-reservations' },
             _.map(reservations, function (reservation, i) {
-                return _.map(reservation.roomReservations, function (roomReservation) {
-                    var daysFromStart = roomReservation.dateFrom.diff(dateFrom, 'days');
-                    var reservationDays = moment(roomReservation.dateTo).startOf('day').diff(moment(roomReservation.dateFrom).startOf('day'), 'days') + 1;
-                    var roomIndex = context.getStore(_roomsStore2.default).getRoomIndex(roomReservation.roomId);
-                    return React.createElement(
-                        'div',
-                        {
-                            key: 'reservation-' + roomReservation.id + '-' + reservation.id,
-                            className: cx('calendar-reservation', 'reservation-' + (i + 1)),
-                            style: {
-                                width: reservationDays * _enums.cellWidth + 'px',
-                                height: _enums.cellHeight + 'px',
-                                left: daysFromStart * _enums.cellWidth + 'px',
-                                top: _enums.headHeight + _enums.monthHeight + roomIndex * _enums.cellHeight + 'px' } },
-                        React.createElement(
-                            'div',
-                            { className: 'reservation-body' },
-                            React.createElement(
-                                'span',
-                                { className: 'contact-name' },
-                                reservation.contactName
-                            ),
-                            React.createElement(
-                                'span',
-                                { className: 'contact-mail' },
-                                reservation.contactMail
-                            ),
-                            React.createElement(
-                                'span',
-                                { className: 'contact-phone' },
-                                reservation.contactPhone
-                            )
-                        )
-                    );
-                });
+                return React.createElement(_sheetReservation2.default, {
+                    key: 'reservation-' + reservation.id,
+                    context: context,
+                    dateFrom: dateFrom,
+                    dateTo: dateTo,
+                    reservation: reservation });
             })
         );
     }
@@ -79,4 +47,4 @@ SheetReservations = connectToStores(SheetReservations, [ReservationsStore], func
     };
 });
 
-module.exports = provideContext(SheetReservations);
+module.exports = SheetReservations;

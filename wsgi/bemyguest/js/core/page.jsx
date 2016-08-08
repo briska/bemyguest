@@ -1,5 +1,4 @@
 const React = require('react');
-const provideContext = require('fluxible-addons-react/provideContext');
 const actions = require('core/actions');
 const UserMenu = require('core/user/userMenu');
 const Calendar = require('core/calendar/calendar');
@@ -27,4 +26,4 @@ let Page = React.createClass({
     }
 });
 
-module.exports = provideContext(Page);
+module.exports = Page;

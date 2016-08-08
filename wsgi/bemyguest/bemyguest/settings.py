@@ -106,7 +106,7 @@ DATABASES = {
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'sk'
 
 TIME_ZONE = 'UTC'
 
@@ -125,4 +125,8 @@ STATIC_ROOT = os.path.join(WSGI_DIR, 'static')
 
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
+)
+
+LOCALE_PATHS = (
+    BASE_DIR + '/locale',
 )

@@ -10,12 +10,15 @@
     	"fluxible": "latest",
     	"xhr": "latest",
     	"classnames": "latest",
+        "react-datepicker": "latest",
     	"react-textarea-autosize": "latest",
     	"react-bootstrap": "latest",
     	"counterpart": "latest",
     	"fluxible-addons-react": "latest",
-    	"react-bootstrap-date-picker": "latest",
-    	"moment": "latest"
+    	"moment": "latest",
+    	"react-addons-update": "latest",
+    	"randomcolor": "latest",
+    	"react-nl2br": "latest"
   	},
   	"devDependencies": {
     	"browserify": "latest",

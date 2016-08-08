@@ -1,4 +1,6 @@
 from django.db import models
+from django.utils.functional import cached_property
+import json
 
 class Setting(models.Model):
     key = models.TextField(max_length=32)
@@ -25,6 +27,8 @@ class Room(models.Model):
 
 
 class Reservation(models.Model):
+    name = models.TextField(max_length=64, blank=True)
+    guests_count = models.IntegerField(default=0)
     contact_name = models.TextField(blank=True)
     contact_mail = models.EmailField(blank=True)
     contact_phone = models.TextField(blank=True)
@@ -32,8 +36,13 @@ class Reservation(models.Model):
     spiritual_guide = models.TextField(blank=True)
     price_housing = models.FloatField(default=0)
     price_spiritual = models.FloatField(default=0)
-    price_payed = models.FloatField(null=True, blank=True)
-    approved = models.BooleanField(default=True)
+    price_payed = models.FloatField(default=0)
+    approved = models.BooleanField(default=False)
+    notes = models.TextField(blank=True)
+    mail_communication = models.TextField(blank=True)
+    
+    date_created = models.DateTimeField(auto_now_add=True)
+    date_modified = models.DateTimeField(auto_now=True)
     
     def __unicode__(self):
         return '%s' % (self.contact_name)
@@ -47,7 +56,6 @@ class Guest(models.Model):
     address_street = models.TextField(blank=True)
     address_number = models.TextField(blank=True)
     address_city = models.TextField(blank=True)
-    address_zip = models.TextField(max_length=5, blank=True)
     phone = models.TextField(blank=True)
     
     def __unicode__(self):
@@ -82,12 +90,21 @@ MEAL_DIET_TYPES = {
 
 class Meal(models.Model):
     reservation = models.ForeignKey(Reservation, related_name='meals')
-    type = models.IntegerField(choices=MEAL_TYPES.items())
-    diet_type = models.IntegerField(choices=MEAL_DIET_TYPES.items())
     date = models.DateField()
-    count = models.IntegerField()
+    counts = models.TextField(null=True, blank=True)
+    
+    unique_together = ('reservation', 'date')
+    
+    def set_counts(self, counts):
+        self.counts = json.dumps(counts)
+    
+    def get_counts(self):
+        counts = json.loads(self.counts)
+        if isinstance(counts, list):
+            return counts
+        return [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]]
     
     def __unicode__(self):
-        return '%s, %s - %s (%s): %s' % (self.reservation.contact_name, self.date, self.type, self.diet_type, self.count)
+        return '%s, %s' % (self.reservation.contact_name, self.date)
 
     

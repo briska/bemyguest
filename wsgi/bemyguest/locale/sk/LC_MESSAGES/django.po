@@ -1,0 +1,47 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-08-08 23:37+0200\n"
+"PO-Revision-Date: 2016-08-08 23:37+0200\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: sk\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"X-Generator: Poedit 1.8.2\n"
+
+#: .\core\views.py:54
+msgid "WRONG_USERNAME_OR_PASSWORD"
+msgstr "Nesprávne prihlasovacie meno alebo heslo."
+
+#: .\core\views.py:62
+msgid "LOGGED_OUT"
+msgstr "Boli ste úspešne odhlásený."
+
+#: .\templates\base.html:8
+msgid "WEB_TITLE"
+msgstr "beMyGuest v Sampore"
+
+#: .\templates\base.html:18
+msgid "AT_SAMPOR"
+msgstr "v Sampore"
+
+#: .\templates\base.html:20
+msgid "CALENDAR"
+msgstr "Kalendár"
+
+#: .\templates\base.html:21
+msgid "STATS"
+msgstr "Štatistiky"
+
+#: .\templates\base.html:22
+msgid "LOG_OUT"
+msgstr "Odhlásiť"

@@ -1,148 +1,525 @@
-$colors: #fcfc88, #9999ff, #54fcfc;
+$lightyellow: #ffffcc;
+$borderyellow: #eeeebb;
+$lightgray: #f3f3f3;
+$bordergray: #ddd;
+$bggray: #eee;
+$darkgray: #444;
+$gray: #bbb;
+$white: #fff;
+$black: #222;
+$newgreen: #eeff41;
+$orange: #f2a23f;
 
-body {
-    background: #eeeeee;
-    font-size: 14px;
-    font-family: sans-serif;
-    color: #444;
-    box-sizing: border-box;
-    -moz-boz-sizing: border-box;
+$screen-xs-max: 767px;
+$screen-sm-min: 768px;
+$screen-sm-max: 991px;
+$screen-md-min: 992px;
+$screen-md-max: 1199px;
+$screen-lg-min: 1200px;
+
+@import '../node_modules/react-datepicker/dist/react-datepicker';
+
+
+* {
+	box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
 }
 
-.rooms {
-	width: 120px;
-	float: left;
-	border-top: 1px solid #eeeebb;
+body {
+    background: $bggray;
+    font-size: 14px;
+    font-family: Open Sans, sans-serif;
+    color: $darkgray;
+}
+
+#header {
+	background: $white;
+	height: 68px;
+	position: relative;
 	
-	.room {
-	    width: 120px;
-	    border: 1px solid #eeeebb;
-	    border-top: none;
-        background: #ffffcc;
+	@media(max-width: $screen-xs-max) {
+	    height: 46px;
+	}
+	
+	.logo {
+	    position: absolute;
+	    top: 5px;
+	}
+	
+	.logo-mini {
+	    position: absolute;
+	    top: 3px;
+	}
+	
+	.logo-title {
+        font-size: 25px;
+	    position: absolute;
+	    left: 340px;
+	    bottom: 10px;
+	    margin: 0;
+	}
+	
+	.menu {
+        font-size: 16px;
+	    position: absolute;
+	    right: 15px;
+	    bottom: 9px;
+	    margin: 0;
+	   
+	    li {
+	        display: inline-block;
+	        list-style: none;
+	        margin-left: 20px;
+	    }
+	}
+}
+
+a {
+	color: #3cad99;
+	
+	&:hover {
+	   color: #de564a;
+       text-decoration: none;
+	}
+}
+
+.text-warning {
+	color: $orange;
+}
+
+.separator {
+	height: 1px;
+	width: 100%;
+	background: $gray;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+.glyphicon-remove {
+    position: absolute;
+    top: 3px;
+    right: 3px;
+    cursor: pointer;
+}
+
+button .glyphicon-remove {
+	position: relative;
+	top: 1px;
+	right: 0;
+}
+
+button.close {
+	position: relative;
+	z-index: 100;
+}
+
+#login-form {
+	margin-top: 30px;
+	text-align: center;
+	
+	label {
+	    display: block;
+	}
+	
+    input {
+        display: block;
+        margin: 0 auto;
+    }
+    
+    .btn {
+        display: block;
+        margin: 15px auto;
+    }
+}
+
+.calendar-aside {
+    width: 120px;
+    float: left;
+    
+    .aside-cell {
+        width: 120px;
+        border: 1px solid $borderyellow;
+        border-top: none;
+        background: $lightyellow;
         line-height: 1;
         padding: 5px;
         font-size: 12px;
         text-transform: uppercase;
-	}
+        
+        &:first-of-type {
+            border-top: 1px solid $borderyellow;
+            margin-top: 0;
+        }
+    }
 }
 
 .calendar-sheet-container {
-    overflow: auto;
+	overflow: auto;
     margin-left: 120px;
     
-    .calendar-months {
-        .calendar-month {
-            float: left;
-            
-            .month-name {
-                display: block;
-                border-bottom: 1px solid #bbb;
-                margin: 0 2px 4px;
-            }
+	.calendar-sheet {
+        position: relative;
+        overflow: hidden;
+
+		.calendar-header {
+		    .calendar-months {
+		        overflow: hidden;
+		        
+		        .calendar-month {
+		            float: left;
+		            
+		            .month-name {
+		                display: block;
+		                border-bottom: 1px solid $gray;
+		                margin: 0 2px 4px;
+		            }
+		        }
+		    }
+		    
+		    .calendar-days {
+		        overflow: hidden;
+		    
+		        .calendar-day {
+		            float: left;
+		            border: 1px solid $borderyellow;
+		            border-left: 0;
+		            background: $lightyellow;
+		            line-height: 1;
+		            padding: 8px 5px 0;
+		            
+		            .day-number {
+		                display: block;
+		            }
+		            
+		            .day-name {
+		                display: block;
+		                font-size: 10px;
+		                font-weight: 400;
+		            }
+		        }
+		    }
+		}
+		
+		.calendar-table {
+			width: 100%;
+			
+		    .calendar-row {
+		        overflow: hidden;
+		        
+			   .calendar-cell {
+				    border-right: 1px solid $bordergray;
+				    border-bottom: 1px solid $bordergray;
+				    padding: 5px;
+				    float: left;
+				    
+				    &.odd {
+				        background: $white;
+				    }
+				    
+				    &.even {
+				        background: $lightgray;
+				    }
+				}
+		    }
+		}
+    }
+	        
+	.room-reservation {
+	    position: absolute;
+	    text-align: center;
+	    line-height: 1;
+	    cursor: pointer;
+	    
+	    -webkit-touch-callout: none;
+	    -webkit-user-select: none;
+	    -khtml-user-select: none;
+	    -moz-user-select: none;
+	    -ms-user-select: none;
+	    user-select: none; 
+	    
+	    &.reservation-new {
+	        background: $newgreen;
+	        cursor: default;
+	    }
+	    
+	    .reservation-body {
+	        padding: 9px 5px 5px;
+	        overflow: hidden;
+	        position: relative;
+	        white-space: nowrap;
+	        font-size: 13px;
+	    }
+	}
+    
+    .reservation-sheet {
+        .calendar-cell {
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none; 
         }
     }
+}
+
+.room-reservation-details {
+    position: absolute;
+    background: $white;
+    border: 1px solid $bordergray;
+    padding: 10px;
+    z-index: 50;
+    width: 400px;
+    max-width: 100%;
     
-    .calendar-sheet {
-        position: relative;
-        border-collapse: collapse;
+    h4 {
+        margin: 0 0 5px;
+    }
+    
+    p {
+        font-size: 12px;
+        margin-bottom: 5px;
         
-        .calendar-head-cell {
-            border: 1px solid #eeeebb;
-            background: #ffffcc;
-            line-height: 1;
-            padding: 5px;
-            
-            .day-number {
-                display: block;
-            }
-            
-            .day-name {
-                display: block;
-                font-size: 10px;
-                font-weight: 400;
-            }
+        .caption {
+            font-weight: 700;
         }
         
-        .calendar-cell {
-            border: 1px solid #ddd;
-            
-            &.odd {
-                background: #fff;
-            }
-            
-            &.even {
-                background: #f3f3f3;
-            }
+        &.approval {
+            margin-top: 10px;
         }
         
-        .calendar-reservation {
-            position: absolute;
-            text-align: center;
-            line-height: 1;
-            
-            @for $i from 1 through length($colors) {
-                $color: nth($colors, $i);
-            
-                &.reservation-#{$i} {
-                    background: $color;
-                }
-            }
-            
-            &.reservation-new {
-                background: #DDFF66;
-            }
-            
-            .reservation-body {
-                padding: 5px;
-                overflow: hidden;
-                position: relative;
-                white-space: nowrap;
-                
-                .contact-name {
-                    display: block;
-                    font-size: 12px;
-                }
-                
-                .contact-mail, .contact-phone {
-                    font-size: 11px;
-                    padding-right: 6px;
-                }
-                
-                .new-label {
-                    display: block;
-                    padding-top: 7px;
-                }
-                
-                .glyphicon-remove {
-                    position: absolute;
-                    top: 3px;
-                    right: 3px;
-                    cursor: pointer;
-                    
-                    &:hover {
-                        color: #222;
-                    }
-                }
-            }
+        &:last-of-type {
+            margin-bottom: 0;
         }
     }
 }
 
 .new-reservation {
+	float: right;
+    margin-left: 15px;
+    background: rgba($white, 0.9);
+    padding: 10px;
+    z-index: 100;
+	
 	.new-reservation-room {
-	   h4 {
-	       float: left;
-	       
-	       .room-name {
-               text-transform: uppercase;
-           }
-	       
-		   .house-name {
-		       font-size: 0.8em;
-		       font-weight: 400;
-		   }
+        background: $newgreen;
+        border: 1px solid $borderyellow;
+        padding: 13px 10px 10px;
+        position: relative;
+        margin-bottom: 10px;
+        
+        p {
+            margin: 0;
+            font-size: 13px;
         }
         
-        
+	    .room-name {
+	        text-transform: uppercase;
+	        font-size: 16px;
+        }
+	        
+		.house-name-capacity {
+		    font-style: italic;
+		    font-size: 11px;
+		    margin-bottom: 5px;
+        }
 	}
+}
+
+.create-reservation {
+	.title {
+        margin: 5px 0 0;
+	}
+	
+	.form-group {
+	    margin-bottom: 30px;
+	    
+	    &:last-of-type {
+	        margin-bottom: 0;
+	    }
+	}
+	
+	label {
+	   font-weight: 400;
+	   
+	    &.inline {
+	        margin-right: 10px;
+	        width: 80px;
+	    }
+	    
+	    &.block {
+	        display: block;
+	    }
+	}
+    
+    textarea {
+        width: 100%;
+        height: 30px;
+        
+        &.mail-communication {
+            height: 100px;
+        }
+    }
+    
+    .rooms {
+        h4 {
+            margin-bottom: 5px;
+        }
+        
+	    .guest {
+	        margin-top: 15px;
+	        
+	        input {
+	            margin-right: 5px;
+	        }
+	        
+	        .glyphicon {
+	            margin-right: 5px;
+	            width: 20px;
+	        }
+	        
+	        .glyphicon-minus, .glyphicon-plus {
+	            cursor: pointer;
+	        }
+	        
+	        .guest-address, .guest-phone {
+	            margin-left: 30px;
+	            margin-top: 5px;
+	        }
+	    }
+    }
+    
+    .meals {
+        input {
+            width: 40px;
+            height: 22px;
+        }
+    }
+}
+
+.reservation-details {
+    .title {
+        margin: 5px 0 0;
+    }
+    
+    .form-group {
+        position: relative;
+        margin-bottom: 30px;
+        
+        &:last-of-type, &.name {
+            margin-bottom: 0;
+        }
+    }
+    
+    label {
+        &.inline {
+            margin-right: 10px;
+            margin-bottom: 0;
+        }
+        
+        &.block {
+            display: block;
+        }
+    }
+    
+    textarea {
+        width: 100%;
+        height: 30px;
+    }
+    
+    .form-group-button {
+        position: absolute;
+	    top: -2px;
+	    font-size: 12px;
+	    padding: 2px 5px 1px;
+	    z-index: 100;
+	    
+	    &.cancel {
+	        right: 0;
+	    }
+	    
+	    &.save {
+            right: 30px;
+        }
+        
+        &.remove {
+            right: 60px;
+        }
+    }
+    
+    .room-reservation {
+        h4 {
+            margin-bottom: 5px;
+        }
+        
+        select {
+            padding: 5px 2px 4px;
+            margin-bottom: 10px;
+        }
+        
+        .date {
+            margin: 0 0 10px;
+        }
+        
+        .guest {
+            margin-top: 15px;
+            
+            input {
+                margin-right: 5px;
+            }
+            
+            .glyphicon {
+                margin-right: 5px;
+                width: 20px;
+            }
+            
+            .glyphicon-minus, .glyphicon-plus {
+                cursor: pointer;
+            }
+            
+            .guest-address, .guest-phone {
+                margin-left: 30px;
+                margin-top: 5px;
+            }
+        }
+        
+        .form-control {
+            width: 150px;
+            display: inline-block;
+        }
+        
+        .input-group-addon {
+            display: none;
+        }
+    }
+    
+    .meals {
+        h4 {
+            margin-bottom: -20px;
+        }
+        
+        input {
+            width: 40px;
+            height: 22px;
+        }
+    }
+    
+    .mail-communication {
+        .mail-communication-box {
+            width: 100%;
+            height: 200px;
+            overflow: auto;
+            padding-right: 5px;
+        }
+        
+        textarea {
+            height: 200px;
+        }
+    }
+    
+    .edit-label {
+        float: left;
+        padding-top: 8px;
+    }
 }

@@ -13,21 +13,51 @@ def serialize_room(room):
         'capacity': room.capacity,
     }
 
+def serialize_guest(guest):
+    return {
+        'id': guest.id,
+        'namePrefix': guest.name_prefix,
+        'name': guest.name,
+        'surname': guest.surname,
+        'nameSuffix': guest.name_suffix,
+        'addressStreet': guest.address_street,
+        'addressNumber': guest.address_number,
+        'addressCity': guest.address_city,
+        'phone': guest.phone,
+    }
+
 def serialize_room_reservation(room_reservation):
     return {
         'id': room_reservation.id,
         'roomId': room_reservation.room_id,
         'dateFrom': room_reservation.date_from,
         'dateTo': room_reservation.date_to,
+        'guests': [serialize_guest(guest) for guest in room_reservation.guests.all()],
+    }
+
+def serialize_meal(meal):
+    return {
+        'date': meal.date,
+        'counts': meal.get_counts(),
     }
 
 def serialize_reservation(reservation):
     return {
         'id': reservation.id,
+        'name': reservation.name,
+        'guestsCount': reservation.guests_count,
         'contactName': reservation.contact_name,
         'contactMail': reservation.contact_mail,
         'contactPhone': reservation.contact_phone,
+        'purpose': reservation.purpose,
+        'spiritualGuide': reservation.spiritual_guide,
+        'pricePayed': reservation.price_payed,
+        'approved': reservation.approved,
+        'notes': reservation.notes,
+        'mailCommunication': reservation.mail_communication,
+        'date_created': reservation.date_created,
         'roomReservations': [serialize_room_reservation(room_reservation) for room_reservation in reservation.room_reservations.all()],
+        'meals': [serialize_meal(meal) for meal in reservation.meals.all()],
     }
 
 def serialize_user(user):

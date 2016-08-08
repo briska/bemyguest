@@ -27,12 +27,17 @@ function handleData(actionContext, successCallback, errorCallback, resp) {
 
 module.exports = {
     get: (actionContext, url, successCallback, errorCallback) => {
-        xhr({url: url, responseType: 'json'}, (err, resp, body) => {
+        xhr({url: url, method: 'get', responseType: 'json'}, (err, resp, body) => {
             handleData(actionContext, successCallback, errorCallback, resp);
         });
     },
     post: (actionContext, url, data, successCallback, errorCallback) => {
         xhr({url: url, json: data, method: 'post', responseType: 'json'}, (err, resp, body) => {
+            handleData(actionContext, successCallback, errorCallback, resp);
+        });
+    },
+    delete: (actionContext, url, data, successCallback, errorCallback) => {
+        xhr({url: url, json: data, method: 'delete', responseType: 'json'}, (err, resp, body) => {
             handleData(actionContext, successCallback, errorCallback, resp);
         });
     }

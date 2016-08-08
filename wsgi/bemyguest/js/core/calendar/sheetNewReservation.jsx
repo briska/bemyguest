@@ -4,13 +4,13 @@ const trans = require('core/utils/trans');
 const cx = require('classnames');
 const moment = require('moment');
 require('moment/locale/sk');
-const provideContext = require('fluxible-addons-react/provideContext');
 const connectToStores = require('fluxible-addons-react/connectToStores');
 const actions = require('core/actions');
 const NewReservationStore = require('core/calendar/newReservationStore');
 import {cellWidth, cellHeight, headHeight, monthHeight} from 'core/enums';
 import {Glyphicon} from 'react-bootstrap';
 import RoomsStore from 'core/roomsStore';
+import {diffDays} from 'core/utils/utils';
 
 let SheetNewReservation = React.createClass({
     deselectRoom: function(roomId) {
@@ -22,20 +22,21 @@ let SheetNewReservation = React.createClass({
         return (
             <div className="sheet-new-reservation">
                 {_.map(roomReservations, (roomReservation, i) => {
+                    let roomReservationDays = diffDays(roomReservation.dateFrom, roomReservation.dateTo);
+                    if (roomReservationDays <= 1) return null;
                     let daysFromStart = roomReservation.dateFrom.diff(dateFrom, 'days');
-                    let reservationDays = moment(roomReservation.dateTo).startOf('day').diff(moment(roomReservation.dateFrom).startOf('day'), 'days') + 1;
                     let roomIndex = context.getStore(RoomsStore).getRoomIndex(roomReservation.roomId);
                     return (
                         <div
                             key={'sheet-new-reservation-' + i}
-                            className={cx('calendar-reservation', 'reservation-new')}
+                            className={cx('room-reservation', 'reservation-new')}
                             style={{
-                                width: reservationDays * cellWidth + 'px',
+                                width: (roomReservationDays - 1) * cellWidth + 'px',
                                 height: cellHeight + 'px',
-                                left: daysFromStart * cellWidth + 'px',
+                                left: (daysFromStart + 0.5) * cellWidth + 'px',
                                 top: headHeight + monthHeight + roomIndex * cellHeight + 'px'}}>
                             <div className="reservation-body">
-                                <span className="new-label">{trans('NEW_RESERVATION')}</span>
+                                <span>{trans('NEW_RESERVATION')}</span>
                                 <Glyphicon glyph="remove" onClick={() => {this.deselectRoom(roomReservation.roomId);}} />
                             </div>
                         </div>
@@ -50,4 +51,4 @@ SheetNewReservation = connectToStores(SheetNewReservation, [NewReservationStore]
     roomReservations: context.getStore(NewReservationStore).getRoomReservations()
 }));
 
-module.exports = provideContext(SheetNewReservation);
+module.exports = SheetNewReservation;

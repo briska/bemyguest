@@ -1,5 +1,6 @@
 'use strict';
 
+var _ = require('lodash');
 var createStore = require('fluxible/addons/createStore');
 
 var RoomsStore = createStore({
@@ -20,8 +21,11 @@ var RoomsStore = createStore({
         return this._houses;
     },
 
-    getRooms: function getRooms() {
-        return this._rooms;
+    getRooms: function getRooms(roomIds) {
+        if (!roomIds) return this._rooms;
+        return _.filter(this._rooms, function (room) {
+            return roomIds.indexOf(room.id) >= 0;
+        });
     },
 
     getHouse: function getHouse(houseId) {

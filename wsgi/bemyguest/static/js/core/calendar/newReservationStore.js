@@ -1,5 +1,6 @@
 'use strict';
 
+var _ = require('lodash');
 var createStore = require('fluxible/addons/createStore');
 var moment = require('moment');
 require('moment/locale/sk');
@@ -15,11 +16,22 @@ var NewReservationStore = createStore({
         return this._roomReservations;
     },
 
+    handlers: {
+        'RESERVATION_CREATED': function RESERVATION_CREATED(_ref) {
+            var reservation = _ref.reservation;
+
+            this._roomReservations = [];
+            this.emitChange();
+        }
+    },
+
     deselectRoom: function deselectRoom(roomId) {
-        this._roomReservations = _.filter(this._roomReservations, function (roomReservation) {
-            return roomReservation.roomId != roomId;
-        });
-        this.emitChange();
+        if (_.findIndex(this._roomReservations, { roomId: roomId }) >= 0) {
+            this._roomReservations = _.filter(this._roomReservations, function (roomReservation) {
+                return roomReservation.roomId != roomId;
+            });
+            this.emitChange();
+        }
     },
 
     selectRoom: function selectRoom(roomId, date) {
@@ -30,6 +42,14 @@ var NewReservationStore = createStore({
             this._roomReservations = _.concat(this._roomReservations, { roomId: roomId, dateFrom: date, dateTo: date });
         }
         this.emitChange();
+    },
+
+    getRoomReservationDays: function getRoomReservationDays(roomId) {
+        var roomReservation = _.find(this._roomReservations, { roomId: roomId });
+        if (!roomReservation) {
+            return 0;
+        }
+        return moment(roomReservation.dateTo).startOf('day').diff(moment(roomReservation.dateFrom).startOf('day'), 'days') + 1;
     },
 
     dehydrate: function dehydrate() {

@@ -24,12 +24,17 @@ function handleData(actionContext, successCallback, errorCallback, resp) {
 
 module.exports = {
     get: function get(actionContext, url, successCallback, errorCallback) {
-        xhr({ url: url, responseType: 'json' }, function (err, resp, body) {
+        xhr({ url: url, method: 'get', responseType: 'json' }, function (err, resp, body) {
             handleData(actionContext, successCallback, errorCallback, resp);
         });
     },
     post: function post(actionContext, url, data, successCallback, errorCallback) {
         xhr({ url: url, json: data, method: 'post', responseType: 'json' }, function (err, resp, body) {
+            handleData(actionContext, successCallback, errorCallback, resp);
+        });
+    },
+    delete: function _delete(actionContext, url, data, successCallback, errorCallback) {
+        xhr({ url: url, json: data, method: 'delete', responseType: 'json' }, function (err, resp, body) {
             handleData(actionContext, successCallback, errorCallback, resp);
         });
     }
