@@ -9,6 +9,7 @@ import DatePicker from 'react-datepicker';
 const moment = require('moment');
 require('moment/locale/sk');
 import Guest from 'core/calendar/editReservation/guest';
+import {diffDays, getHousingPrice, getSpiritualPrice} from 'core/utils/utils';
 
 let RoomReservation = React.createClass({
     getInitialState: function() {
@@ -100,10 +101,10 @@ let RoomReservation = React.createClass({
                     <select onChange={this.handleRoom} value={room.id}>
                         {_.map(context.getStore(RoomsStore).getHouses(), (selectHouse) => {
                             return (
-                                <optgroup label={selectHouse.name}>
+                                <optgroup label={selectHouse.name} key={'select-house-' + selectHouse.id}>
                                     {_.map(context.getStore(RoomsStore).getRooms(selectHouse.roomIds), (selectRoom) => {
                                         return (
-                                            <option value={selectRoom.id}>{selectRoom.name}</option>
+                                            <option value={selectRoom.id} key={'select-room-' + selectRoom.id}>{selectRoom.name}</option>
                                         );
                                     })}
                                 </optgroup>

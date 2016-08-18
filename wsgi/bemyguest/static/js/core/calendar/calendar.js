@@ -49,6 +49,7 @@ var Calendar = React.createClass({
     },
 
     componentDidMount: function componentDidMount() {
+        this.refs.calendarSheet.scrollLeft = ((0, _utils.diffDays)(this.state.dateFrom, moment()) - 1) * _enums.cellWidth;
         this.loadReservations();
     },
 
@@ -150,7 +151,7 @@ var Calendar = React.createClass({
             ),
             React.createElement(
                 'div',
-                { className: 'calendar-sheet-container reservation-sheet' },
+                { className: 'calendar-sheet-container reservation-sheet', ref: 'calendarSheet' },
                 React.createElement(
                     'div',
                     { className: 'calendar-sheet', style: { width: _.size(sheetDates) * _enums.cellWidth + 'px' } },

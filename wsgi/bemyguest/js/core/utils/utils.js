@@ -43,7 +43,7 @@ module.exports = {
     
     getDatesRange: (dateFrom, dateTo) => {
         let dates = [];
-        for (let d = moment(dateFrom); d.isSameOrBefore(dateTo); d.add(1, 'days')) {
+        for (let d = moment(dateFrom); d.isSameOrBefore(dateTo, 'day'); d.add(1, 'days')) {
             dates.push(moment(d));
         }
         return dates;

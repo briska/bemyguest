@@ -75,7 +75,7 @@ let Meals = React.createClass({
                         <div className="calendar-table">
                             {_.map(MEAL_TYPES, (type) => {
                                 return (
-                                    <div className="calendar-row">
+                                    <div className="calendar-row" key={'meal-row-' + type}>
                                         {_.map(datesRange, (date, i) => {
                                             return (
                                                 <Meal

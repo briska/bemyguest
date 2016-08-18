@@ -136,7 +136,7 @@ var Meals = React.createClass({
                         _.map(_enums.MEAL_TYPES, function (type) {
                             return React.createElement(
                                 'div',
-                                { className: 'calendar-row' },
+                                { className: 'calendar-row', key: 'meal-row-' + type },
                                 _.map(datesRange, function (date, i) {
                                     return React.createElement(_meal2.default, {
                                         key: 'meal-' + i + '-' + type,

@@ -22,6 +22,8 @@ var _guest = require('core/calendar/editReservation/guest');
 
 var _guest2 = _interopRequireDefault(_guest);
 
+var _utils = require('core/utils/utils');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -110,10 +112,10 @@ var RoomReservation = React.createClass({
         if (dateFrom.isBefore(reservationDateFrom, 'day') || dateTo.isAfter(reservationDateTo, 'day')) {
             var from = dateFrom.isBefore(reservationDateFrom, 'day') ? dateFrom : reservationDateFrom;
             var to = dateTo.isAfter(reservationDateTo, 'day') ? dateTo : reservationDateTo;
-            var days = diffDays(from, to);
+            var days = (0, _utils.diffDays)(from, to);
             payload.data.prices = {
-                priceHousing: getHousingPrice(days),
-                priceSpiritual: getSpiritualPrice(days)
+                priceHousing: (0, _utils.getHousingPrice)(days),
+                priceSpiritual: (0, _utils.getSpiritualPrice)(days)
             };
         }
         this.props.context.executeAction(_actions2.default.editReservation, payload);
@@ -146,11 +148,11 @@ var RoomReservation = React.createClass({
                     _.map(context.getStore(_roomsStore2.default).getHouses(), function (selectHouse) {
                         return React.createElement(
                             'optgroup',
-                            { label: selectHouse.name },
+                            { label: selectHouse.name, key: 'select-house-' + selectHouse.id },
                             _.map(context.getStore(_roomsStore2.default).getRooms(selectHouse.roomIds), function (selectRoom) {
                                 return React.createElement(
                                     'option',
-                                    { value: selectRoom.id },
+                                    { value: selectRoom.id, key: 'select-room-' + selectRoom.id },
                                     selectRoom.name
                                 );
                             })

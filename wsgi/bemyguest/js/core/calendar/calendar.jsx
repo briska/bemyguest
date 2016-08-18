@@ -16,7 +16,7 @@ import SheetReservations from 'core/calendar/sheetReservations';
 import NewReservation from 'core/calendar/newReservation';
 import RoomsStore from 'core/roomsStore';
 import CalendarHeader from 'core/calendar/calendarHeader';
-import {getDatesRange} from 'core/utils/utils';
+import {getDatesRange, diffDays} from 'core/utils/utils';
 
 let Calendar = React.createClass({
     loadReservations: function() {
@@ -24,6 +24,7 @@ let Calendar = React.createClass({
     },
     
     componentDidMount: function() {
+        this.refs.calendarSheet.scrollLeft = (diffDays(this.state.dateFrom, moment()) - 1) * cellWidth;
         this.loadReservations();
     },
     
@@ -92,7 +93,7 @@ let Calendar = React.createClass({
                         );
                     })}
                 </div>
-                <div className="calendar-sheet-container reservation-sheet">
+                <div className="calendar-sheet-container reservation-sheet" ref="calendarSheet">
                     <div className="calendar-sheet" style={{width: _.size(sheetDates) * cellWidth + 'px'}}>
                         <CalendarHeader context={context} dates={sheetDates} />
                         <div className="calendar-table">
