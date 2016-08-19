@@ -43,6 +43,12 @@ let GuestsCount = React.createClass({
         }
     },
     
+    componentDidUpdate: function(prevProps, prevState) {
+        if (this.state.edit && !prevState.edit) {
+            this.refs.control.select();
+        }
+    },
+    
     render: function() {
         let {edit, saving, guestsCount} = this.state;
         return (
@@ -53,7 +59,7 @@ let GuestsCount = React.createClass({
                 {edit && !saving &&
                     <Button bsStyle="success" className="form-group-button save" onClick={this.save}><Glyphicon glyph="ok" /></Button>}
                 {edit &&
-                    <input type="number" value={guestsCount} name="guestsCount" onChange={this.handleChange} />}
+                    <input type="number" value={guestsCount} name="guestsCount" ref="control" onChange={this.handleChange} />}
                 {!edit &&
                     <span>{guestsCount}</span>}
             </div>

@@ -59,6 +59,12 @@ var GuestsCount = React.createClass({
         }
     },
 
+    componentDidUpdate: function componentDidUpdate(prevProps, prevState) {
+        if (this.state.edit && !prevState.edit) {
+            this.refs.control.select();
+        }
+    },
+
     render: function render() {
         var _state = this.state;
         var edit = _state.edit;
@@ -84,7 +90,7 @@ var GuestsCount = React.createClass({
                 { bsStyle: 'success', className: 'form-group-button save', onClick: this.save },
                 React.createElement(_reactBootstrap.Glyphicon, { glyph: 'ok' })
             ),
-            edit && React.createElement('input', { type: 'number', value: guestsCount, name: 'guestsCount', onChange: this.handleChange }),
+            edit && React.createElement('input', { type: 'number', value: guestsCount, name: 'guestsCount', ref: 'control', onChange: this.handleChange }),
             !edit && React.createElement(
                 'span',
                 null,
