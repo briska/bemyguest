@@ -138,12 +138,13 @@ var Meals = React.createClass({
                                 'div',
                                 { className: 'calendar-row', key: 'meal-row-' + type },
                                 _.map(datesRange, function (date, i) {
+                                    var key = date.format('DD/MM/YYYY');
                                     return React.createElement(_meal2.default, {
                                         key: 'meal-' + i + '-' + type,
                                         ref: 'mealD' + i + 'T' + type,
                                         edit: edit,
                                         context: context,
-                                        counts: meals[date] ? meals[date][type] : _.times(_.size(_enums.DIETS), _.constant(0)) });
+                                        counts: meals[key] ? meals[key][type] : _.times(_.size(_enums.DIETS), _.constant(0)) });
                                 })
                             );
                         })

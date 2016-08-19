@@ -38,7 +38,7 @@ let ReservationsStore = createStore({
         }
         reservation.approved = reservation.approved || !shouldBeApproved(diffDays(reservation.dateFrom, reservation.dateTo));
         reservation.meals = _.fromPairs(_.map(reservation.meals, (meal) => {
-            return [moment(meal.date), meal.counts];
+            return [moment(meal.date).format('DD/MM/YYYY'), meal.counts];
         }));
         return reservation;
     },

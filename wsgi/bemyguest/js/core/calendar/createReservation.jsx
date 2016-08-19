@@ -11,7 +11,7 @@ import Textarea from 'react-textarea-autosize';
 import CreateReservationGuest from 'core/calendar/createReservationGuest';
 import CreateReservationMeal from 'core/calendar/createReservationMeal';
 import CalendarHeader from 'core/calendar/calendarHeader';
-import {cellHeight, cellWidth, headHeight, monthHeight, MEAL_TYPES} from 'core/enums';
+import {cellHeight, cellWidth, headHeight, monthHeight, MEAL_TYPES, DIETS} from 'core/enums';
 import {getHousingPrice, getSpiritualPrice} from 'core/utils/utils';
 
 let CreateReservation = React.createClass({
@@ -75,6 +75,25 @@ let CreateReservation = React.createClass({
 //                })
 //            };
 //        });
+        let meals = _.map(this.props.datesRange, (date, i) => {
+            let counts = _.times(_.size(MEAL_TYPES), () => {
+                return _.times(_.size(DIETS), (n) => {
+                    return (n === 0 ? this.state.guestsCount : 0);
+                });
+            });
+            if (date.isSame(_.first(this.props.datesRange), 'day')) {
+                counts[MEAL_TYPES.BREAKFAST][DIETS.NONE_DIET] = 0;
+                counts[MEAL_TYPES.LUNCH][DIETS.NONE_DIET] = 0;
+            }
+            if (date.isSame(_.last(this.props.datesRange), 'day')) {
+                counts[MEAL_TYPES.LUNCH][DIETS.NONE_DIET] = 0;
+                counts[MEAL_TYPES.DINNER][DIETS.NONE_DIET] = 0;
+            }
+            return {
+                date: date,
+                counts: counts
+            };
+        });
         let reservation = {
             name: this.state.name,
             guestsCount: this.state.guestsCount,
@@ -88,7 +107,7 @@ let CreateReservation = React.createClass({
             priceHousing: getHousingPrice(_.size(this.props.datesRange)),
             priceSpiritual: getSpiritualPrice(_.size(this.props.datesRange)),
             roomReservations: roomReservations,
-//            meals: meals
+            meals: meals
         };
         this.props.context.executeAction(actions.createReservation, reservation);
     },

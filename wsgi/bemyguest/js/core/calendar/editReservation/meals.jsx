@@ -77,13 +77,14 @@ let Meals = React.createClass({
                                 return (
                                     <div className="calendar-row" key={'meal-row-' + type}>
                                         {_.map(datesRange, (date, i) => {
+                                            let key = date.format('DD/MM/YYYY');
                                             return (
                                                 <Meal
                                                     key={'meal-' + i + '-' + type}
                                                     ref={'mealD' + i + 'T' + type}
                                                     edit={edit}
                                                     context={context}
-                                                    counts={meals[date] ? meals[date][type] : _.times(_.size(DIETS), _.constant(0))} />
+                                                    counts={meals[key] ? meals[key][type] : _.times(_.size(DIETS), _.constant(0))} />
                                             )
                                         })}
                                     </div>

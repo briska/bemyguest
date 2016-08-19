@@ -69,13 +69,13 @@ def reservations(request):
                 )
                 guest.save()
                 room_reservation.guests.add(guest)
-#         for meal_data in reservation_data['meals']:
-#             meal = Meal(
-#                 reservation = reservation,
-#                 date = dateutil.parser.parse(meal_data['date']).date(),
-#             )
-#             meal.set_counts(meal_data['counts'])
-#             meal.save()
+        for meal_data in reservation_data['meals']:
+            meal = Meal(
+                reservation = reservation,
+                date = dateutil.parser.parse(meal_data['date']).astimezone(dateutil.tz.tzlocal()).date(),
+            )
+            meal.set_counts(meal_data['counts'])
+            meal.save()
         return JsonResponse({'reservation': serialize_reservation(reservation)})
     reservations = [serialize_reservation(reservation) for reservation in Reservation.objects.all().prefetch_related('room_reservations__guests', 'meals')]
     return JsonResponse({'reservations': reservations})

@@ -103,6 +103,25 @@ var CreateReservation = React.createClass({
         //                })
         //            };
         //        });
+        var meals = _.map(this.props.datesRange, function (date, i) {
+            var counts = _.times(_.size(_enums.MEAL_TYPES), function () {
+                return _.times(_.size(_enums.DIETS), function (n) {
+                    return n === 0 ? _this.state.guestsCount : 0;
+                });
+            });
+            if (date.isSame(_.first(_this.props.datesRange), 'day')) {
+                counts[_enums.MEAL_TYPES.BREAKFAST][_enums.DIETS.NONE_DIET] = 0;
+                counts[_enums.MEAL_TYPES.LUNCH][_enums.DIETS.NONE_DIET] = 0;
+            }
+            if (date.isSame(_.last(_this.props.datesRange), 'day')) {
+                counts[_enums.MEAL_TYPES.LUNCH][_enums.DIETS.NONE_DIET] = 0;
+                counts[_enums.MEAL_TYPES.DINNER][_enums.DIETS.NONE_DIET] = 0;
+            }
+            return {
+                date: date,
+                counts: counts
+            };
+        });
         var reservation = {
             name: this.state.name,
             guestsCount: this.state.guestsCount,
@@ -115,9 +134,9 @@ var CreateReservation = React.createClass({
             mailCommunication: this.state.mailCommunication,
             priceHousing: (0, _utils.getHousingPrice)(_.size(this.props.datesRange)),
             priceSpiritual: (0, _utils.getSpiritualPrice)(_.size(this.props.datesRange)),
-            roomReservations: roomReservations
+            roomReservations: roomReservations,
+            meals: meals
         };
-        //            meals: meals
         this.props.context.executeAction(actions.createReservation, reservation);
     },
 
