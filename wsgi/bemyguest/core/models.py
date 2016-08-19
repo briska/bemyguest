@@ -45,7 +45,7 @@ class Reservation(models.Model):
     date_modified = models.DateTimeField(auto_now=True)
     
     def __unicode__(self):
-        return '%s' % (self.contact_name)
+        return '%s' % (self.name if self.name else self.contact_name)
 
 
 class Guest(models.Model):
@@ -105,6 +105,6 @@ class Meal(models.Model):
         return [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]]
     
     def __unicode__(self):
-        return '%s, %s' % (self.reservation.contact_name, self.date)
+        return '%s, %s' % (self.reservation, self.date)
 
     
