@@ -1,6 +1,10 @@
 'use strict';
 
-var _reactBootstrap = require('react-bootstrap');
+var _Button = require('react-bootstrap/lib/Button');
+
+var _Button2 = _interopRequireDefault(_Button);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var React = require('react');
 var ReactDOM = require('react-dom');
@@ -42,7 +46,7 @@ var LoginForm = React.createClass({
             ),
             React.createElement('input', { type: 'password', ref: 'password' }),
             React.createElement(
-                _reactBootstrap.Button,
+                _Button2.default,
                 { type: 'submit' },
                 trans('LOG_IN')
             )

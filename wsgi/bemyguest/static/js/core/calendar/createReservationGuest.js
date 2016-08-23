@@ -1,6 +1,10 @@
 'use strict';
 
-var _reactBootstrap = require('react-bootstrap');
+var _Glyphicon = require('react-bootstrap/lib/Glyphicon');
+
+var _Glyphicon2 = _interopRequireDefault(_Glyphicon);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -66,17 +70,17 @@ var CreateReservationGuest = React.createClass({
             React.createElement(
                 'div',
                 { className: 'guest-name' },
-                React.createElement(_reactBootstrap.Glyphicon, { glyph: 'user' }),
+                React.createElement(_Glyphicon2.default, { glyph: 'user' }),
                 React.createElement('input', { type: 'text', name: 'namePrefix', value: namePrefix, placeholder: trans('NAME_PREFIX'), onChange: this.handleChange }),
                 React.createElement('input', { type: 'text', name: 'name', value: name, placeholder: trans('NAME'), onChange: this.handleChange }),
                 React.createElement('input', { type: 'text', name: 'surname', value: surname, placeholder: trans('SURNAME'), onChange: this.handleChange }),
                 React.createElement('input', { type: 'text', name: 'nameSuffix', value: nameSuffix, placeholder: trans('NAME_SUFFIX'), onChange: this.handleChange }),
-                React.createElement(_reactBootstrap.Glyphicon, { glyph: showDetails ? 'minus' : 'plus', onClick: this.toggleDetails })
+                React.createElement(_Glyphicon2.default, { glyph: showDetails ? 'minus' : 'plus', onClick: this.toggleDetails })
             ),
             showDetails && React.createElement(
                 'div',
                 { className: 'guest-address' },
-                React.createElement(_reactBootstrap.Glyphicon, { glyph: 'home' }),
+                React.createElement(_Glyphicon2.default, { glyph: 'home' }),
                 React.createElement('input', { type: 'text', name: 'addressStreet', value: addressStreet, placeholder: trans('STREET'), onChange: this.handleChange }),
                 React.createElement('input', { type: 'text', name: 'addressNumber', value: addressNumber, placeholder: trans('NUMBER'), onChange: this.handleChange }),
                 React.createElement('input', { type: 'text', name: 'addressCity', value: addressCity, placeholder: trans('CITY'), onChange: this.handleChange })
@@ -84,7 +88,7 @@ var CreateReservationGuest = React.createClass({
             showDetails && React.createElement(
                 'div',
                 { className: 'guest-phone' },
-                React.createElement(_reactBootstrap.Glyphicon, { glyph: 'phone-alt' }),
+                React.createElement(_Glyphicon2.default, { glyph: 'phone-alt' }),
                 React.createElement('input', { type: 'text', name: 'phone', value: phone, placeholder: trans('PHONE'), onChange: this.handleChange })
             )
         );

@@ -1,7 +1,8 @@
 const _ = require('lodash');
 const React = require('react');
 const trans = require('core/utils/trans');
-import {Glyphicon, Button} from 'react-bootstrap';
+import Glyphicon from 'react-bootstrap/lib/Glyphicon';
+import Button from 'react-bootstrap/lib/Button';
 import nl2br from 'react-nl2br';
 import actions from 'core/actions';
 import RoomsStore from 'core/roomsStore';

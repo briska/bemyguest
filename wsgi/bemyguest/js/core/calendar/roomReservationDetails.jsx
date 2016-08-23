@@ -5,9 +5,9 @@ const trans = require('core/utils/trans');
 const cx = require('classnames');
 import {cellWidth, cellHeight, headHeight, monthHeight, detailsWidth} from 'core/enums';
 import RoomsStore from 'core/roomsStore';
-import {substr, approvalBy} from 'core/utils/utils';
-import {Overlay, Glyphicon} from 'react-bootstrap';
-import {getDatesRange} from 'core/utils/utils';
+import {substr, approvalBy, getDatesRange} from 'core/utils/utils';
+import Glyphicon from 'react-bootstrap/lib/Glyphicon';
+import Overlay from 'react-bootstrap/lib/Overlay';
 
 let RoomReservationDetails = React.createClass({
     getInitialState: function(){

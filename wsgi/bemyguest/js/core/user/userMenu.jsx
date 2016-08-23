@@ -2,9 +2,8 @@ const React = require('react');
 const connectToStores = require('fluxible-addons-react/connectToStores');
 const trans = require('core/utils/trans');
 const LoginForm = require('core/user/loginForm');
-const Modal = require('react-bootstrap').Modal;
+import Modal from 'react-bootstrap/lib/Modal';
 const UserStore = require('core/user/userStore');
-
 
 let UserMenu = React.createClass({
     render: function() {

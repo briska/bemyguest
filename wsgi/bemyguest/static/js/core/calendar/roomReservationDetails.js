@@ -8,7 +8,13 @@ var _roomsStore2 = _interopRequireDefault(_roomsStore);
 
 var _utils = require('core/utils/utils');
 
-var _reactBootstrap = require('react-bootstrap');
+var _Glyphicon = require('react-bootstrap/lib/Glyphicon');
+
+var _Glyphicon2 = _interopRequireDefault(_Glyphicon);
+
+var _Overlay = require('react-bootstrap/lib/Overlay');
+
+var _Overlay2 = _interopRequireDefault(_Overlay);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -65,7 +71,7 @@ var RoomReservationDetails = React.createClass({
         var rooms = _.map(context.getStore(_roomsStore2.default).getRooms(roomIds), 'name');
         var datesRange = (0, _utils.getDatesRange)(reservation.dateFrom, reservation.dateTo);
         return React.createElement(
-            _reactBootstrap.Overlay,
+            _Overlay2.default,
             {
                 show: show,
                 target: getTarget,
@@ -198,7 +204,7 @@ var RoomReservationDetails = React.createClass({
                         trans('WAITING_FOR_APPROVAL.' + (0, _utils.approvalBy)(_.size(datesRange)))
                     )
                 ),
-                React.createElement(_reactBootstrap.Glyphicon, { glyph: 'remove', ref: 'close', onClick: this.close })
+                React.createElement(_Glyphicon2.default, { glyph: 'remove', ref: 'close', onClick: this.close })
             )
         );
     }

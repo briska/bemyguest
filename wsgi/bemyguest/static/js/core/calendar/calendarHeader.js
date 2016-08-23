@@ -18,6 +18,7 @@ var CalendarHeader = React.createClass({
 
         var dateFrom = _.nth(dates, 0);
         var dateTo = _.nth(dates, -1);
+        var today = moment();
         var months = [];
         for (var d = moment(dateFrom); d.isSameOrBefore(dateTo, 'month'); d.add(1, 'months')) {
             var days = void 0;
@@ -61,7 +62,7 @@ var CalendarHeader = React.createClass({
                         'div',
                         {
                             key: 'date-' + i,
-                            className: 'calendar-day',
+                            className: cx('calendar-day', date.isSame(today, 'day') ? 'today' : '', date.day() === 0 ? 'sunday' : ''),
                             style: { width: _enums.cellWidth + 'px', height: _enums.headHeight + 'px' } },
                         React.createElement(
                             'span',

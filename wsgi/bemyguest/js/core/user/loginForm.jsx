@@ -2,7 +2,7 @@ const React = require('react');
 const ReactDOM = require('react-dom');
 const actions = require('core/actions');
 const trans = require('core/utils/trans');
-import {Button} from 'react-bootstrap';
+import Button from 'react-bootstrap/lib/Button';
 
 let LoginForm = React.createClass({
     getInitialState: function() {

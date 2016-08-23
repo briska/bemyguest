@@ -1,6 +1,8 @@
 'use strict';
 
-var _reactBootstrap = require('react-bootstrap');
+var _Button = require('react-bootstrap/lib/Button');
+
+var _Button2 = _interopRequireDefault(_Button);
 
 var _enums = require('core/enums');
 
@@ -127,7 +129,7 @@ var Calendar = React.createClass({
                         _this2.setStartDate(moment(value));
                     } }),
                 React.createElement(
-                    _reactBootstrap.Button,
+                    _Button2.default,
                     { onClick: function onClick() {
                             _this2.setStartDate(moment());
                         } },

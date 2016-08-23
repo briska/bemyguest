@@ -1,7 +1,8 @@
 const _ = require('lodash');
 const React = require('react');
 const trans = require('core/utils/trans');
-import {Glyphicon, Button} from 'react-bootstrap';
+import Glyphicon from 'react-bootstrap/lib/Glyphicon';
+import Button from 'react-bootstrap/lib/Button';
 import actions from 'core/actions';
 const moment = require('moment');
 require('moment/locale/sk');

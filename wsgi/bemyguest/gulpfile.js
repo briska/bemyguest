@@ -11,6 +11,7 @@ var del = require('del');
 var watch = require('gulp-watch');
 var batch = require('gulp-batch');
 var fs = require('extfs');
+var uglify = require('gulp-uglify');
 
 gulp.task('clean', function () {
     del.sync('static/css/');
@@ -27,7 +28,7 @@ gulp.task('jsx', function () {
     .pipe(babel({
         presets: [react, es2015]
     }))
-    .on("error", handleError)
+    .on('error', handleError)
     .pipe(gulp.dest('static/js/'));
 });
 
@@ -36,7 +37,7 @@ gulp.task('js', function () {
     .pipe(babel({
         presets: [es2015]
     }))
-    .on("error", handleError)
+    .on('error', handleError)
     .pipe(gulp.dest('static/js/'));
 });
 
@@ -51,6 +52,7 @@ gulp.task('bundle', ['jsx', 'js'], function() {
         .on('error', handleError)
         .pipe(source('bundle.js'))
         .pipe(buffer())
+        .pipe(uglify())
         .pipe(gulp.dest('static/js/core/'));
 });
 
@@ -62,7 +64,7 @@ gulp.task('json', function () {
 gulp.task('scss', function () {
     return gulp.src('scss/**/*.scss')
         .pipe(sass())
-        .on("error", handleError)
+        .on('error', handleError)
         .pipe(gulp.dest('static/css/'));
 });
 

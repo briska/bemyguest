@@ -33,6 +33,7 @@
 	  	"gulp-watch": "latest",
 	  	"del": "latest",
 	  	"gulp-batch": "latest",
+	  	"gulp-uglify": "latest",
 	  	"extfs": "latest"
   	},
   	"babel": {

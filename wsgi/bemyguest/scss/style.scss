@@ -8,6 +8,7 @@ $gray: #bbb;
 $white: #fff;
 $black: #222;
 $newgreen: #eeff41;
+$lightorange: #ffefcc;
 $orange: #f2a23f;
 
 $screen-xs-max: 767px;
@@ -187,6 +188,14 @@ button.close {
 		            background: $lightyellow;
 		            line-height: 1;
 		            padding: 8px 5px 0;
+		            
+		            &.today {
+		                font-weight: 700;
+		            }
+		            
+		            &.sunday {
+		                background: $lightorange;
+		            }
 		            
 		            .day-number {
 		                display: block;

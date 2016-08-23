@@ -1,10 +1,16 @@
 'use strict';
 
+var _Modal = require('react-bootstrap/lib/Modal');
+
+var _Modal2 = _interopRequireDefault(_Modal);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 var React = require('react');
 var connectToStores = require('fluxible-addons-react/connectToStores');
 var trans = require('core/utils/trans');
 var LoginForm = require('core/user/loginForm');
-var Modal = require('react-bootstrap').Modal;
+
 var UserStore = require('core/user/userStore');
 
 var UserMenu = React.createClass({
@@ -20,10 +26,10 @@ var UserMenu = React.createClass({
             'div',
             { className: 'user-menu' },
             React.createElement(
-                Modal,
+                _Modal2.default,
                 { show: isLoggedOut },
                 React.createElement(
-                    Modal.Body,
+                    _Modal2.default.Body,
                     null,
                     React.createElement(
                         'h4',

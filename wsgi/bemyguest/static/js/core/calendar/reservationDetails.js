@@ -8,7 +8,17 @@ var _roomsStore2 = _interopRequireDefault(_roomsStore);
 
 var _utils = require('core/utils/utils');
 
-var _reactBootstrap = require('react-bootstrap');
+var _Modal = require('react-bootstrap/lib/Modal');
+
+var _Modal2 = _interopRequireDefault(_Modal);
+
+var _Glyphicon = require('react-bootstrap/lib/Glyphicon');
+
+var _Glyphicon2 = _interopRequireDefault(_Glyphicon);
+
+var _Button = require('react-bootstrap/lib/Button');
+
+var _Button2 = _interopRequireDefault(_Button);
 
 var _notes = require('core/calendar/editReservation/notes');
 
@@ -109,15 +119,15 @@ var ReservationDetails = React.createClass({
 
         var datesRange = (0, _utils.getDatesRange)(reservation.dateFrom, reservation.dateTo);
         return React.createElement(
-            _reactBootstrap.Modal,
+            _Modal2.default,
             { dialogClassName: 'reservation-details', bsSize: 'lg', show: show, onHide: this.close },
             React.createElement(
-                _reactBootstrap.Modal.Header,
+                _Modal2.default.Header,
                 { closeButton: true },
                 React.createElement(_name2.default, { context: context, reservationId: reservation.id, name: reservation.name })
             ),
             React.createElement(
-                _reactBootstrap.Modal.Body,
+                _Modal2.default.Body,
                 null,
                 !reservation.approved && React.createElement(_approval2.default, { context: context, reservationId: reservation.id, days: _.size(datesRange) }),
                 React.createElement(_guestsCount2.default, { context: context, reservationId: reservation.id, guestsCount: reservation.guestsCount }),
@@ -144,22 +154,22 @@ var ReservationDetails = React.createClass({
                 React.createElement(_mailCommunication2.default, { context: context, reservationId: reservation.id, mailCommunication: reservation.mailCommunication })
             ),
             React.createElement(
-                _reactBootstrap.Modal.Footer,
+                _Modal2.default.Footer,
                 null,
                 React.createElement(
                     'span',
                     { className: 'edit-label' },
-                    React.createElement(_reactBootstrap.Glyphicon, { glyph: 'pencil' }),
+                    React.createElement(_Glyphicon2.default, { glyph: 'pencil' }),
                     ' ',
                     trans('USE_DOUBLECLICK_TO_EDIT')
                 ),
                 React.createElement(
-                    _reactBootstrap.Button,
+                    _Button2.default,
                     { onClick: this.remove, bsStyle: 'danger' },
                     trans('REMOVE')
                 ),
                 React.createElement(
-                    _reactBootstrap.Button,
+                    _Button2.default,
                     { onClick: this.close },
                     trans('CLOSE')
                 )

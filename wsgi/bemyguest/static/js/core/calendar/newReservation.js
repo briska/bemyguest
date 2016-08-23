@@ -1,6 +1,12 @@
 'use strict';
 
-var _reactBootstrap = require('react-bootstrap');
+var _Glyphicon = require('react-bootstrap/lib/Glyphicon');
+
+var _Glyphicon2 = _interopRequireDefault(_Glyphicon);
+
+var _Button = require('react-bootstrap/lib/Button');
+
+var _Button2 = _interopRequireDefault(_Button);
 
 var _roomsStore = require('core/roomsStore');
 
@@ -70,7 +76,7 @@ var NewReservation = React.createClass({
                     { className: 'room-name' },
                     room.name
                 ),
-                React.createElement(_reactBootstrap.Glyphicon, { glyph: 'remove', onClick: function onClick() {
+                React.createElement(_Glyphicon2.default, { glyph: 'remove', onClick: function onClick() {
                         _this.deselectRoom(roomReservation.roomId);
                     } }),
                 React.createElement(
@@ -111,7 +117,7 @@ var NewReservation = React.createClass({
             ),
             roomReservationsToRender,
             React.createElement(
-                _reactBootstrap.Button,
+                _Button2.default,
                 { bsStyle: 'primary', onClick: this.createReservation },
                 trans('CREATE_RESERVATION')
             ),

@@ -1,6 +1,12 @@
 'use strict';
 
-var _reactBootstrap = require('react-bootstrap');
+var _Glyphicon = require('react-bootstrap/lib/Glyphicon');
+
+var _Glyphicon2 = _interopRequireDefault(_Glyphicon);
+
+var _Button = require('react-bootstrap/lib/Button');
+
+var _Button2 = _interopRequireDefault(_Button);
 
 var _actions = require('core/actions');
 
@@ -94,14 +100,14 @@ var Meals = React.createClass({
                 trans('MEALS')
             ),
             edit && !saving && React.createElement(
-                _reactBootstrap.Button,
+                _Button2.default,
                 { className: 'form-group-button cancel', onClick: this.cancel },
-                React.createElement(_reactBootstrap.Glyphicon, { glyph: 'remove' })
+                React.createElement(_Glyphicon2.default, { glyph: 'remove' })
             ),
             edit && !saving && React.createElement(
-                _reactBootstrap.Button,
+                _Button2.default,
                 { bsStyle: 'success', className: 'form-group-button save', onClick: this.save },
-                React.createElement(_reactBootstrap.Glyphicon, { glyph: 'ok' })
+                React.createElement(_Glyphicon2.default, { glyph: 'ok' })
             ),
             React.createElement(
                 'div',

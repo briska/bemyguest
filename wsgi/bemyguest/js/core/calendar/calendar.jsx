@@ -9,7 +9,7 @@ const actions = require('core/actions');
 const ReservationsStore = require('core/calendar/reservationsStore');
 const NewReservationStore = require('core/calendar/newReservationStore');
 const DatePicker = require('react-datepicker');
-import {Button} from 'react-bootstrap';
+import Button from 'react-bootstrap/lib/Button';
 import {cellWidth, cellHeight, headHeight, monthHeight} from 'core/enums';
 import SheetNewReservation from 'core/calendar/sheetNewReservation';
 import SheetReservations from 'core/calendar/sheetReservations';

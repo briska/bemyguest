@@ -1,6 +1,16 @@
 'use strict';
 
-var _reactBootstrap = require('react-bootstrap');
+var _Modal = require('react-bootstrap/lib/Modal');
+
+var _Modal2 = _interopRequireDefault(_Modal);
+
+var _Glyphicon = require('react-bootstrap/lib/Glyphicon');
+
+var _Glyphicon2 = _interopRequireDefault(_Glyphicon);
+
+var _Button = require('react-bootstrap/lib/Button');
+
+var _Button2 = _interopRequireDefault(_Button);
 
 var _roomsStore = require('core/roomsStore');
 
@@ -212,10 +222,10 @@ var CreateReservation = React.createClass({
         //            );
         //        });
         return React.createElement(
-            _reactBootstrap.Modal,
+            _Modal2.default,
             { dialogClassName: 'create-reservation', bsSize: 'lg', show: show },
             React.createElement(
-                _reactBootstrap.Modal.Header,
+                _Modal2.default.Header,
                 { closeButton: true, onHide: this.close },
                 React.createElement(
                     'h3',
@@ -224,7 +234,7 @@ var CreateReservation = React.createClass({
                 )
             ),
             React.createElement(
-                _reactBootstrap.Modal.Body,
+                _Modal2.default.Body,
                 null,
                 React.createElement(
                     'div',
@@ -375,15 +385,15 @@ var CreateReservation = React.createClass({
                 )
             ),
             React.createElement(
-                _reactBootstrap.Modal.Footer,
+                _Modal2.default.Footer,
                 null,
                 React.createElement(
-                    _reactBootstrap.Button,
+                    _Button2.default,
                     { onClick: this.close },
                     trans('CANCEL')
                 ),
                 React.createElement(
-                    _reactBootstrap.Button,
+                    _Button2.default,
                     { bsStyle: 'primary', onClick: this.saveReservation },
                     trans('SAVE_RESERVATION')
                 )

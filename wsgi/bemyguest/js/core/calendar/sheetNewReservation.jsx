@@ -8,7 +8,7 @@ const connectToStores = require('fluxible-addons-react/connectToStores');
 const actions = require('core/actions');
 const NewReservationStore = require('core/calendar/newReservationStore');
 import {cellWidth, cellHeight, headHeight, monthHeight} from 'core/enums';
-import {Glyphicon} from 'react-bootstrap';
+import Glyphicon from 'react-bootstrap/lib/Glyphicon';
 import RoomsStore from 'core/roomsStore';
 import {diffDays} from 'core/utils/utils';
 

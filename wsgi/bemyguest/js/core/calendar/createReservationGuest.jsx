@@ -1,7 +1,7 @@
 const _ = require('lodash');
 const React = require('react');
 const trans = require('core/utils/trans');
-import {Glyphicon} from 'react-bootstrap';
+import Glyphicon from 'react-bootstrap/lib/Glyphicon';
 
 let CreateReservationGuest = React.createClass({
     getInitialState: function() {
