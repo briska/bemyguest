@@ -21,6 +21,7 @@ class Room(models.Model):
     house = models.ForeignKey(House, related_name='rooms')
     name = models.TextField(max_length=64)
     capacity = models.IntegerField()
+    index = models.IntegerField(default=0)
     
     def __unicode__(self):
         return '%s - %s' % (self.house.name, self.name)
