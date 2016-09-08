@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-08 23:37+0200\n"
+"POT-Creation-Date: 2016-09-08 23:13+0200\n"
 "PO-Revision-Date: 2016-08-08 23:37+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -26,22 +26,22 @@ msgstr "Nesprávne prihlasovacie meno alebo heslo."
 msgid "LOGGED_OUT"
 msgstr "Boli ste úspešne odhlásený."
 
-#: .\templates\base.html:8
+#: .\templates\base.html:9
 msgid "WEB_TITLE"
 msgstr "beMyGuest v Sampore"
 
-#: .\templates\base.html:18
+#: .\templates\base.html:20
 msgid "AT_SAMPOR"
 msgstr "v Sampore"
 
-#: .\templates\base.html:20
+#: .\templates\base.html:22
 msgid "CALENDAR"
 msgstr "Kalendár"
 
-#: .\templates\base.html:21
+#: .\templates\base.html:23
 msgid "STATS"
 msgstr "Štatistiky"
 
-#: .\templates\base.html:22
+#: .\templates\base.html:24
 msgid "LOG_OUT"
 msgstr "Odhlásiť"
