@@ -34,7 +34,7 @@ let Meal = React.createClass({
         let {edit} = this.props;
         return (
             <div className="calendar-cell" style={{width: cellWidth + 'px', height: cellHeight + 'px'}}>
-                {edit && <input type="number" name="NONE_DIET" value={counts[DIETS.NONE_DIET]} onChange={this.handleChange} />}
+                {edit && <input type="number" min="0" name="NONE_DIET" value={counts[DIETS.NONE_DIET]} onChange={this.handleChange} />}
                 {!edit && counts[DIETS.NONE_DIET]}
             </div>
         );

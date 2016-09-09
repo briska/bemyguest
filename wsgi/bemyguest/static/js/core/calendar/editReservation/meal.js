@@ -44,7 +44,7 @@ var Meal = React.createClass({
         return React.createElement(
             'div',
             { className: 'calendar-cell', style: { width: _enums.cellWidth + 'px', height: _enums.cellHeight + 'px' } },
-            edit && React.createElement('input', { type: 'number', name: 'NONE_DIET', value: counts[_enums.DIETS.NONE_DIET], onChange: this.handleChange }),
+            edit && React.createElement('input', { type: 'number', min: '0', name: 'NONE_DIET', value: counts[_enums.DIETS.NONE_DIET], onChange: this.handleChange }),
             !edit && counts[_enums.DIETS.NONE_DIET]
         );
     }
