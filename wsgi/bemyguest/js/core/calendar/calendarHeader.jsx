@@ -4,15 +4,20 @@ const trans = require('core/utils/trans');
 const cx = require('classnames');
 const moment = require('moment');
 require('moment/locale/sk');
+const connectToStores = require('fluxible-addons-react/connectToStores');
 import {cellWidth, headHeight, monthHeight} from 'core/enums';
+import FeastsStore from 'core/feastsStore';
+import OverlayTrigger from 'react-bootstrap/lib/OverlayTrigger';
+import Tooltip from 'react-bootstrap/lib/Tooltip';
 
 let CalendarHeader = React.createClass({
     render: function() {
-        let {dates} = this.props;
+        let {dates, feasts} = this.props;
         let dateFrom = _.nth(dates, 0);
         let dateTo = _.nth(dates, -1);
         let today = moment();
         let months = [];
+        // get array of months (month name, number of days we have for this month in dates array)
         for (let d = moment(dateFrom); d.isSameOrBefore(dateTo, 'month'); d.add(1, 'months')) {
             let days;
             if (dateFrom.isSame(dateTo, 'month')) {
@@ -45,14 +50,25 @@ let CalendarHeader = React.createClass({
                 </div>
                 <div className="calendar-days">
                     {_.map(dates, (date, i) => {
+                        const tooltip = (
+                          <Tooltip id="tooltip">Holy guacamole! Check this info.</Tooltip>
+                        );
+                        
                         return (
+                            <OverlayTrigger placement="top" overlay={tooltip} trigger="click" rootClose={true}>
                             <div
                                 key={'date-' + i}
-                                className={cx('calendar-day', date.isSame(today, 'day') ? 'today' : '', date.day() === 0 ? 'sunday' : '')}
+                                className={cx(
+                                    'calendar-day',
+                                    date.isSame(today, 'day') ? 'today' : '',
+                                    date.day() === 0 ? 'sunday' : '',
+                                    date.format('L') in feasts ? 'feast-' + feasts[date.format('L')].color : ''
+                                )}
                                 style={{width: cellWidth + 'px', height: headHeight + 'px'}}>
                                 <span className="day-number">{date.format('Do')}</span>
                                 <span className="day-name">{date.format('dddd')}</span>
                             </div>
+                            </OverlayTrigger>
                         );
                     })}
                 </div>
@@ -60,5 +76,9 @@ let CalendarHeader = React.createClass({
         );
     }
 });
+
+CalendarHeader = connectToStores(CalendarHeader, [FeastsStore], (context, props) => ({
+    feasts: context.getStore(FeastsStore).getFeasts()
+}));
 
 module.exports = CalendarHeader;

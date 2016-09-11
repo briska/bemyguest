@@ -60,4 +60,13 @@ function removeReservation(actionContext, _ref4, done) {
     });
 };
 
-module.exports = { loadUser: loadUser, logIn: logIn, loadReservations: loadReservations, createReservation: createReservation, editReservation: editReservation, removeReservation: removeReservation };
+function loadFeasts(actionContext, _ref5, done) {
+    _objectDestructuringEmpty(_ref5);
+
+    xhr.get(actionContext, '/api/feasts/', function (resp) {
+        actionContext.dispatch('FEASTS_LOADED', { feasts: resp.body.feasts });
+        done();
+    });
+};
+
+module.exports = { loadUser: loadUser, logIn: logIn, loadReservations: loadReservations, createReservation: createReservation, editReservation: editReservation, removeReservation: removeReservation, loadFeasts: loadFeasts };

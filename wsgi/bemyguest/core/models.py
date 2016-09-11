@@ -1,13 +1,30 @@
 from django.db import models
-from django.utils.functional import cached_property
+from django.utils.translation import ugettext_lazy as _
 import json
 
 class Setting(models.Model):
-    key = models.TextField(max_length=32)
+    key = models.CharField(max_length=32)
     value = models.TextField(blank=True)
     
     def __unicode__(self):
         return '%s: %s' % (self.key, self.value)
+
+# keep in sync with feast-colors in style.scss
+FEAST_COLORS = (
+    (0, _('RED')),
+    (1, _('GREEN')),
+    (2, _('BLUE')),
+    (3, _('PINK')),
+    (4, _('VIOLET')),
+    (5, _('TURQUOISE')),
+    (6, _('WHITE'))
+)
+
+
+class Feast(models.Model):
+    name = models.CharField(max_length=64)
+    date = models.DateField()
+    color = models.IntegerField(choices=FEAST_COLORS)
 
 
 class House(models.Model):

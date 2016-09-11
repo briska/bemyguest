@@ -1,8 +1,9 @@
 import json
 import dateutil.parser, dateutil.tz
 from django.views.decorators.csrf import csrf_exempt
-from core.models import Reservation, RoomReservation, Guest, Meal
-from core.serializers import serialize_reservation, serialize_user
+from core.models import Reservation, RoomReservation, Guest, Meal, Feast
+from core.serializers import serialize_reservation, serialize_user,\
+    serialize_feast
 from django.http.response import JsonResponse
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login
@@ -165,3 +166,9 @@ def reservation(request, pk):
             reservation.save()
     return JsonResponse({'reservation': serialize_reservation(reservation)})
 
+
+def feasts(request):
+    if request.user.is_anonymous():
+        return JsonResponse({'error': 'loggedOut'})
+    feasts = [serialize_feast(feast) for feast in Feast.objects.all()]
+    return JsonResponse({'feasts': feasts})

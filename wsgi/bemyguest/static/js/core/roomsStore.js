@@ -4,7 +4,7 @@ var _ = require('lodash');
 var createStore = require('fluxible/addons/createStore');
 
 var RoomsStore = createStore({
-    storeName: 'CommonStore',
+    storeName: 'RoomsStore',
 
     initialize: function initialize() {
         var _this = this;

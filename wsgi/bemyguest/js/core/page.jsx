@@ -13,6 +13,7 @@ let Page = React.createClass({
     
     componentDidMount: function() {
         this.props.context.executeAction(actions.loadUser);
+        this.props.context.executeAction(actions.loadFeasts);
     },
     
     render: function() {

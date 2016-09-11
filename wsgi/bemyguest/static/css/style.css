@@ -1,3 +1,4 @@
+/* keep in sync with FEAST_COLORS in models.py */
 .react-datepicker__tether-element-attached-top .react-datepicker__triangle, .react-datepicker__tether-element-attached-bottom .react-datepicker__triangle, .react-datepicker__year-read-view--down-arrow {
   margin-left: -8px;
   position: absolute; }
@@ -399,6 +400,20 @@ button.close {
           font-weight: 700; }
         .calendar-sheet-container .calendar-sheet .calendar-header .calendar-days .calendar-day.sunday {
           background: #ffefcc; }
+        .calendar-sheet-container .calendar-sheet .calendar-header .calendar-days .calendar-day.feast-1 {
+          background: #FF7575; }
+        .calendar-sheet-container .calendar-sheet .calendar-header .calendar-days .calendar-day.feast-2 {
+          background: #75FF8F; }
+        .calendar-sheet-container .calendar-sheet .calendar-header .calendar-days .calendar-day.feast-3 {
+          background: #8FC5FF; }
+        .calendar-sheet-container .calendar-sheet .calendar-header .calendar-days .calendar-day.feast-4 {
+          background: #FFB0FE; }
+        .calendar-sheet-container .calendar-sheet .calendar-header .calendar-days .calendar-day.feast-5 {
+          background: #F1A8FF; }
+        .calendar-sheet-container .calendar-sheet .calendar-header .calendar-days .calendar-day.feast-6 {
+          background: #C2FFFE; }
+        .calendar-sheet-container .calendar-sheet .calendar-header .calendar-days .calendar-day.feast-7 {
+          background: #FFFFFF; }
         .calendar-sheet-container .calendar-sheet .calendar-header .calendar-days .calendar-day .day-number {
           display: block; }
         .calendar-sheet-container .calendar-sheet .calendar-header .calendar-days .calendar-day .day-name {

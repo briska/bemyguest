@@ -66,3 +66,11 @@ def serialize_user(user):
         'username': user.username,
         'mail': user.email,
     }
+
+def serialize_feast(feast):
+    return {
+        'id': feast.id,
+        'name': feast.name,
+        'date': feast.date,
+        'color': feast.color,
+    }

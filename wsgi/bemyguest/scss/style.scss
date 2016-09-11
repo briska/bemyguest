@@ -18,6 +18,9 @@ $screen-md-min: 992px;
 $screen-md-max: 1199px;
 $screen-lg-min: 1200px;
 
+/* keep in sync with FEAST_COLORS in models.py */
+$feast-colors: #FF7575, #75FF8F, #8FC5FF, #FFB0FE, #F1A8FF, #C2FFFE, #FFFFFF;
+
 @import '../node_modules/react-datepicker/dist/react-datepicker';
 
 
@@ -196,6 +199,13 @@ button.close {
 		            &.sunday {
 		                background: $lightorange;
 		            }
+		            
+		            @each $current-color in $feast-colors {
+					    $i: index($feast-colors, $current-color);
+					    &.feast-#{$i} { 
+					        background: $current-color;
+					    }
+					}
 		            
 		            .day-number {
 		                display: block;

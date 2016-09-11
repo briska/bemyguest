@@ -46,4 +46,11 @@ function removeReservation(actionContext, {id, data}, done) {
     });
 };
 
-module.exports = {loadUser, logIn, loadReservations, createReservation, editReservation, removeReservation};
+function loadFeasts(actionContext, {}, done) {
+    xhr.get(actionContext, '/api/feasts/', function(resp) {
+        actionContext.dispatch('FEASTS_LOADED', {feasts: resp.body.feasts});
+        done();
+    });
+};
+
+module.exports = {loadUser, logIn, loadReservations, createReservation, editReservation, removeReservation, loadFeasts};

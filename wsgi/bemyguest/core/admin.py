@@ -1,5 +1,5 @@
 from django.contrib import admin
-from core.models import Guest, House, Meal, Reservation, Room, RoomReservation, Setting
+from core.models import Feast, Guest, House, Meal, Reservation, Room, RoomReservation, Setting
 
 # Register your models here.
 
@@ -10,6 +10,7 @@ class ReservationAdmin(admin.ModelAdmin):
     inlines = [RoomReservationInline,]
 
 
+admin.site.register(Feast)
 admin.site.register(Guest)
 admin.site.register(House)
 admin.site.register(Meal)

@@ -2,7 +2,7 @@ const _ = require('lodash');
 const createStore = require('fluxible/addons/createStore');
 
 let RoomsStore = createStore({
-    storeName: 'CommonStore',
+    storeName: 'RoomsStore',
     
     initialize: function() {
         // TODO: validate requestData (or find better way)
