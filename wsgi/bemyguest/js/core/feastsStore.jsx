@@ -21,7 +21,6 @@ let FeastsStore = createStore({
                         return [moment(feast.date).format('L'), feast];
                     })
             );
-            console.log(this._feasts)
             this.emitChange();
         }
     },

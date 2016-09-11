@@ -11,13 +11,13 @@ class Setting(models.Model):
 
 # keep in sync with feast-colors in style.scss
 FEAST_COLORS = (
-    (0, _('RED')),
-    (1, _('GREEN')),
-    (2, _('BLUE')),
-    (3, _('PINK')),
-    (4, _('VIOLET')),
-    (5, _('TURQUOISE')),
-    (6, _('WHITE'))
+    (1, _('RED')),
+    (2, _('GREEN')),
+    (3, _('BLUE')),
+    (4, _('PINK')),
+    (5, _('VIOLET')),
+    (6, _('TURQUOISE')),
+    (7, _('WHITE'))
 )
 
 

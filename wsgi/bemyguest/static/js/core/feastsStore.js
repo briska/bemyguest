@@ -23,7 +23,6 @@ var FeastsStore = createStore({
             this._feasts = _.fromPairs(_.map(feasts, function (feast) {
                 return [moment(feast.date).format('L'), feast];
             }));
-            console.log(this._feasts);
             this.emitChange();
         }
     },

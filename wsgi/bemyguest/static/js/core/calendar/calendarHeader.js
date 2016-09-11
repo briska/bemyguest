@@ -76,32 +76,42 @@ var CalendarHeader = React.createClass({
                 'div',
                 { className: 'calendar-days' },
                 _.map(dates, function (date, i) {
-                    var tooltip = React.createElement(
-                        _Tooltip2.default,
-                        { id: 'tooltip' },
-                        'Holy guacamole! Check this info.'
+
+                    var tooltip = null;
+                    if (date.format('L') in feasts) {
+                        tooltip = React.createElement(
+                            _Tooltip2.default,
+                            { id: 'tooltip' },
+                            feasts[date.format('L')].name
+                        );
+                    }
+
+                    var innerCell = React.createElement(
+                        'div',
+                        { className: 'inner-wrapper' },
+                        React.createElement(
+                            'span',
+                            { className: 'day-number' },
+                            date.format('Do')
+                        ),
+                        React.createElement(
+                            'span',
+                            { className: 'day-name' },
+                            date.format('dddd')
+                        )
                     );
 
                     return React.createElement(
-                        _OverlayTrigger2.default,
-                        { placement: 'top', overlay: tooltip, trigger: 'click', rootClose: true },
-                        React.createElement(
-                            'div',
-                            {
-                                key: 'date-' + i,
-                                className: cx('calendar-day', date.isSame(today, 'day') ? 'today' : '', date.day() === 0 ? 'sunday' : '', date.format('L') in feasts ? 'feast-' + feasts[date.format('L')].color : ''),
-                                style: { width: _enums.cellWidth + 'px', height: _enums.headHeight + 'px' } },
-                            React.createElement(
-                                'span',
-                                { className: 'day-number' },
-                                date.format('Do')
-                            ),
-                            React.createElement(
-                                'span',
-                                { className: 'day-name' },
-                                date.format('dddd')
-                            )
-                        )
+                        'div',
+                        {
+                            key: 'date-' + i,
+                            className: cx('calendar-day', date.isSame(today, 'day') ? 'today' : '', date.day() === 0 ? 'sunday' : '', date.format('L') in feasts ? 'feast-' + feasts[date.format('L')].color : ''),
+                            style: { width: _enums.cellWidth + 'px', height: _enums.headHeight + 'px' } },
+                        tooltip != null ? React.createElement(
+                            _OverlayTrigger2.default,
+                            { placement: 'top', overlay: tooltip, trigger: 'click', rootClose: true },
+                            innerCell
+                        ) : innerCell
                     );
                 })
             )

@@ -50,12 +50,18 @@ let CalendarHeader = React.createClass({
                 </div>
                 <div className="calendar-days">
                     {_.map(dates, (date, i) => {
-                        const tooltip = (
-                          <Tooltip id="tooltip">Holy guacamole! Check this info.</Tooltip>
-                        );
                         
+                        let tooltip = null;
+                        if (date.format('L') in feasts) {
+                             tooltip = (<Tooltip id="tooltip">{feasts[date.format('L')].name}</Tooltip>);
+                        }
+
+                        let innerCell = (<div className="inner-wrapper">
+                            <span className="day-number">{date.format('Do')}</span>
+                            <span className="day-name">{date.format('dddd')}</span>
+                        </div>);
+
                         return (
-                            <OverlayTrigger placement="top" overlay={tooltip} trigger="click" rootClose={true}>
                             <div
                                 key={'date-' + i}
                                 className={cx(
@@ -65,10 +71,8 @@ let CalendarHeader = React.createClass({
                                     date.format('L') in feasts ? 'feast-' + feasts[date.format('L')].color : ''
                                 )}
                                 style={{width: cellWidth + 'px', height: headHeight + 'px'}}>
-                                <span className="day-number">{date.format('Do')}</span>
-                                <span className="day-name">{date.format('dddd')}</span>
+                                {tooltip != null ? <OverlayTrigger placement="top" overlay={tooltip} trigger="click" rootClose={true}>{innerCell}</OverlayTrigger> : innerCell}
                             </div>
-                            </OverlayTrigger>
                         );
                     })}
                 </div>
