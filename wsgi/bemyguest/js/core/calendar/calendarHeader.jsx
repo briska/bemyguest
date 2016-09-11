@@ -71,7 +71,7 @@ let CalendarHeader = React.createClass({
                                     date.format('L') in feasts ? 'feast-' + feasts[date.format('L')].color : ''
                                 )}
                                 style={{width: cellWidth + 'px', height: headHeight + 'px'}}>
-                                {tooltip != null ? <OverlayTrigger placement="top" overlay={tooltip} trigger="click" rootClose={true}>{innerCell}</OverlayTrigger> : innerCell}
+                                {tooltip != null ? <OverlayTrigger placement="top" overlay={tooltip} trigger="click" rootClose={true} container={this}>{innerCell}</OverlayTrigger> : innerCell}
                             </div>
                         );
                     })}

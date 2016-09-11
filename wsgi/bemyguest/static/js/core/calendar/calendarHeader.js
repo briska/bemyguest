@@ -29,6 +29,8 @@ var CalendarHeader = React.createClass({
     displayName: 'CalendarHeader',
 
     render: function render() {
+        var _this = this;
+
         var _props = this.props;
         var dates = _props.dates;
         var feasts = _props.feasts;
@@ -109,7 +111,7 @@ var CalendarHeader = React.createClass({
                             style: { width: _enums.cellWidth + 'px', height: _enums.headHeight + 'px' } },
                         tooltip != null ? React.createElement(
                             _OverlayTrigger2.default,
-                            { placement: 'top', overlay: tooltip, trigger: 'click', rootClose: true },
+                            { placement: 'top', overlay: tooltip, trigger: 'click', rootClose: true, container: _this },
                             innerCell
                         ) : innerCell
                     );

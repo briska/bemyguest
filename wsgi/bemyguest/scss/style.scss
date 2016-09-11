@@ -19,7 +19,7 @@ $screen-md-max: 1199px;
 $screen-lg-min: 1200px;
 
 /* keep in sync with FEAST_COLORS in models.py */
-$feast-colors: #ffbebe, #b3ffc1, #b2d7ff, #ffc8f1, #f4b8ff, #c2ffe0, #ffffff;
+$feast-colors: #ffbebe, #b3ffc1, #d4e9ff, #ffc8f1, #f4b8ff, #c2ffe0, #ffffff;
 
 @import '../node_modules/react-datepicker/dist/react-datepicker';
 

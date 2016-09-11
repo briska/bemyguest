@@ -4,7 +4,7 @@ module.exports = {
     cellWidth: 54,
     cellHeight: 30,
     headHeight: 40,
-    monthHeight: 25,
+    monthHeight: 30,
     MEAL_TYPES: {
         BREAKFAST: 0,
         LUNCH: 1,
