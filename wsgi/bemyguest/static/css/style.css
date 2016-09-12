@@ -428,6 +428,10 @@ button.close {
           font-weight: 400; }
         .calendar-sheet-container .calendar-sheet .calendar-header .calendar-days .calendar-day .inner-wrapper {
           padding: 8px 5px 0; }
+    .calendar-sheet-container .calendar-sheet .calendar-header .tooltip-inner {
+      max-width: none;
+      min-width: 100px;
+      width: auto; }
     .calendar-sheet-container .calendar-sheet .calendar-table {
       width: 100%; }
       .calendar-sheet-container .calendar-sheet .calendar-table .calendar-row {

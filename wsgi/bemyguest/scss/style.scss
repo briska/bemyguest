@@ -25,7 +25,7 @@ $feast-colors: #ffbebe, #b3ffc1, #d4e9ff, #ffc8f1, #f4b8ff, #c2ffe0, #ffffff;
 
 
 * {
-	box-sizing: border-box;
+    box-sizing: border-box;
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
 }
@@ -38,66 +38,66 @@ body {
 }
 
 #header {
-	background: $white;
-	height: 68px;
-	position: relative;
-	
-	@media(max-width: $screen-xs-max) {
-	    height: 46px;
-	}
-	
-	.logo {
-	    position: absolute;
-	    top: 5px;
-	}
-	
-	.logo-mini {
-	    position: absolute;
-	    top: 3px;
-	}
-	
-	.logo-title {
+    background: $white;
+    height: 68px;
+    position: relative;
+
+    @media(max-width: $screen-xs-max) {
+        height: 46px;
+    }
+
+    .logo {
+        position: absolute;
+        top: 5px;
+    }
+
+    .logo-mini {
+        position: absolute;
+        top: 3px;
+    }
+
+    .logo-title {
         font-size: 25px;
-	    position: absolute;
-	    left: 340px;
-	    bottom: 10px;
-	    margin: 0;
-	}
-	
-	.menu {
+        position: absolute;
+        left: 340px;
+        bottom: 10px;
+        margin: 0;
+    }
+
+    .menu {
         font-size: 16px;
-	    position: absolute;
-	    right: 15px;
-	    bottom: 9px;
-	    margin: 0;
-	   
-	    li {
-	        display: inline-block;
-	        list-style: none;
-	        margin-left: 20px;
-	    }
-	}
+        position: absolute;
+        right: 15px;
+        bottom: 9px;
+        margin: 0;
+
+        li {
+            display: inline-block;
+            list-style: none;
+            margin-left: 20px;
+        }
+    }
 }
 
 a {
-	color: #3cad99;
-	
-	&:hover {
-	   color: #de564a;
+    color: #3cad99;
+
+    &:hover {
+       color: #de564a;
        text-decoration: none;
-	}
+    }
 }
 
 .text-warning {
-	color: $orange;
+    color: $orange;
 }
 
 .separator {
-	height: 1px;
-	width: 100%;
-	background: $gray;
-	margin-top: 10px;
-	margin-bottom: 10px;
+    height: 1px;
+    width: 100%;
+    background: $gray;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 .glyphicon-remove {
@@ -108,29 +108,29 @@ a {
 }
 
 button .glyphicon-remove {
-	position: relative;
-	top: 1px;
-	right: 0;
+    position: relative;
+    top: 1px;
+    right: 0;
 }
 
 button.close {
-	position: relative;
-	z-index: 100;
+    position: relative;
+    z-index: 100;
 }
 
 #login-form {
-	margin-top: 30px;
-	text-align: center;
-	
-	label {
-	    display: block;
-	}
-	
+    margin-top: 30px;
+    text-align: center;
+
+    label {
+        display: block;
+    }
+
     input {
         display: block;
         margin: 0 auto;
     }
-    
+
     .btn {
         display: block;
         margin: 15px auto;
@@ -140,7 +140,7 @@ button.close {
 .calendar-aside {
     width: 120px;
     float: left;
-    
+
     .aside-cell {
         width: 120px;
         border: 1px solid $borderyellow;
@@ -150,7 +150,7 @@ button.close {
         padding: 5px;
         font-size: 12px;
         text-transform: uppercase;
-        
+
         &:first-of-type {
             border-top: 1px solid $borderyellow;
             margin-top: 0;
@@ -159,122 +159,128 @@ button.close {
 }
 
 .calendar-sheet-container {
-	overflow: auto;
+    overflow: auto;
     margin-left: 120px;
-    
-	.calendar-sheet {
+
+    .calendar-sheet {
         position: relative;
         overflow: hidden;
 
-		.calendar-header {
-		    .calendar-months {
-		        overflow: hidden;
-		        
-		        .calendar-month {
-		            float: left;
-		            
-		            .month-name {
-		                display: block;
-		                border-bottom: 1px solid $gray;
-		                margin: 0 2px 4px;
-		            }
-		        }
-		    }
-		    
-		    .calendar-days {
-		        overflow: hidden;
-		    
-		        .calendar-day {
-		            float: left;
-		            border: 1px solid $borderyellow;
-		            border-left: 0;
-		            background: $lightyellow;
-		            line-height: 1;
-		            
-		            &.today {
-		                font-weight: 700;
-		            }
-		            
-		            &.sunday {
-		                background: $lightorange;
-		            }
-		            
-		            @each $current-color in $feast-colors {
-					    $i: index($feast-colors, $current-color);
-					    &.feast-#{$i} { 
-					        background: $current-color;
-					        cursor: pointer;
-					    }
-					}
-		            
-		            .day-number {
-		                display: block;
-		            }
-		            
-		            .day-name {
-		                display: block;
-		                font-size: 10px;
-		                font-weight: 400;
-		            }
+        .calendar-header {
+            .calendar-months {
+                overflow: hidden;
 
-		            .inner-wrapper {
-		                padding: 8px 5px 0;
-		            }
-		        }
-		    }
-		}
-		
-		.calendar-table {
-			width: 100%;
-			
-		    .calendar-row {
-		        overflow: hidden;
-		        
-			   .calendar-cell {
-				    border-right: 1px solid $bordergray;
-				    border-bottom: 1px solid $bordergray;
-				    padding: 5px;
-				    float: left;
-				    
-				    &.odd {
-				        background: $white;
-				    }
-				    
-				    &.even {
-				        background: $lightgray;
-				    }
-				}
-		    }
-		}
+                .calendar-month {
+                    float: left;
+
+                    .month-name {
+                        display: block;
+                        border-bottom: 1px solid $gray;
+                        margin: 0 2px 4px;
+                    }
+                }
+            }
+
+            .calendar-days {
+                overflow: hidden;
+
+                .calendar-day {
+                    float: left;
+                    border: 1px solid $borderyellow;
+                    border-left: 0;
+                    background: $lightyellow;
+                    line-height: 1;
+
+                    &.today {
+                        font-weight: 700;
+                    }
+
+                    &.sunday {
+                        background: $lightorange;
+                    }
+
+                    @each $current-color in $feast-colors {
+                        $i: index($feast-colors, $current-color);
+                        &.feast-#{$i} {
+                            background: $current-color;
+                            cursor: pointer;
+                        }
+                    }
+
+                    .day-number {
+                        display: block;
+                    }
+
+                    .day-name {
+                        display: block;
+                        font-size: 10px;
+                        font-weight: 400;
+                    }
+
+                    .inner-wrapper {
+                        padding: 8px 5px 0;
+                    }
+                }
+            }
+
+            .tooltip-inner {
+                max-width: none;
+                min-width: 100px;
+                width: auto;
+            }
+        }
+
+        .calendar-table {
+            width: 100%;
+
+            .calendar-row {
+                overflow: hidden;
+
+               .calendar-cell {
+                    border-right: 1px solid $bordergray;
+                    border-bottom: 1px solid $bordergray;
+                    padding: 5px;
+                    float: left;
+
+                    &.odd {
+                        background: $white;
+                    }
+
+                    &.even {
+                        background: $lightgray;
+                    }
+                }
+            }
+        }
     }
-	        
-	.room-reservation {
-	    position: absolute;
-	    text-align: center;
-	    line-height: 1;
-	    cursor: pointer;
-	    
-	    -webkit-touch-callout: none;
-	    -webkit-user-select: none;
-	    -khtml-user-select: none;
-	    -moz-user-select: none;
-	    -ms-user-select: none;
-	    user-select: none; 
-	    
-	    &.reservation-new {
-	        background: $newgreen;
-	        cursor: default;
-	    }
-	    
-	    .reservation-body {
-	        padding: 9px 5px 5px;
-	        overflow: hidden;
-	        position: relative;
-	        white-space: nowrap;
-	        font-size: 13px;
-	    }
-	}
-    
+
+    .room-reservation {
+        position: absolute;
+        text-align: center;
+        line-height: 1;
+        cursor: pointer;
+
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+
+        &.reservation-new {
+            background: $newgreen;
+            cursor: default;
+        }
+
+        .reservation-body {
+            padding: 9px 5px 5px;
+            overflow: hidden;
+            position: relative;
+            white-space: nowrap;
+            font-size: 13px;
+        }
+    }
+
     .reservation-sheet {
         .calendar-cell {
             -webkit-touch-callout: none;
@@ -282,7 +288,7 @@ button.close {
             -khtml-user-select: none;
             -moz-user-select: none;
             -ms-user-select: none;
-            user-select: none; 
+            user-select: none;
         }
     }
 }
@@ -295,23 +301,23 @@ button.close {
     z-index: 50;
     width: 400px;
     max-width: 100%;
-    
+
     h4 {
         margin: 0 0 5px;
     }
-    
+
     p {
         font-size: 12px;
         margin-bottom: 5px;
-        
+
         .caption {
             font-weight: 700;
         }
-        
+
         &.approval {
             margin-top: 10px;
         }
-        
+
         &:last-of-type {
             margin-bottom: 0;
         }
@@ -319,100 +325,100 @@ button.close {
 }
 
 .new-reservation {
-	float: right;
+    float: right;
     margin-left: 15px;
     background: rgba($white, 0.9);
     padding: 10px;
     z-index: 100;
-	
-	.new-reservation-room {
+
+    .new-reservation-room {
         background: $newgreen;
         border: 1px solid $borderyellow;
         padding: 13px 10px 10px;
         position: relative;
         margin-bottom: 10px;
-        
+
         p {
             margin: 0;
             font-size: 13px;
         }
-        
-	    .room-name {
-	        text-transform: uppercase;
-	        font-size: 16px;
+
+        .room-name {
+            text-transform: uppercase;
+            font-size: 16px;
         }
-	        
-		.house-name-capacity {
-		    font-style: italic;
-		    font-size: 11px;
-		    margin-bottom: 5px;
+
+        .house-name-capacity {
+            font-style: italic;
+            font-size: 11px;
+            margin-bottom: 5px;
         }
-	}
+    }
 }
 
 .create-reservation {
-	.title {
+    .title {
         margin: 5px 0 0;
-	}
-	
-	.form-group {
-	    margin-bottom: 30px;
-	    
-	    &:last-of-type {
-	        margin-bottom: 0;
-	    }
-	}
-	
-	label {
-	   font-weight: 400;
-	   
-	    &.inline {
-	        margin-right: 10px;
-	        width: 80px;
-	    }
-	    
-	    &.block {
-	        display: block;
-	    }
-	}
-    
+    }
+
+    .form-group {
+        margin-bottom: 30px;
+
+        &:last-of-type {
+            margin-bottom: 0;
+        }
+    }
+
+    label {
+       font-weight: 400;
+
+        &.inline {
+            margin-right: 10px;
+            width: 80px;
+        }
+
+        &.block {
+            display: block;
+        }
+    }
+
     textarea {
         width: 100%;
         height: 30px;
-        
+
         &.mail-communication {
             height: 100px;
         }
     }
-    
+
     .rooms {
         h4 {
             margin-bottom: 5px;
         }
-        
-	    .guest {
-	        margin-top: 15px;
-	        
-	        input {
-	            margin-right: 5px;
-	        }
-	        
-	        .glyphicon {
-	            margin-right: 5px;
-	            width: 20px;
-	        }
-	        
-	        .glyphicon-minus, .glyphicon-plus {
-	            cursor: pointer;
-	        }
-	        
-	        .guest-address, .guest-phone {
-	            margin-left: 30px;
-	            margin-top: 5px;
-	        }
-	    }
+
+        .guest {
+            margin-top: 15px;
+
+            input {
+                margin-right: 5px;
+            }
+
+            .glyphicon {
+                margin-right: 5px;
+                width: 20px;
+            }
+
+            .glyphicon-minus, .glyphicon-plus {
+                cursor: pointer;
+            }
+
+            .guest-address, .guest-phone {
+                margin-left: 30px;
+                margin-top: 5px;
+            }
+        }
     }
-    
+
     .meals {
         input {
             width: 40px;
@@ -425,109 +431,109 @@ button.close {
     .title {
         margin: 5px 0 0;
     }
-    
+
     .form-group {
         position: relative;
         margin-bottom: 30px;
-        
+
         &:last-of-type, &.name {
             margin-bottom: 0;
         }
     }
-    
+
     label {
         &.inline {
             margin-right: 10px;
             margin-bottom: 0;
         }
-        
+
         &.block {
             display: block;
         }
     }
-    
+
     textarea {
         width: 100%;
         height: 30px;
     }
-    
+
     .form-group-button {
         position: absolute;
-	    top: -2px;
-	    font-size: 12px;
-	    padding: 2px 5px 1px;
-	    z-index: 100;
-	    
-	    &.cancel {
-	        right: 0;
-	    }
-	    
-	    &.save {
+        top: -2px;
+        font-size: 12px;
+        padding: 2px 5px 1px;
+        z-index: 100;
+
+        &.cancel {
+            right: 0;
+        }
+
+        &.save {
             right: 30px;
         }
-        
+
         &.remove {
             right: 60px;
         }
     }
-    
+
     .room-reservation {
         h4 {
             margin-bottom: 5px;
         }
-        
+
         select {
             padding: 5px 2px 4px;
             margin-bottom: 10px;
         }
-        
+
         .date {
             margin: 0 0 10px;
         }
-        
+
         .guest {
             margin-top: 15px;
-            
+
             input {
                 margin-right: 5px;
             }
-            
+
             .glyphicon {
                 margin-right: 5px;
                 width: 20px;
             }
-            
+
             .glyphicon-minus, .glyphicon-plus {
                 cursor: pointer;
             }
-            
+
             .guest-address, .guest-phone {
                 margin-left: 30px;
                 margin-top: 5px;
             }
         }
-        
+
         .form-control {
             width: 150px;
             display: inline-block;
         }
-        
+
         .input-group-addon {
             display: none;
         }
     }
-    
+
     .meals {
         h4 {
             margin-bottom: -20px;
         }
-        
+
         input {
             width: 40px;
             height: 22px;
         }
     }
-    
+
     .mail-communication {
         .mail-communication-box {
             width: 100%;
@@ -535,12 +541,12 @@ button.close {
             overflow: auto;
             padding-right: 5px;
         }
-        
+
         textarea {
             height: 200px;
         }
     }
-    
+
     .edit-label {
         float: left;
         padding-top: 8px;

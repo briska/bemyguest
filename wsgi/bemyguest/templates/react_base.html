@@ -11,8 +11,8 @@ Loading...
 
 {% block js %}
 <script>
-	var page = '{{ page }}';
-	var requestData = {{ request_data|safe }};
+    var page = '{{ page }}';
+    var requestData = {{ request_data|safe }};
 </script>
 <script type='text/javascript' src='{% static "js/core/bundle.js" %}?v={{ static_version }}'></script>
 {% endblock %}
