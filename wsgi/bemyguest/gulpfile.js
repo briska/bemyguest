@@ -12,6 +12,9 @@ var watch = require('gulp-watch');
 var batch = require('gulp-batch');
 var fs = require('extfs');
 var uglify = require('gulp-uglify');
+var packageJson = require('./package.json');
+var externalLibs = Object.keys(packageJson && packageJson.dependencies || {});
+externalLibs.push('moment/locale/sk.js');
 
 gulp.task('clean', function () {
     del.sync('static/css/');
@@ -41,7 +44,47 @@ gulp.task('js', function () {
     .pipe(gulp.dest('static/js/'));
 });
 
-gulp.task('bundle', ['jsx', 'js'], function() {
+gulp.task('json', function () {
+    return gulp.src('js/**/*.json')
+        .pipe(gulp.dest('static/js/'));
+});
+
+gulp.task('scss', function () {
+    return gulp.src('scss/**/*.scss')
+        .pipe(sass())
+        .on('error', handleError)
+        .pipe(gulp.dest('static/css/'));
+});
+
+gulp.task('build:vendor', function () {
+    const bundler = browserify();
+
+    bundler.require(externalLibs)
+        .bundle()
+        .on('error', handleError)
+        .pipe(source('vendor.js'))
+        .pipe(buffer())
+        .pipe(uglify())
+        .pipe(gulp.dest('static/js/core/'))
+    ;
+});
+
+gulp.task('build:core', ['jsx', 'js', 'json'], function () {
+	var bundler = browserify({
+        entries: 'static/js/core/client.js',
+        paths: ['node_modules','static/js/']
+    });
+
+    bundler.external(externalLibs)
+        .bundle()
+        .on('error', handleError)
+        .pipe(source('core.js'))
+        .pipe(buffer())
+        .pipe(gulp.dest('static/js/core/'))
+    ;
+});
+
+gulp.task('bundle', ['jsx', 'js', 'json'], function() {
     var bundler = browserify({
         entries: 'static/js/core/client.js',
         paths: ['node_modules','static/js/'],
@@ -56,18 +99,6 @@ gulp.task('bundle', ['jsx', 'js'], function() {
         .pipe(gulp.dest('static/js/core/'));
 });
 
-gulp.task('json', function () {
-    return gulp.src('js/**/*.json')
-        .pipe(gulp.dest('static/js/'));
-});
-
-gulp.task('scss', function () {
-    return gulp.src('scss/**/*.scss')
-        .pipe(sass())
-        .on('error', handleError)
-        .pipe(gulp.dest('static/css/'));
-});
-
 function deleteFile(file, oldRoot, newRoot, newExt) {
     var oldPath = path.relative(oldRoot, file);
     var newFileName = path.basename(oldPath, path.extname(oldPath)) + newExt;
@@ -78,11 +109,11 @@ function deleteFile(file, oldRoot, newRoot, newExt) {
 }
 
 gulp.task('watch', ['clean'], function() {
-    gulp.start('bundle');
-    gulp.start('json');
+    gulp.start('build:vendor');
+    gulp.start('build:core');
     gulp.start('scss');
     watch('js/**/*.{js,jsx}', batch((events, done) => {
-        gulp.start('bundle', done);
+        gulp.start('build:core', done);
     })).on('unlink', (file) => {deleteFile(file, 'js/', 'static/js/', '.js');});
     watch('js/**/*.json', batch((events, done) => {
         gulp.start('json', done);
@@ -91,3 +122,5 @@ gulp.task('watch', ['clean'], function() {
         gulp.start('scss', done);
     })).on('unlink', (file) => {deleteFile(file, 'scss/', 'static/css/', '.css');});
 });
+
+gulp.task('build:all', ['build:vendor', 'build:core']);
