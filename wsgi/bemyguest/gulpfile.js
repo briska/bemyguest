@@ -70,8 +70,8 @@ gulp.task('scss', function () {
 
 function deleteFile(file, oldRoot, newRoot, newExt) {
     var oldPath = path.relative(oldRoot, file);
-    var oldFileName = path.basename(oldPath, path.extname(oldPath)) + newExt;
-    var newPath = path.resolve(newRoot, path.join(path.dirname(oldPath), oldFileName));
+    var newFileName = path.basename(oldPath, path.extname(oldPath)) + newExt;
+    var newPath = path.resolve(newRoot, path.join(path.dirname(oldPath), newFileName));
     del.sync(newPath);
     var newDir = path.dirname(newPath);
     if (fs.isEmptySync(newDir)) del.sync(newDir);
