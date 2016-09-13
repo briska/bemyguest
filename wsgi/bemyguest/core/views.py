@@ -12,6 +12,7 @@ from django.contrib.messages.constants import INFO, ERROR
 from django.utils.translation import ugettext_lazy as _
 from django.db.models.query import Prefetch
 import json
+from bemyguest import settings
 
 # Create your views here.
 
@@ -37,6 +38,7 @@ def react_base(request, page):
         'page': page,
         'request_data': json.dumps(request_data),
         'static_version': STATIC_VERSION,
+        'is_debug' : settings.DEBUG,
     }
     return render(request, 'react_base.html', data)
 

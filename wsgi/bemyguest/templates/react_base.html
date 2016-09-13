@@ -14,7 +14,11 @@ Loading...
     var page = '{{ page }}';
     var requestData = {{ request_data|safe }};
 </script>
+{% if is_debug %}
+<script type='text/javascript' src='{% static "js/core/vendor.js" %}?v={{ static_version }}'></script>
+<script type='text/javascript' src='{% static "js/core/core.js" %}?v={{ static_version }}'></script>
+{% else %}
 <script type='text/javascript' src='{% static "js/core/bundle.js" %}?v={{ static_version }}'></script>
-<!-- <script type='text/javascript' src='{% static "js/core/vendor.js" %}?v={{ static_version }}'></script>
-<script type='text/javascript' src='{% static "js/core/core.js" %}?v={{ static_version }}'></script> -->
+{% endif %}
+
 {% endblock %}

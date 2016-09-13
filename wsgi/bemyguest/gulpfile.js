@@ -14,7 +14,7 @@ var fs = require('extfs');
 var uglify = require('gulp-uglify');
 var packageJson = require('./package.json');
 var externalLibs = Object.keys(packageJson && packageJson.dependencies || {});
-externalLibs.push('moment/locale/sk.js');
+externalLibs.splice(externalLibs.indexOf('moment'), 1);
 
 gulp.task('clean', function () {
     del.sync('static/css/');
