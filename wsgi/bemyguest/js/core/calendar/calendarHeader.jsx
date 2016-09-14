@@ -55,7 +55,8 @@ let CalendarHeader = React.createClass({
                         
                         let tooltip = null;
                         if (date.format('L') in feasts) {
-                             tooltip = (<Tooltip id="tooltip">{feasts[date.format('L')].name}</Tooltip>);
+                            let feast = feasts[date.format('L')];
+                            tooltip = (<Tooltip id={'tooltip-' + position + '-' + feast.id}>{feast.name}</Tooltip>);
                         }
 
                         let innerCell = (<div className="inner-wrapper">

@@ -85,7 +85,7 @@ let Calendar = React.createClass({
                     <DatePicker value={startDate.toISOString()} onChange={() => {this.setStartDate(moment(value));}} />
                     <Button onClick={() => {this.setStartDate(moment());}}>{trans('TODAY')}</Button>
                 </div>}
-                <div className="rooms calendar-aside" style={{marginTop: monthHeight + 'px'}}>
+                <div className="rooms calendar-aside two-headers" style={{marginTop: monthHeight + 'px'}}>
                     <div className="room aside-cell" style={{height: headHeight + 'px'}}></div>
                     {_.map(rooms, (room, i) => {
                         return (
@@ -97,8 +97,9 @@ let Calendar = React.createClass({
                             </div>
                         );
                     })}
+                    <div className="room aside-cell" style={{height: headHeight + 'px'}}></div>
                 </div>
-                <div className="calendar-sheet-container reservation-sheet" ref="calendarSheet">
+                <div className="calendar-sheet-container reservation-sheet two-headers" ref="calendarSheet">
                     <div className="calendar-sheet" style={{width: _.size(sheetDates) * cellWidth + 'px'}}>
                         <CalendarHeader context={context} dates={sheetDates} position={'top'} />
                         <div className="calendar-table">

@@ -370,8 +370,10 @@ button.close {
     font-size: 12px;
     text-transform: uppercase; }
     .calendar-aside .aside-cell:first-of-type {
-      border-top: 1px solid #eeeebb;
-      margin-top: 0; }
+      border-top: 1px solid #eeeebb; }
+  .calendar-aside.two-headers .aside-cell:last-of-type {
+    margin-top: -1px;
+    border-top: 1px solid #eeeebb; }
 
 .calendar-sheet-container {
   overflow: auto;
@@ -469,6 +471,9 @@ button.close {
       position: relative;
       white-space: nowrap;
       font-size: 13px; }
+  .calendar-sheet-container.two-headers .calendar-row:last-of-type .calendar-cell {
+    border-bottom: 0;
+    margin-bottom: -1px; }
 
 .room-reservation-details {
   position: absolute;
