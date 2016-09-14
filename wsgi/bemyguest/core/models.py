@@ -42,6 +42,9 @@ class Room(models.Model):
     capacity = models.IntegerField()
     index = models.IntegerField(default=0)
 
+    class Meta:
+        ordering = ['index']
+
     def __unicode__(self):
         return '%s - %s' % (self.house.name, self.name)
 
@@ -88,6 +91,9 @@ class RoomReservation(models.Model):
     date_from = models.DateTimeField()
     date_to = models.DateTimeField()
     guests = models.ManyToManyField(Guest, blank=True)
+
+    class Meta:
+        ordering = ['room__index']
 
     def __unicode__(self):
         return '%s - %s' % (self.room.name, self.reservation.contact_name)

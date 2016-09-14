@@ -57,7 +57,6 @@ let OverallDate = React.createClass({
         if (edit) {
             return (
                 <div className="overall-date form-group">
-                    <label className="inline">{trans('OVERALL_DATE')}:</label>
                     {edit && !saving &&
                         <Button className="form-group-button cancel" onClick={this.cancel}><Glyphicon glyph="remove" /></Button>}
                     {edit && !saving &&

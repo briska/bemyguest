@@ -26,7 +26,7 @@ def react_base(request, page):
         return render(request, 'login.html', data)
     houses = []
     rooms = []
-    for house in House.objects.all().prefetch_related(Prefetch('rooms', queryset=Room.objects.all().order_by('index'))):
+    for house in House.objects.all().prefetch_related(Prefetch('rooms', queryset=Room.objects.all())):
         houses.append(serialize_house(house))
         for room in house.rooms.all():
             rooms.append(serialize_room(room))

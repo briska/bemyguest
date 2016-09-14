@@ -12,7 +12,7 @@ import Tooltip from 'react-bootstrap/lib/Tooltip';
 
 let CalendarHeader = React.createClass({
     render: function() {
-        let {dates, feasts} = this.props;
+        let {dates, feasts, position} = this.props;
         let dateFrom = _.nth(dates, 0);
         let dateTo = _.nth(dates, -1);
         let today = moment();
@@ -34,20 +34,22 @@ let CalendarHeader = React.createClass({
             }
             months.push({name: d.format('MMMM'), days: days});
         }
+        let monthsComp = (
+            <div className="calendar-months">
+                {_.map(months, (month, i) => {
+                    return (
+                        <div
+                            key={'month-' + i}
+                            className="calendar-month"
+                            style={{height: monthHeight + 'px', width: month.days * cellWidth + 'px'}}>
+                            <span className={cx('month-name', position)}>{month.name}</span>
+                        </div>
+                    )
+                })}
+            </div>);
         return (
             <div className="calendar-header">
-                <div className="calendar-months">
-                    {_.map(months, (month, i) => {
-                        return (
-                            <div
-                                key={'month-' + i}
-                                className="calendar-month"
-                                style={{height: monthHeight + 'px', width: month.days * cellWidth + 'px'}}>
-                                <span className="month-name">{month.name}</span>
-                            </div>
-                        )
-                    })}
-                </div>
+                {position == 'top' ? monthsComp : ''}
                 <div className="calendar-days">
                     {_.map(dates, (date, i) => {
                         
@@ -76,6 +78,7 @@ let CalendarHeader = React.createClass({
                         );
                     })}
                 </div>
+                {position == 'bottom' ? monthsComp : ''}
             </div>
         );
     }

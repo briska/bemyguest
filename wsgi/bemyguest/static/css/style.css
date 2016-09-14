@@ -384,9 +384,13 @@ button.close {
       .calendar-sheet-container .calendar-sheet .calendar-header .calendar-months .calendar-month {
         float: left; }
         .calendar-sheet-container .calendar-sheet .calendar-header .calendar-months .calendar-month .month-name {
-          display: block;
-          border-bottom: 1px solid #bbb;
-          margin: 0 2px 4px; }
+          display: block; }
+          .calendar-sheet-container .calendar-sheet .calendar-header .calendar-months .calendar-month .month-name.top {
+            border-bottom: 1px solid #bbb;
+            margin: 0 2px 4px; }
+          .calendar-sheet-container .calendar-sheet .calendar-header .calendar-months .calendar-month .month-name.bottom {
+            border-top: 1px solid #bbb;
+            margin: 4px 2px 0; }
     .calendar-sheet-container .calendar-sheet .calendar-header .calendar-days {
       overflow: hidden; }
       .calendar-sheet-container .calendar-sheet .calendar-header .calendar-days .calendar-day {
@@ -641,4 +645,5 @@ button.close {
 
 .reservation-details .edit-label {
   float: left;
-  padding-top: 8px; }
+  padding-top: 8px;
+  color: #bbb; }

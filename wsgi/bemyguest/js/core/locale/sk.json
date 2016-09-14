@@ -17,7 +17,6 @@
     },
     "CREATE_RESERVATION": "Vytvoriť rezerváciu",
     "RESERVATION_NAME": "Názov",
-    "OVERALL_DATE": "Celkový dátum",
     "OVERALL_WARN_MSG": "UPOZORNENIE: Zmena dátumov sa aplikuje na všetky izby!",
     "GUESTS_COUNT": "Počet hostí",
     "NAME_PREFIX": "Titul",

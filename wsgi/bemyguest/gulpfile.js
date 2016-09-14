@@ -116,7 +116,7 @@ gulp.task('watch', ['clean'], function() {
         gulp.start('build:core', done);
     })).on('unlink', (file) => {deleteFile(file, 'js/', 'static/js/', '.js');});
     watch('js/**/*.json', batch((events, done) => {
-        gulp.start('json','build:core', done);
+        gulp.start('build:core', done);
     })).on('unlink', (file) => {deleteFile(file, 'js/', 'static/js/', '.json');});
     watch('scss/**/*.scss', batch((events, done) => {
         gulp.start('scss', done);

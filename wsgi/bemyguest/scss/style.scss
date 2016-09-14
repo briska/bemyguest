@@ -175,8 +175,16 @@ button.close {
 
                     .month-name {
                         display: block;
-                        border-bottom: 1px solid $gray;
-                        margin: 0 2px 4px;
+
+                        &.top {
+                            border-bottom: 1px solid $gray;
+                            margin: 0 2px 4px;
+                        }
+
+                        &.bottom {
+                            border-top: 1px solid $gray;
+                            margin: 4px 2px 0;
+                        }
                     }
                 }
             }
@@ -554,5 +562,6 @@ button.close {
     .edit-label {
         float: left;
         padding-top: 8px;
+        color: $gray;
     }
 }

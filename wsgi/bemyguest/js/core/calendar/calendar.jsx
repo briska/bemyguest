@@ -95,7 +95,7 @@ let Calendar = React.createClass({
                 </div>
                 <div className="calendar-sheet-container reservation-sheet" ref="calendarSheet">
                     <div className="calendar-sheet" style={{width: _.size(sheetDates) * cellWidth + 'px'}}>
-                        <CalendarHeader context={context} dates={sheetDates} />
+                        <CalendarHeader context={context} dates={sheetDates} position={'top'} />
                         <div className="calendar-table">
                             {_.map(rooms, (room, i) => {
                                 return (
@@ -117,6 +117,7 @@ let Calendar = React.createClass({
                                 );
                             })}
                         </div>
+                        <CalendarHeader context={context} dates={sheetDates} position={'bottom'} />
                         <SheetReservations context={context} dateFrom={dateFrom} dateTo={dateTo} stopSelectingNewReservation={this.stopSelectingNewReservation} />
                         <SheetNewReservation context={context} dateFrom={dateFrom} dateTo={dateTo} />
                     </div>
