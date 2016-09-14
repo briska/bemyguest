@@ -33,7 +33,8 @@ let Calendar = React.createClass({
             startDate: moment(),
             dateFrom: moment('2016-06-01'),
             dateTo: moment('2016-12-31'),
-            selectingNewReservation: false
+            selectingNewReservation: false,
+            selectingFromX: null
         };
     },
     
@@ -41,25 +42,29 @@ let Calendar = React.createClass({
         this.setState({startDate: date});
     },
     
-    selectNewReservation(roomId, date) {
-        if (this.state.selectingNewReservation == roomId) {
-            this.props.context.getStore(NewReservationStore).selectRoom(roomId, date);
-        }
+    selectNewReservation(e) {
+        $('#sheet-new-reservation-' + this.state.selectingNewReservation).width(e.clientX - this.state.selectingFromX);
     },
     
-    startSelectingNewReservation(roomId, date) {
-        this.setState({selectingNewReservation: roomId}, () => {
+    startSelectingNewReservation(e, roomId, date) {
+        this.setState({selectingNewReservation: roomId, selectingFromX: e.clientX}, () => {
             this.props.context.getStore(NewReservationStore).deselectRoom(roomId);
             this.props.context.getStore(NewReservationStore).selectRoom(roomId, date);
         });
+        global.window.addEventListener('mousemove', this.selectNewReservation);
         global.window.addEventListener('mouseup', this.stopSelectingNewReservation);
     },
     
-    stopSelectingNewReservation() {
-        if (this.props.context.getStore(NewReservationStore).getRoomReservationDays(this.state.selectingNewReservation) <= 1) {
+    stopSelectingNewReservation(e) {
+        let days = (e.clientX - this.state.selectingFromX) / cellWidth;
+        if (days > 1) {
+            this.props.context.getStore(NewReservationStore).setRoomReservationDays(this.state.selectingNewReservation, days);
+        }
+        else {
             this.props.context.getStore(NewReservationStore).deselectRoom(this.state.selectingNewReservation);
         }
-        this.setState({selectingNewReservation: false});
+        this.setState({selectingNewReservation: false, selectingFromX: null});
+        global.window.removeEventListener('mousemove', this.selectNewReservation);
         global.window.removeEventListener('mouseup', this.stopSelectingNewReservation);
     },
     
@@ -108,8 +113,7 @@ let Calendar = React.createClass({
                                                     key={'cell-' + j}
                                                     className={cx('calendar-cell', i % 2 ? 'odd' : 'even')}
                                                     style={{width: cellWidth + 'px', height: cellHeight + 'px'}}
-                                                    onMouseDown={(e) => {if (e.button == 0) this.startSelectingNewReservation(room.id, date);}}
-                                                    onMouseEnter={() => {this.selectNewReservation(room.id, date);}}>
+                                                    onMouseDown={(e) => {if (e.button == 0) this.startSelectingNewReservation(e, room.id, date);}}>
                                                 </div>
                                             );
                                         })}

@@ -21,19 +21,19 @@ let SheetNewReservation = React.createClass({
         let {context, dateFrom, dateTo, roomReservations} = this.props;
         return (
             <div className="sheet-new-reservation">
-                {_.map(roomReservations, (roomReservation, i) => {
+                {_.map(roomReservations, (roomReservation) => {
                     let roomReservationDays = diffDays(roomReservation.dateFrom, roomReservation.dateTo);
-                    if (roomReservationDays <= 1) return null;
-                    let daysFromStart = roomReservation.dateFrom.diff(dateFrom, 'days');
                     let roomIndex = context.getStore(RoomsStore).getRoomIndex(roomReservation.roomId);
                     return (
                         <div
-                            key={'sheet-new-reservation-' + i}
+                            key={'sheet-new-reservation-' + roomReservation.roomId}
+                            id={'sheet-new-reservation-' + roomReservation.roomId}
                             className={cx('room-reservation', 'reservation-new')}
                             style={{
                                 width: (roomReservationDays - 1) * cellWidth + 'px',
+                                minWidth: cellWidth / 2 + 'px',
                                 height: cellHeight + 'px',
-                                left: (daysFromStart + 0.5) * cellWidth + 'px',
+                                left: (diffDays(dateFrom, roomReservation.dateFrom) - 0.5) * cellWidth + 'px',
                                 top: headHeight + monthHeight + roomIndex * cellHeight + 'px'}}>
                             <div className="reservation-body">
                                 <span>{trans('NEW_RESERVATION')}</span>

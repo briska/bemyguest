@@ -48,6 +48,14 @@ let NewReservationStore = createStore({
         return moment(roomReservation.dateTo).startOf('day').diff(moment(roomReservation.dateFrom).startOf('day'), 'days') + 1;
     },
     
+    setRoomReservationDays: function(roomId, days) {
+        let roomReservation = _.find(this._roomReservations, {roomId: roomId});
+        if (roomReservation) {
+            roomReservation.dateTo = moment(roomReservation.dateFrom).add(days, 'days');
+        }
+        this.emitChange();
+    },
+    
     dehydrate: function() {
         return {
             roomReservations: this._roomReservations

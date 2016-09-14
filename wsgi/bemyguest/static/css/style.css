@@ -375,7 +375,13 @@ button.close {
 
 .calendar-sheet-container {
   overflow: auto;
-  margin-left: 120px; }
+  margin-left: 120px;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none; }
   .calendar-sheet-container .calendar-sheet {
     position: relative;
     overflow: hidden; }
@@ -453,13 +459,7 @@ button.close {
     position: absolute;
     text-align: center;
     line-height: 1;
-    cursor: pointer;
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none; }
+    cursor: pointer; }
     .calendar-sheet-container .room-reservation.reservation-new {
       background: #eeff41;
       cursor: default; }
@@ -469,13 +469,6 @@ button.close {
       position: relative;
       white-space: nowrap;
       font-size: 13px; }
-  .calendar-sheet-container .reservation-sheet .calendar-cell {
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none; }
 
 .room-reservation-details {
   position: absolute;

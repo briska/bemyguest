@@ -15,7 +15,6 @@ let SheetRoomReservation = React.createClass({
         let {context, dateFrom, dateTo, reservation, roomReservation, getReservationDetails} = this.props;
         let roomReservationDays = diffDays(roomReservation.dateFrom, roomReservation.dateTo);
         if (roomReservationDays <= 1) return null;
-        let daysFromStart = roomReservation.dateFrom.diff(dateFrom, 'days');
         let room = context.getStore(RoomsStore).getRoom(roomReservation.roomId);
         let roomIndex = context.getStore(RoomsStore).getRoomIndex(roomReservation.roomId);
         return (
@@ -24,7 +23,7 @@ let SheetRoomReservation = React.createClass({
                 style={{
                     width: (roomReservationDays - 1) * cellWidth + 'px',
                     height: cellHeight + 'px',
-                    left: (daysFromStart + 0.5) * cellWidth + 'px',
+                    left: (diffDays(dateFrom, roomReservation.dateFrom) - 0.5) * cellWidth + 'px',
                     top: headHeight + monthHeight + roomIndex * cellHeight + 'px',
                     background: reservation.color}}
                 onClick={() => {this.refs.roomReservationDetails.toggle();}}
