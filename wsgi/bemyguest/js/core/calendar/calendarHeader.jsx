@@ -11,6 +11,11 @@ import OverlayTrigger from 'react-bootstrap/lib/OverlayTrigger';
 import Tooltip from 'react-bootstrap/lib/Tooltip';
 
 let CalendarHeader = React.createClass({
+
+    getDefaultProps: function() {
+        return {position: 'top'};
+    },
+
     render: function() {
         let {dates, feasts, position} = this.props;
         let dateFrom = _.nth(dates, 0);

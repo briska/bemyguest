@@ -46,7 +46,7 @@ let GuestsCount = React.createClass({
     
     componentDidUpdate: function(prevProps, prevState) {
         if (this.state.edit && !prevState.edit) {
-            this.refs.control.select();
+            this.refs.focusTarget.select();
         }
     },
     
@@ -60,7 +60,7 @@ let GuestsCount = React.createClass({
                 {edit && !saving &&
                     <Button bsStyle="success" className="form-group-button save" onClick={this.save}><Glyphicon glyph="ok" /></Button>}
                 {edit &&
-                    <input type="number" value={guestsCount} name="guestsCount" ref="control" onChange={this.handleChange} />}
+                    <input type="number" value={guestsCount} name="guestsCount" ref="focusTarget" onChange={this.handleChange} />}
                 {!edit &&
                     <span>{guestsCount}</span>}
             </div>

@@ -4,6 +4,7 @@ $lightgray: #f3f3f3;
 $bordergray: #ddd;
 $bggray: #eee;
 $darkgray: #444;
+$semigray: #999;
 $gray: #bbb;
 $white: #fff;
 $black: #222;
@@ -216,6 +217,7 @@ button.close {
 
                     &.today {
                         font-weight: 700;
+                        border-bottom: 2px solid $semigray;
                     }
 
                     &.sunday {

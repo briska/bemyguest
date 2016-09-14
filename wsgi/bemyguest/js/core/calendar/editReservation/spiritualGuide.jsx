@@ -14,19 +14,19 @@ let SpiritualGuide = React.createClass({
             spiritualGuide: this.props.spiritualGuide
         };
     },
-    
+
     handleChange: function(e) {
         this.setState({[e.target.name]: e.target.value});
     },
-    
+
     startEditing: function() {
         this.setState({edit: true});
     },
-    
+
     cancel: function() {
         this.setState({edit: false, spiritualGuide: this.props.spiritualGuide});
     },
-    
+
     save: function() {
         this.setState({saving: true});
         let payload = {
@@ -37,13 +37,19 @@ let SpiritualGuide = React.createClass({
         };
         this.props.context.executeAction(actions.editReservation, payload);
     },
-    
+
     componentWillReceiveProps: function(nextProps) {
         if (this.state.saving) {
             this.setState({saving: false, edit: false});
         }
     },
-    
+
+    componentDidUpdate: function(prevProps, prevState) {
+        if (this.state.edit && !prevState.edit) {
+            this.refs.focusTarget.select();
+        }
+    },
+
     render: function() {
         let {edit, saving, spiritualGuide} = this.state;
         return (
@@ -54,7 +60,7 @@ let SpiritualGuide = React.createClass({
                 {edit && !saving &&
                     <Button bsStyle="success" className="form-group-button save" onClick={this.save}><Glyphicon glyph="ok" /></Button>}
                 {edit &&
-                    <input type="text" value={spiritualGuide} name="spiritualGuide" onChange={this.handleChange} />}
+                    <input type="text" value={spiritualGuide} name="spiritualGuide" ref="focusTarget" onChange={this.handleChange} />}
                 {!edit && spiritualGuide && <span>{spiritualGuide}</span>}
             </div>
         );

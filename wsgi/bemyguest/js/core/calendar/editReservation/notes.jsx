@@ -55,7 +55,7 @@ let Notes = React.createClass({
                 {edit && !saving &&
                     <Button bsStyle="success" className="form-group-button save" onClick={this.save}><Glyphicon glyph="ok" /></Button>}
                 {edit &&
-                    <Textarea value={notes} name="notes" onChange={this.handleChange} />}
+                    <Textarea value={notes} name="notes" autoFocus onChange={this.handleChange} />}
                 {!edit && notes &&
                     <div className="notes-box">{nl2br(notes)}</div>}
             </div>

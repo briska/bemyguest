@@ -54,7 +54,7 @@ let MailCommunication = React.createClass({
                 {edit && !saving &&
                     <Button bsStyle="success" className="form-group-button save" onClick={this.save}><Glyphicon glyph="ok" /></Button>}
                 {edit &&
-                    <textarea value={mailCommunication} name="mailCommunication" onChange={this.handleChange} />}
+                    <textarea value={mailCommunication} name="mailCommunication" autoFocus onChange={this.handleChange} />}
                 {!edit && mailCommunication &&
                     <div className="mail-communication-box">{nl2br(mailCommunication)}</div>}
             </div>

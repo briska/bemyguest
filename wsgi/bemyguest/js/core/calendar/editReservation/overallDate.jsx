@@ -57,11 +57,11 @@ let OverallDate = React.createClass({
         if (edit) {
             return (
                 <div className="overall-date form-group">
-                    {edit && !saving &&
+                    {!saving &&
                         <Button className="form-group-button cancel" onClick={this.cancel}><Glyphicon glyph="remove" /></Button>}
-                    {edit && !saving &&
+                    {!saving &&
                         <Button bsStyle="success" className="form-group-button save" onClick={this.save}><Glyphicon glyph="ok" /></Button>}
-                    {edit && !saving &&
+                    {!saving &&
                         <div className="form-group-button note text-warning">{trans('OVERALL_WARN_MSG')}</div>}
                     <div className="date">
                         <DatePicker
@@ -81,7 +81,6 @@ let OverallDate = React.createClass({
         }
         return (
             <div className="overall-date form-group" onDoubleClick={this.startEditing}>
-                <label className="inline">{trans('OVERALL_DATE')}:</label>
                 <div className="date">{dateFrom.format('D. MMMM YYYY')} - {dateTo.format('D. MMMM YYYY')}</div>
             </div>
         );

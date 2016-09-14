@@ -410,7 +410,8 @@ button.close {
           background: #ffffcc;
           line-height: 1; }
           .calendar-sheet-container .calendar-sheet .calendar-header .calendar-days .calendar-day.today {
-            font-weight: 700; }
+            font-weight: 700;
+            border-bottom: 2px solid #999; }
           .calendar-sheet-container .calendar-sheet .calendar-header .calendar-days .calendar-day.sunday {
             background: #ffefcc; }
           .calendar-sheet-container .calendar-sheet .calendar-header .calendar-days .calendar-day.feast-1 {

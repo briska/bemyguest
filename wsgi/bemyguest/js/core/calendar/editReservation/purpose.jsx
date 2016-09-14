@@ -15,19 +15,19 @@ let Purpose = React.createClass({
             purpose: this.props.purpose
         };
     },
-    
+
     handleChange: function(e) {
         this.setState({[e.target.name]: e.target.value});
     },
-    
+
     startEditing: function() {
         this.setState({edit: true});
     },
-    
+
     cancel: function() {
         this.setState({edit: false, purpose: this.props.purpose});
     },
-    
+
     save: function() {
         this.setState({saving: true});
         let payload = {
@@ -38,13 +38,13 @@ let Purpose = React.createClass({
         };
         this.props.context.executeAction(actions.editReservation, payload);
     },
-    
+
     componentWillReceiveProps: function(nextProps) {
         if (this.state.saving) {
             this.setState({saving: false, edit: false});
         }
     },
-    
+
     render: function() {
         let {edit, saving, purpose} = this.state;
         return (
@@ -55,7 +55,7 @@ let Purpose = React.createClass({
                 {edit && !saving &&
                     <Button bsStyle="success" className="form-group-button save" onClick={this.save}><Glyphicon glyph="ok" /></Button>}
                 {edit &&
-                    <Textarea value={purpose} name="purpose" onChange={this.handleChange} />}
+                    <Textarea value={purpose} name="purpose" autoFocus onChange={this.handleChange} />}
                 {!edit && purpose &&
                     <div className="purpose-box">{nl2br(purpose)}</div>}
             </div>
