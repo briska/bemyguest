@@ -19,6 +19,7 @@ import Purpose from 'core/calendar/editReservation/purpose';
 import SpiritualGuide from 'core/calendar/editReservation/spiritualGuide';
 import PricePayed from 'core/calendar/editReservation/pricePayed';
 import GuestsCount from 'core/calendar/editReservation/guestsCount';
+import OverallDate from 'core/calendar/editReservation/overallDate';
 import RoomReservation from 'core/calendar/editReservation/roomReservation';
 import Meals from 'core/calendar/editReservation/meals';
 import Approval from 'core/calendar/editReservation/approval';
@@ -65,6 +66,7 @@ let ReservationDetails = React.createClass({
                 <Modal.Body>
                     {!reservation.approved &&
                         <Approval context={context} reservationId={reservation.id} days={_.size(datesRange)} />}
+                    <OverallDate context={context} reservationId={reservation.id} reservationDateFrom={reservation.dateFrom} reservationDateTo={reservation.dateTo} />
                     <GuestsCount context={context} reservationId={reservation.id} guestsCount={reservation.guestsCount} />
                     {_.map(reservation.roomReservations, (roomReservation) => {
                         return (

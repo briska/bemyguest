@@ -116,11 +116,12 @@ gulp.task('watch', ['clean'], function() {
         gulp.start('build:core', done);
     })).on('unlink', (file) => {deleteFile(file, 'js/', 'static/js/', '.js');});
     watch('js/**/*.json', batch((events, done) => {
-        gulp.start('json', done);
+        gulp.start('json','build:core', done);
     })).on('unlink', (file) => {deleteFile(file, 'js/', 'static/js/', '.json');});
     watch('scss/**/*.scss', batch((events, done) => {
         gulp.start('scss', done);
     })).on('unlink', (file) => {deleteFile(file, 'scss/', 'static/css/', '.css');});
 });
 
-gulp.task('build:all', ['build:vendor', 'build:core']);
+gulp.task('build:dev', ['clean', 'build:vendor', 'build:core', 'scss']);
+gulp.task('build:prod', ['clean', 'bundle', 'scss']);

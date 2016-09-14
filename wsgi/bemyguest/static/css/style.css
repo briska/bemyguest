@@ -590,6 +590,8 @@ button.close {
     right: 30px; }
   .reservation-details .form-group-button.remove {
     right: 60px; }
+  .reservation-details .form-group-button.note {
+    right: 60px; }
 
 .reservation-details .room-reservation h4 {
   margin-bottom: 5px; }

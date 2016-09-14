@@ -2,7 +2,7 @@ import json
 import dateutil.parser, dateutil.tz
 from django.views.decorators.csrf import csrf_exempt
 from core.models import Reservation, RoomReservation, Guest, Meal, Feast
-from core.serializers import serialize_reservation, serialize_user,\
+from core.serializers import serialize_reservation, serialize_user, \
     serialize_feast
 from django.http.response import JsonResponse
 from django.contrib.auth.forms import AuthenticationForm
@@ -21,7 +21,7 @@ def user(request):
 @csrf_exempt
 def user_login(request):
     if request.method == 'POST':
-        form = AuthenticationForm(request, data=json.loads(request.body))
+        form = AuthenticationForm(request, data = json.loads(request.body))
         if form.is_valid():
             login(request, form.get_user())
             user = serialize_user(request.user)
@@ -86,18 +86,18 @@ def reservations(request):
 def reservation(request, pk):
     if request.user.is_anonymous():
         return JsonResponse({'error': 'loggedOut'})
-    reservation = Reservation.objects.get(id=pk)
+    reservation = Reservation.objects.get(id = pk)
     if request.method == 'DELETE':
         reservation.delete()
         return JsonResponse({})
     if request.method == 'POST':
         reservation_data = convert_dict_keys_deep(json.loads(request.body))
         if 'room_reservation_remove' in reservation_data:
-            room_reservation = reservation.room_reservations.get(id=reservation_data['room_reservation_remove'])
+            room_reservation = reservation.room_reservations.get(id = reservation_data['room_reservation_remove'])
             room_reservation.delete()
         elif 'room_reservation' in reservation_data:
             room_reservation_data = reservation_data['room_reservation']
-            room_reservation = reservation.room_reservations.get(id=room_reservation_data['id'])
+            room_reservation = reservation.room_reservations.get(id = room_reservation_data['id'])
             room_reservation.room_id = room_reservation_data['room_id']
             if room_reservation.date_from != room_reservation_data['date_from'] or room_reservation.date_to != room_reservation_data['date_to']:
                 reservation.meals.all().delete()
@@ -110,7 +110,7 @@ def reservation(request, pk):
                 reservation.save()
             for guest_data in room_reservation_data['guests']:
                 if guest_data['id']:
-                    guest = room_reservation.guests.get(id=guest_data['id'])
+                    guest = room_reservation.guests.get(id = guest_data['id'])
                     guest.name_prefix = guest_data['name_prefix']
                     guest.name = guest_data['name']
                     guest.surname = guest_data['surname']
@@ -142,6 +142,13 @@ def reservation(request, pk):
                 )
                 meal.set_counts(meal_data['counts'])
                 meal.save()
+        elif 'overall_date' in reservation_data:
+            overall_date_data = reservation_data['overall_date']
+
+            for room_reservation in reservation.room_reservations.all():
+                room_reservation.date_from = overall_date_data['date_from']
+                room_reservation.date_to = overall_date_data['date_to']
+                room_reservation.save()
         else:
             if 'name' in reservation_data:
                 reservation.name = reservation_data['name']

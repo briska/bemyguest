@@ -91,6 +91,10 @@ let RoomReservation = React.createClass({
         if (this.state.saving) {
             this.setState({saving: false, edit: false});
         }
+
+        if (nextProps.reservationDateFrom != this.state.dateFrom || nextProps.reservationDateTo != this.state.dateTo) {
+            this.setState({dateFrom: nextProps.reservationDateFrom, dateTo: nextProps.reservationDateTo});
+        }
     },
     
     render: function() {
