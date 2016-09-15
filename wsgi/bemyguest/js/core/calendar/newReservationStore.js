@@ -14,6 +14,10 @@ let NewReservationStore = createStore({
         return this._roomReservations;
     },
     
+    getRoomReservation: function(roomId) {
+        return _.find(this._roomReservations, {roomId: roomId});
+    },
+    
     handlers: {
         'RESERVATION_CREATED': function({reservation}) {
             this._roomReservations = [];
@@ -52,6 +56,19 @@ let NewReservationStore = createStore({
         let roomReservation = _.find(this._roomReservations, {roomId: roomId});
         if (roomReservation) {
             roomReservation.dateTo = moment(roomReservation.dateFrom).add(days, 'days');
+        }
+        this.emitChange();
+    },
+    
+    addRoomReservationDays: function(roomId, days, whichDate) {
+        let roomReservation = _.find(this._roomReservations, {roomId: roomId});
+        if (roomReservation) {
+            if (_.includes(whichDate, 'dateFrom')) {
+                roomReservation.dateFrom = moment(roomReservation.dateFrom).add(days, 'days');
+            }
+            if (_.includes(whichDate, 'dateTo')) {
+                roomReservation.dateTo = moment(roomReservation.dateTo).add(days, 'days');
+            }
         }
         this.emitChange();
     },

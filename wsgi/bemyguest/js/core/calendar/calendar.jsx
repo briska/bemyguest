@@ -42,22 +42,26 @@ let Calendar = React.createClass({
         };
     },
 
-    selectNewReservation(e) {
-        $('#sheet-new-reservation-' + this.state.selectingNewReservation).width(e.clientX - this.state.selectingFromX);
+    setStartDate: function(date) {
+        this.setState({startDate: date});
     },
 
     startSelectingNewReservation(e, roomId, date) {
+        if (this.props.context.getStore(NewReservationStore).getRoomReservation(roomId)) return false;
         this.setState({selectingNewReservation: roomId, selectingFromX: e.clientX}, () => {
-            this.props.context.getStore(NewReservationStore).deselectRoom(roomId);
             this.props.context.getStore(NewReservationStore).selectRoom(roomId, date);
         });
         global.window.addEventListener('mousemove', this.selectNewReservation);
         global.window.addEventListener('mouseup', this.stopSelectingNewReservation);
     },
 
+    selectNewReservation(e) {
+        $('#sheet-new-reservation-' + this.state.selectingNewReservation).width(e.clientX - this.state.selectingFromX);
+    },
+
     stopSelectingNewReservation(e) {
         let days = (e.clientX - this.state.selectingFromX) / cellWidth;
-        if (days > 1) {
+        if (days > 0.5) {
             this.props.context.getStore(NewReservationStore).setRoomReservationDays(this.state.selectingNewReservation, days);
         }
         else {

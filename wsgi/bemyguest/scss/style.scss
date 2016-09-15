@@ -106,6 +106,7 @@ a {
     top: 3px;
     right: 3px;
     cursor: pointer;
+    z-index: 30;
 }
 
 button .glyphicon-remove {
@@ -295,11 +296,29 @@ button.close {
         }
 
         .reservation-body {
+            position: relative;
+            height: 100%;
             padding: 9px 5px 5px;
             overflow: hidden;
-            position: relative;
             white-space: nowrap;
             font-size: 13px;
+            
+            .drag {
+                position: absolute;
+                top: 0;
+                bottom: 0;
+                width: 20px;
+                cursor: ew-resize;
+                z-index: 20;
+                
+                &.drag-left {
+                    left: -10px;
+                }
+                
+                &.drag-right {
+                    right: -10px;
+                }
+            }
         }
     }
     

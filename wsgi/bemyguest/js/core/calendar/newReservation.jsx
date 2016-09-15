@@ -16,11 +16,11 @@ let NewReservation = React.createClass({
     deselectRoom: function(roomId) {
         this.props.context.getStore(NewReservationStore).deselectRoom(roomId);
     },
-    
+
     createReservation: function() {
         this.refs.createReservation.open();
     },
-    
+
     render: function() {
         let {context, dateFrom, dateTo, roomReservations} = this.props;
         if (_.isEmpty(roomReservations)
