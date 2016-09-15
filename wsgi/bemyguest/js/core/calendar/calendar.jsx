@@ -14,6 +14,7 @@ import {cellWidth, cellHeight, headHeight, monthHeight} from 'core/enums';
 import SheetNewReservation from 'core/calendar/sheetNewReservation';
 import SheetReservations from 'core/calendar/sheetReservations';
 import NewReservation from 'core/calendar/newReservation';
+import DaySelector from 'core/calendar/DaySelector';
 import RoomsStore from 'core/roomsStore';
 import CalendarHeader from 'core/calendar/calendarHeader';
 import {getDatesRange, diffDays} from 'core/utils/utils';
@@ -22,30 +23,29 @@ let Calendar = React.createClass({
     loadReservations: function() {
         this.props.context.executeAction(actions.loadReservations);
     },
-    
-    componentDidMount: function() {
-        this.refs.calendarSheet.scrollLeft = (diffDays(this.state.dateFrom, moment()) - 1) * cellWidth;
-        this.loadReservations();
+
+    scrollCalendarToDay: function(selectedDay) {
+        this.refs.calendarSheet.scrollLeft = (diffDays(this.state.dateFrom, selectedDay) - 1) * cellWidth;
     },
-    
+
+    componentDidMount: function() {
+        this.loadReservations();
+        this.scrollCalendarToDay(moment());
+    },
+
     getInitialState: function(){
         return {
-            startDate: moment(),
             dateFrom: moment('2016-06-01'),
             dateTo: moment('2016-12-31'),
             selectingNewReservation: false,
             selectingFromX: null
         };
     },
-    
-    setStartDate: function(date) {
-        this.setState({startDate: date});
-    },
-    
+
     selectNewReservation(e) {
         $('#sheet-new-reservation-' + this.state.selectingNewReservation).width(e.clientX - this.state.selectingFromX);
     },
-    
+
     startSelectingNewReservation(e, roomId, date) {
         this.setState({selectingNewReservation: roomId, selectingFromX: e.clientX}, () => {
             this.props.context.getStore(NewReservationStore).deselectRoom(roomId);
@@ -54,7 +54,7 @@ let Calendar = React.createClass({
         global.window.addEventListener('mousemove', this.selectNewReservation);
         global.window.addEventListener('mouseup', this.stopSelectingNewReservation);
     },
-    
+
     stopSelectingNewReservation(e) {
         let days = (e.clientX - this.state.selectingFromX) / cellWidth;
         if (days > 1) {
@@ -67,24 +67,20 @@ let Calendar = React.createClass({
         global.window.removeEventListener('mousemove', this.selectNewReservation);
         global.window.removeEventListener('mouseup', this.stopSelectingNewReservation);
     },
-    
+
     shouldComponentUpdate: function(nextProps, nextState) {
         return !this.state.dateFrom.isSame(nextState.dateFrom, 'day') || !this.state.dateTo.isSame(nextState.dateTo, 'day');
     },
-    
+
     render: function() {
-        let {startDate, dateFrom, dateTo} = this.state;
+        let {dateFrom, dateTo} = this.state;
         let {context, rooms} = this.props;
         let sheetDates = getDatesRange(dateFrom, dateTo);
         return (
             <div className="calendar">
                 <NewReservation context={context} />
                 <h1>{trans('CALENDAR')}</h1>
-                {false && <div className="top-selector">
-                    <span>{trans('FROM')}:</span>
-                    <DatePicker value={startDate.toISOString()} onChange={() => {this.setStartDate(moment(value));}} />
-                    <Button onClick={() => {this.setStartDate(moment());}}>{trans('TODAY')}</Button>
-                </div>}
+                <DaySelector context={context} dateFrom={dateFrom} dateTo={dateTo} scrollCalendar={this.scrollCalendarToDay}/>
                 <div className="rooms calendar-aside two-headers" style={{marginTop: monthHeight + 'px'}}>
                     <div className="room aside-cell" style={{height: headHeight + 'px'}}></div>
                     {_.map(rooms, (room, i) => {
