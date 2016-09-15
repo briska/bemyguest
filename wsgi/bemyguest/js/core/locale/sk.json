@@ -58,7 +58,8 @@
     "USE_DOUBLECLICK_TO_EDIT": "pre úpravu údajov použite dvojklik myši",
     "STATS": "Štatistiky",
     "LOGGED_OUT": "Platnosť vašej relácie vypršala. Pre pokračovanie sa prihláste.",
-    "USERNAME": "Prihlasovacie meno",
+    "INVALID_CREDENTIALS": "Nesprávne prihlasovacie meno alebo heslo.",
+    "USERNAME": "Používateľské meno",
     "PASSWORD": "Heslo",
     "LOG_IN": "Prihlásiť"
 }

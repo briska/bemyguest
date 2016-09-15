@@ -7,26 +7,30 @@ import nl2br from 'react-nl2br';
 import actions from 'core/actions';
 
 let GuestsCount = React.createClass({
-    getInitialState: function() {
+    getStateFromSource: function(propsSrc) {
         return {
             edit: false,
             saving: false,
-            guestsCount: this.props.guestsCount
+            guestsCount: propsSrc.guestsCount
         };
     },
-    
+
+    getInitialState: function() {
+        return this.getStateFromSource(this.props);
+    },
+
     handleChange: function(e) {
         this.setState({[e.target.name]: e.target.value});
     },
-    
+
     startEditing: function() {
         this.setState({edit: true});
     },
-    
+
     cancel: function() {
-        this.setState({edit: false, guestsCount: this.props.guestsCount});
+        this.setState(this.getStateFromSource(this.props));
     },
-    
+
     save: function() {
         this.setState({saving: true});
         let payload = {
@@ -37,19 +41,19 @@ let GuestsCount = React.createClass({
         };
         this.props.context.executeAction(actions.editReservation, payload);
     },
-    
+
     componentWillReceiveProps: function(nextProps) {
         if (this.state.saving) {
-            this.setState({saving: false, edit: false});
+            this.setState(this.getStateFromSource(nextProps));
         }
     },
-    
+
     componentDidUpdate: function(prevProps, prevState) {
         if (this.state.edit && !prevState.edit) {
             this.refs.focusTarget.select();
         }
     },
-    
+
     render: function() {
         let {edit, saving, guestsCount} = this.state;
         return (

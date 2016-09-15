@@ -11,13 +11,17 @@ import nl2br from 'react-nl2br';
 import actions from 'core/actions';
 
 let OverallDate = React.createClass({
-    getInitialState: function() {
+    getStateFromSource: function(propsSrc) {
         return {
             edit: false,
             saving: false,
-            dateFrom: this.props.reservationDateFrom,
-            dateTo: this.props.reservationDateTo
+            dateFrom: propsSrc.reservationDateFrom,
+            dateTo: propsSrc.reservationDateTo
         };
+    },
+
+    getInitialState: function() {
+        return this.getStateFromSource(this.props);
     },
 
     handleDate: function(key, date) {
@@ -29,7 +33,7 @@ let OverallDate = React.createClass({
     },
 
     cancel: function() {
-        this.setState({edit: false, dateFrom: this.props.reservationDateFrom, dateTo: this.props.reservationDateTo});
+        this.setState(this.getStateFromSource(this.props));
     },
 
     save: function() {
@@ -48,7 +52,7 @@ let OverallDate = React.createClass({
 
     componentWillReceiveProps: function(nextProps) {
         if (this.state.saving) {
-            this.setState({saving: false, edit: false});
+            this.setState(this.getStateFromSource(nextProps));
         }
     },
 

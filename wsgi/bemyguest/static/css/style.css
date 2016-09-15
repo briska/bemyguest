@@ -349,11 +349,15 @@ button.close {
 .inline-elem {
   margin-right: 5px; }
 
+#messages {
+  margin-top: 10px; }
+
 #login-form {
   margin-top: 30px;
   text-align: center; }
   #login-form label {
-    display: block; }
+    display: block;
+    margin: 5px; }
   #login-form input {
     display: block;
     margin: 0 auto; }

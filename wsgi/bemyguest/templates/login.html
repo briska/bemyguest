@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load i18n %}
 
 {% block body_classes %}
 login
@@ -10,7 +11,7 @@ login
             {% csrf_token %}
             {{ login_form }}
             <input type="hidden" name="next" value="{{ request.path }}"/>
-            <input type="submit" class="btn btn-primary" name="login" value="Log in" />
+            <input type="submit" class="btn btn-primary" name="login" value="{% trans 'LOG_IN' %}" />
         </form>
     </div>
 {% endblock %}

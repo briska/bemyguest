@@ -8,15 +8,15 @@ import {shouldBeApproved, diffDays} from 'core/utils/utils';
 
 let ReservationsStore = createStore({
     storeName: 'ReservationsStore',
-    
+
     initialize: function() {
         this._reservations = [];
     },
-    
+
     getReservations: function() {
         return this._reservations;
     },
-    
+
     handleReservation: function(reservation) {
         reservation.dateCreated = moment(reservation.dateCreated);
         reservation.dateFrom = null;
@@ -42,7 +42,7 @@ let ReservationsStore = createStore({
         }));
         return reservation;
     },
-    
+
     handlers: {
         'RESERVATIONS_LOADED': function({reservations}) {
             let colors = randomColor({luminosity: 'light', count: _.size(reservations), seed: 'marek&majka'});
@@ -53,14 +53,14 @@ let ReservationsStore = createStore({
             });
             this.emitChange();
         },
-        
+
         'RESERVATION_CREATED': function({reservation}) {
             reservation = this.handleReservation(reservation);
             reservation.color = randomColor({luminosity: 'light'});
             this._reservations = _.concat(this._reservations, reservation);
             this.emitChange();
         },
-        
+
         'RESERVATION_EDITED': function({reservation}) {
             let oldReservation = _.find(this._reservations, {id: reservation.id});
             reservation = this.handleReservation(reservation);
@@ -69,19 +69,23 @@ let ReservationsStore = createStore({
             this._reservations = update(this._reservations, {[index]: {$set: reservation}});
             this.emitChange();
         },
-        
+
         'RESERVATION_REMOVED': function({id}) {
             this._reservations = _.filter(this._reservations, (reservation) => {return reservation.id != id;});
             this.emitChange();
         },
+
+        'RESERVATION_ERROR': function() {
+            this.emitChange();
+        }
     },
-    
+
     dehydrate: function() {
         return {
             reservations: this._reservations
         };
     },
-    
+
     rehydrate: function(state) {
         this._reservations = state.reservations;
     }

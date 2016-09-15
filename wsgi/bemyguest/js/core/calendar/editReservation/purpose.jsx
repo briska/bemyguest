@@ -8,12 +8,16 @@ import actions from 'core/actions';
 import Textarea from 'react-textarea-autosize';
 
 let Purpose = React.createClass({
-    getInitialState: function() {
+    getStateFromSource: function(propsSrc) {
         return {
             edit: false,
             saving: false,
-            purpose: this.props.purpose
+            purpose: propsSrc.purpose
         };
+    },
+
+    getInitialState: function() {
+        return this.getStateFromSource(this.props);
     },
 
     handleChange: function(e) {
@@ -25,7 +29,7 @@ let Purpose = React.createClass({
     },
 
     cancel: function() {
-        this.setState({edit: false, purpose: this.props.purpose});
+        this.setState(this.getStateFromSource(this.props));
     },
 
     save: function() {
@@ -41,7 +45,7 @@ let Purpose = React.createClass({
 
     componentWillReceiveProps: function(nextProps) {
         if (this.state.saving) {
-            this.setState({saving: false, edit: false});
+            this.setState(this.getStateFromSource(nextProps));
         }
     },
 

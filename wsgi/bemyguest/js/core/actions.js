@@ -12,8 +12,8 @@ function logIn(actionContext, payload, done) {
         actionContext.dispatch('USER_LOADED', {user: resp.body.user});
         done();
     }, function(resp) {
-        if (resp.body.error == 'wrongCredentials') {
-            console.log('wrongCredentials');
+        if (resp.body && resp.body.error == 'wrongCredentials') {
+            actionContext.dispatch('USER_ERROR');
         }
     });
 };
@@ -36,6 +36,8 @@ function editReservation(actionContext, {id, data}, done) {
     xhr.post(actionContext, '/api/reservations/' + id + '/', data, function(resp) {
         actionContext.dispatch('RESERVATION_EDITED', {reservation: resp.body.reservation});
         done();
+    }, function(resp) {
+        actionContext.dispatch('RESERVATION_ERROR');
     });
 };
 

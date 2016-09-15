@@ -52,9 +52,13 @@ def user_login(request):
         form = AuthenticationForm(request, data=request.POST)
         if form.is_valid():
             login(request, form.get_user())
+            return redirect(redirect_url)
         else:
             add_message(request, ERROR, _('WRONG_USERNAME_OR_PASSWORD'))
-        return redirect(redirect_url)
+            data = {
+                'login_form': AuthenticationForm(request)
+            }
+            return render(request, 'login.html', data)
     return redirect(reverse('calendar'))
 
 

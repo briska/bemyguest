@@ -13,8 +13,8 @@ import Guest from 'core/calendar/editReservation/guest';
 import {diffDays, getHousingPrice, getSpiritualPrice} from 'core/utils/utils';
 
 let RoomReservation = React.createClass({
-    getInitialState: function() {
-        let roomReservation = this.props.roomReservation;
+    getStateFromSource: function(propsSrc) {
+        let roomReservation = propsSrc.roomReservation;
         return {
             edit: false,
             saving: false,
@@ -22,6 +22,10 @@ let RoomReservation = React.createClass({
             dateFrom: roomReservation.dateFrom,
             dateTo: roomReservation.dateTo
         };
+    },
+
+    getInitialState: function() {
+        return this.getStateFromSource(this.props);
     },
     
     handleRoom: function(e) {
@@ -37,7 +41,7 @@ let RoomReservation = React.createClass({
     },
     
     cancel: function() {
-        this.setState({edit: false, roomReservation: this.props.roomReservation});
+        this.setState(this.getStateFromSource(this.props));
     },
     
     remove: function() {
@@ -89,7 +93,7 @@ let RoomReservation = React.createClass({
     
     componentWillReceiveProps: function(nextProps) {
         if (this.state.saving) {
-            this.setState({saving: false, edit: false});
+            this.setState(this.getStateFromSource(nextProps));
         }
 
         if (nextProps.reservationDateFrom != this.state.dateFrom || nextProps.reservationDateTo != this.state.dateTo) {

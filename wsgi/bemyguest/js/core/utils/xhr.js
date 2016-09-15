@@ -1,26 +1,25 @@
 const xhr = require('xhr');
 
+function executeCallback(errorCallback, resp) {
+    if (errorCallback) {
+        errorCallback(resp);
+    }
+    else {
+        alert('Stala sa chyba.');
+        console.log(resp);
+    }
+}
+
 function handleData(actionContext, successCallback, errorCallback, resp) {
     if (resp.statusCode != 200) {
-        if (errorCallback) {
-            errorCallback(resp);
-        }
-        else {
-            alert('Stala sa chyba.');
-            console.log(resp);
-        }
+        executeCallback(errorCallback, resp);
     }
     else if (resp.body.error && resp.body.error == 'loggedOut') {
+        executeCallback(errorCallback, resp);
         actionContext.dispatch('USER_LOGGED_OUT');
     }
     else if (resp.body.error) {
-        if (errorCallback) {
-            errorCallback(resp);
-        }
-        else {
-            alert('Stala sa chyba.');
-            console.log(resp);
-        }
+        executeCallback(errorCallback, resp);
     }
     else if (successCallback) successCallback(resp);
 }

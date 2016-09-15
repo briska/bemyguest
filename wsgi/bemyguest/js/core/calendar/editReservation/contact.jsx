@@ -7,14 +7,18 @@ import nl2br from 'react-nl2br';
 import actions from 'core/actions';
 
 let Contact = React.createClass({
-    getInitialState: function() {
+    getStateFromSource: function(propsSrc) {
         return {
             edit: false,
             saving: false,
-            contactName: this.props.contactName,
-            contactMail: this.props.contactMail,
-            contactPhone: this.props.contactPhone
+            contactName: propsSrc.contactName,
+            contactMail: propsSrc.contactMail,
+            contactPhone: propsSrc.contactPhone
         };
+    },
+
+    getInitialState: function() {
+        return this.getStateFromSource(this.props);
     },
 
     handleChange: function(e) {
@@ -26,12 +30,7 @@ let Contact = React.createClass({
     },
 
     cancel: function() {
-        this.setState({
-            edit: false,
-            contactName: this.props.contactName,
-            contactMail: this.props.contactMail,
-            contactPhone: this.props.contactPhone
-        });
+        this.setState(this.getStateFromSource(this.props));
     },
 
     save: function() {
@@ -51,7 +50,7 @@ let Contact = React.createClass({
 
     componentWillReceiveProps: function(nextProps) {
         if (this.state.saving) {
-            this.setState({saving: false, edit: false});
+            this.setState(this.getStateFromSource(nextProps));
         }
     },
 

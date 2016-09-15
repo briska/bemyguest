@@ -21,12 +21,12 @@ let LoginForm = React.createClass({
     
     render: function() {
         return (
-            <form className="login-form" onSubmit={this.submitForm}>
-                    <label>{trans('USERNAME')}</label>
+            <form id="login-form" className="form" onSubmit={this.submitForm}>
+                <label>{trans('USERNAME')}:</label>
                 <input type="text" value={this.state.username} onChange={this.handleUsernameChange} />
-                    <label>{trans('PASSWORD')}</label>
+                <label>{trans('PASSWORD')}:</label>
                 <input type="password" ref="password" />
-                <Button type="submit">{trans('LOG_IN')}</Button>
+                <Button type="submit" className="btn btn-primary">{trans('LOG_IN')}</Button>
             </form>
         );
     }

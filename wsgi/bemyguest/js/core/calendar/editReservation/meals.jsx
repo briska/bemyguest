@@ -50,7 +50,7 @@ let Meals = React.createClass({
     
     componentWillReceiveProps: function(nextProps) {
         if (this.state.saving) {
-            this.setState({saving: false, edit: false});
+            this.setState({saving: false, edit: false, guestsCount: nextProps.guestsCount});
         }
     },
     

@@ -124,12 +124,17 @@ button.close {
     margin-right: 5px;
 }
 
+#messages {
+    margin-top: 10px;
+}
+
 #login-form {
     margin-top: 30px;
     text-align: center;
 
     label {
         display: block;
+        margin: 5px;
     }
 
     input {

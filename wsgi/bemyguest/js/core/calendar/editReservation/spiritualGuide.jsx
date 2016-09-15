@@ -7,12 +7,16 @@ import nl2br from 'react-nl2br';
 import actions from 'core/actions';
 
 let SpiritualGuide = React.createClass({
-    getInitialState: function() {
+    getStateFromSource: function(propsSrc) {
         return {
             edit: false,
             saving: false,
-            spiritualGuide: this.props.spiritualGuide
+            spiritualGuide: propsSrc.spiritualGuide
         };
+    },
+
+    getInitialState: function() {
+        return this.getStateFromSource(this.props);
     },
 
     handleChange: function(e) {
@@ -24,7 +28,7 @@ let SpiritualGuide = React.createClass({
     },
 
     cancel: function() {
-        this.setState({edit: false, spiritualGuide: this.props.spiritualGuide});
+        this.setState(this.getStateFromSource(this.props));
     },
 
     save: function() {
@@ -40,7 +44,7 @@ let SpiritualGuide = React.createClass({
 
     componentWillReceiveProps: function(nextProps) {
         if (this.state.saving) {
-            this.setState({saving: false, edit: false});
+            this.setState(this.getStateFromSource(nextProps));
         }
     },
 
