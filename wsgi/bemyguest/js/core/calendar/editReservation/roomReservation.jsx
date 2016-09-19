@@ -20,30 +20,35 @@ let RoomReservation = React.createClass({
             saving: false,
             room: context.getStore(RoomsStore).getRoom(roomReservation.roomId),
             dateFrom: roomReservation.dateFrom,
-            dateTo: roomReservation.dateTo
+            dateTo: roomReservation.dateTo,
+            extraBed: (propsSrc.roomReservation.guests.length > context.getStore(RoomsStore).getRoom(roomReservation.roomId).capacity) ? true : false
         };
     },
 
     getInitialState: function() {
         return this.getStateFromSource(this.props);
     },
-    
+
     handleRoom: function(e) {
         this.setState({room: context.getStore(RoomsStore).getRoom(parseInt(e.target.value))});
     },
-    
+
+    openExtraBed: function() {
+        this.setState({extraBed: !this.state.extraBed});
+    },
+
     handleDate: function(key, date) {
         this.setState({[key]: date});
     },
-    
+
     startEditing: function() {
         this.setState({edit: true});
     },
-    
+
     cancel: function() {
         this.setState(this.getStateFromSource(this.props));
     },
-    
+
     remove: function() {
         if (!confirm(trans('CONFIRM_REMOVING_ROOM_RESERVATION'))) return;
         this.setState({saving: true});
@@ -55,11 +60,12 @@ let RoomReservation = React.createClass({
         };
         this.props.context.executeAction(actions.editReservation, payload);
     },
-    
+
     save: function() {
         this.setState({saving: true});
         let guests = [];
-        for (let index = 0; index < this.state.room.capacity; index++) {
+        let totalGuestsCount = this.state.extraBed ? this.state.room.capacity + 1 : this.state.room.capacity;
+        for (let index = 0; index < totalGuestsCount; index++) {
             let guest = this.refs['guest' + index].getGuest();
             if (guest) {
                 guests.push(guest);
@@ -90,7 +96,7 @@ let RoomReservation = React.createClass({
         }
         this.props.context.executeAction(actions.editReservation, payload);
     },
-    
+
     componentWillReceiveProps: function(nextProps) {
         if (this.state.saving) {
             this.setState(this.getStateFromSource(nextProps));
@@ -100,9 +106,9 @@ let RoomReservation = React.createClass({
             this.setState({dateFrom: nextProps.reservationDateFrom, dateTo: nextProps.reservationDateTo});
         }
     },
-    
+
     render: function() {
-        let {edit, saving, room, dateFrom, dateTo} = this.state;
+        let {edit, saving, room, dateFrom, dateTo, extraBed} = this.state;
         let guests = this.props.roomReservation.guests;
         if (edit) {
             return (
@@ -149,6 +155,17 @@ let RoomReservation = React.createClass({
                                     guest={guests[index]} />
                             );
                         })}
+                        {!extraBed &&
+                        <div className="guest">
+                            <Glyphicon glyph='plus' onClick={this.openExtraBed} />
+                        </div>}
+                        {extraBed &&
+                        <Guest
+                            key={'detail-guest-' + room.capacity + 1}
+                            ref={'guest' + room.capacity}
+                            context={this.props.context}
+                            guest={guests[room.capacity]}
+                            extraBed={true}/>}
                     </div>
                 </div>
             );

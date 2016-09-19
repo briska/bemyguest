@@ -30,7 +30,7 @@ let SheetNewReservation = React.createClass({
     deselectRoom: function(roomId) {
         this.props.context.getStore(NewReservationStore).deselectRoom(roomId);
     },
-    
+
     startMove: function(e, roomId, direction) {
         let $roomReservation = $('#sheet-new-reservation-' + roomId);
         this.setState({
@@ -41,12 +41,12 @@ let SheetNewReservation = React.createClass({
         global.window.addEventListener('mousemove', this.move);
         global.window.addEventListener('mouseup', this.stopMove);
     },
-    
+
     move: function(e) {
         let $roomReservation = $('#sheet-new-reservation-' + this.state.move);
         $roomReservation.css({left: this.state.moveFromLeft + e.clientX - this.state.moveFromX});
     },
-    
+
     stopMove: function(e) {
         let days = (e.clientX - this.state.moveFromX) / cellWidth;
         if (Math.abs(days) > 0.5) {
@@ -109,7 +109,7 @@ let SheetNewReservation = React.createClass({
         global.window.removeEventListener('mousemove', this.drag);
         global.window.removeEventListener('mouseup', this.stopDrag);
     },
-    
+
     shouldComponentUpdate: function(nextProps, nextState) {
         // return !_.isEqual(this.props.roomReservations, nextProps.roomReservations);
         return true;
@@ -137,7 +137,7 @@ let SheetNewReservation = React.createClass({
                                 <div className="drag drag-left" onMouseDown={(e) => this.startDrag(e, roomReservation.roomId, 'left')} />
                                 <div className="drag drag-right" onMouseDown={(e) => this.startDrag(e, roomReservation.roomId, 'right')} />
                                 <span>{trans('NEW_RESERVATION')}</span>
-                                <Glyphicon glyph="remove" onClick={() => {this.deselectRoom(roomReservation.roomId);}} />
+                                <span className="top-right"><Glyphicon glyph="remove" onClick={() => {this.deselectRoom(roomReservation.roomId);}} /></span>
                             </div>
                         </div>
                     );

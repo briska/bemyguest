@@ -45,7 +45,7 @@ let NewReservation = React.createClass({
                     key={'new-reservation-' + i}
                     className="new-reservation-room">
                     <p className="room-name">{room.name}</p>
-                    <Glyphicon glyph="remove" onClick={() => {this.deselectRoom(roomReservation.roomId);}} />
+                    <span className="top-right"><Glyphicon glyph="remove" onClick={() => {this.deselectRoom(roomReservation.roomId);}} /></span>
                     <p className="house-name-capacity">{room.house.name}, {trans('CAPACITY', {count: room.capacity})}</p>
                     <p className="date-from">{trans('FROM')}: {roomReservation.dateFrom.format('D. MMMM YYYY')}</p>
                     <p className="date-to">{trans('TO')}: {roomReservation.dateTo.format('D. MMMM YYYY')}</p>

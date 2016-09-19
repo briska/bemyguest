@@ -101,7 +101,7 @@ a {
     margin-bottom: 10px;
 }
 
-.glyphicon-remove {
+.top-right .glyphicon-remove {
     position: absolute;
     top: 3px;
     right: 3px;
@@ -166,7 +166,7 @@ button.close {
             border-top: 1px solid $borderyellow;
         }
     }
-    
+
     &.two-headers {
         .aside-cell:last-of-type {
             margin-top: -1px;
@@ -192,7 +192,7 @@ button.close {
 
         .calendar-header {
             position: relative;
-            
+
             .calendar-months {
                 overflow: hidden;
 
@@ -307,7 +307,7 @@ button.close {
             overflow: hidden;
             white-space: nowrap;
             font-size: 13px;
-            
+
             .drag {
                 position: absolute;
                 top: 0;
@@ -315,18 +315,18 @@ button.close {
                 width: 20px;
                 cursor: ew-resize;
                 z-index: 20;
-                
+
                 &.drag-left {
                     left: -10px;
                 }
-                
+
                 &.drag-right {
                     right: -10px;
                 }
             }
         }
     }
-    
+
     &.two-headers {
         .calendar-row:last-of-type .calendar-cell {
             border-bottom: 0;
@@ -540,6 +540,10 @@ button.close {
         .guest {
             margin-top: 15px;
 
+            &.extra-bed .glyphicon {
+                color: $gray;
+            }
+
             input {
                 margin-right: 5px;
             }
@@ -549,8 +553,12 @@ button.close {
                 width: 20px;
             }
 
-            .glyphicon-minus, .glyphicon-plus {
+            .glyphicon-minus, .glyphicon-plus, .glyphicon-chevron-up, .glyphicon-chevron-down, .glyphicon-remove, .glyphicon-trash {
                 cursor: pointer;
+            }
+
+            .glyphicon-trash {
+                margin-left: 15px;
             }
 
             .guest-address, .guest-phone {

@@ -1,5 +1,6 @@
 const _ = require('lodash');
 const React = require('react');
+const ReactDOM = require('react-dom');
 const trans = require('core/utils/trans');
 const cx = require('classnames');
 const moment = require('moment');
@@ -24,18 +25,22 @@ let Calendar = React.createClass({
         this.props.context.executeAction(actions.loadReservations);
     },
 
-    scrollCalendarToDay: function(selectedDay) {
-        this.refs.calendarSheet.scrollLeft = (diffDays(this.state.dateFrom, selectedDay) - 1) * cellWidth;
+    scrollCalendarToDay: function(selectedDay, useAnimation = true) {
+        if (useAnimation) {
+            $(ReactDOM.findDOMNode(this.refs.calendarSheet)).animate({scrollLeft: (diffDays(this.state.dateFrom, selectedDay) - 1) * cellWidth}, 300);
+        } else {
+            this.refs.calendarSheet.scrollLeft = (diffDays(this.state.dateFrom, selectedDay) - 1) * cellWidth;
+        }
     },
 
     componentDidMount: function() {
         this.loadReservations();
-        this.scrollCalendarToDay(moment());
+        this.scrollCalendarToDay(moment(), false);
     },
 
     getInitialState: function(){
         return {
-            dateFrom: moment('2016-06-01'),
+            dateFrom: moment('2016-08-01'),
             dateTo: moment('2016-12-31'),
             selectingNewReservation: false,
             selectingFromX: null

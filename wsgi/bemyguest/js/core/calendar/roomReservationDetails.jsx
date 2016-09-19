@@ -15,27 +15,27 @@ let RoomReservationDetails = React.createClass({
             show: false
         };
     },
-    
+
     open: function() {
         this.setState({show: true});
         global.window.addEventListener('mousedown', this.globalClose);
     },
-    
+
     close: function() {
         this.setState({show: false});
         global.window.removeEventListener('mousedown', this.globalClose);
     },
-    
+
     globalClose: function(e) {
         if (!this.props.getTarget().contains(e.target) && !ReactDOM.findDOMNode(this.refs.details).contains(e.target)) {
             this.close();
         }
     },
-    
+
     toggle: function() {
         this.state.show ? this.close() : this.open();
     },
-    
+
     render: function() {
         let {context, roomReservation, reservation, room, getTarget} = this.props;
         let {show} = this.state;
@@ -73,7 +73,7 @@ let RoomReservationDetails = React.createClass({
                         <p className="notes"><span className="caption">{trans('NOTES')}:</span> {substr(reservation.notes, 200)}</p>}
                     {!reservation.approved &&
                         <p className="approval"><span className="text-warning">{trans('WAITING_FOR_APPROVAL.' + approvalBy(_.size(datesRange)))}</span></p>}
-                    <Glyphicon glyph="remove" ref="close" onClick={this.close} />
+                    <span className="top-right"><Glyphicon glyph="remove" ref="close" onClick={this.close} /></span>
                 </div>
             </Overlay>
         );

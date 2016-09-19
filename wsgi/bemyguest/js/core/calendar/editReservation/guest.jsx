@@ -1,11 +1,11 @@
 const _ = require('lodash');
 const React = require('react');
 const trans = require('core/utils/trans');
+const cx = require('classnames');
 import Glyphicon from 'react-bootstrap/lib/Glyphicon';
 
 let Guest = React.createClass({
-    getInitialState: function() {
-        let guest = this.props.guest;
+    getStateFromSource: function(guest) {
         if (guest) {
             return {
                 namePrefix: guest.namePrefix,
@@ -16,7 +16,8 @@ let Guest = React.createClass({
                 addressNumber: guest.addressNumber,
                 addressCity: guest.addressCity,
                 phone: guest.phone,
-                showDetails: false
+                showDetails: false,
+                extraBed: this.props.extraBed
             };
         }
         return {
@@ -28,18 +29,27 @@ let Guest = React.createClass({
             addressNumber: '',
             addressCity: '',
             phone: '',
-            showDetails: false
+            showDetails: false,
+            extraBed: this.props.extraBed
         };
     },
-    
+
+    getInitialState: function() {
+        return this.getStateFromSource(this.props.guest);
+    },
+
     handleChange: function(e) {
         this.setState({[e.target.name]: e.target.value});
     },
-    
+
     toggleDetails: function() {
         this.setState({showDetails: !this.state.showDetails});
     },
-    
+
+    clearData: function() {
+        this.setState(this.getStateFromSource(null));
+    },
+
     getGuest: function() {
         if (!(this.state.name && this.state.surname)) return null;
         return {
@@ -54,18 +64,18 @@ let Guest = React.createClass({
             phone: this.state.phone
         };
     },
-    
+
     render: function() {
-        let {namePrefix, name, surname, nameSuffix, addressStreet, addressNumber, addressCity, phone, showDetails} = this.state;
+        let {namePrefix, name, surname, nameSuffix, addressStreet, addressNumber, addressCity, phone, showDetails, extraBed} = this.state;
         return (
-            <div className="guest">
+            <div className={cx('guest', extraBed ? 'extra-bed' : '')}>
                 <div className="guest-name">
                     <Glyphicon glyph="user" />
                     <input type="text" name="namePrefix" value={namePrefix} placeholder={trans('NAME_PREFIX')} onChange={this.handleChange} />
                     <input type="text" name="name" value={name} placeholder={trans('NAME')} onChange={this.handleChange} />
                     <input type="text" name="surname" value={surname} placeholder={trans('SURNAME')} onChange={this.handleChange} />
                     <input type="text" name="nameSuffix" value={nameSuffix} placeholder={trans('NAME_SUFFIX')} onChange={this.handleChange} />
-                    <Glyphicon glyph={showDetails ? 'minus' : 'plus'} onClick={this.toggleDetails} />
+                    <Glyphicon glyph={showDetails ? 'chevron-up' : 'chevron-down'} onClick={this.toggleDetails} />
                 </div>
                 {showDetails &&
                     <div className="guest-address">
