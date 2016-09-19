@@ -111,6 +111,8 @@ def reservation(request, pk):
             for guest_data in room_reservation_data['guests']:
                 if guest_data['id']:
                     guest = room_reservation.guests.get(id=guest_data['id'])
+                    if (not guest_data['name'] or not guest_data['surname']):
+                        guest.delete()
                     guest.name_prefix = guest_data['name_prefix']
                     guest.name = guest_data['name']
                     guest.surname = guest_data['surname']
@@ -121,18 +123,19 @@ def reservation(request, pk):
                     guest.phone = guest_data['phone']
                     guest.save()
                 else:
-                    guest = Guest(
-                        name_prefix=guest_data['name_prefix'],
-                        name=guest_data['name'],
-                        surname=guest_data['surname'],
-                        name_suffix=guest_data['name_suffix'],
-                        address_street=guest_data['address_street'],
-                        address_number=guest_data['address_number'],
-                        address_city=guest_data['address_city'],
-                        phone=guest_data['phone'],
-                    )
-                    guest.save()
-                    room_reservation.guests.add(guest)
+                    if (guest_data['name'] and guest_data['surname']):
+                        guest = Guest(
+                            name_prefix=guest_data['name_prefix'],
+                            name=guest_data['name'],
+                            surname=guest_data['surname'],
+                            name_suffix=guest_data['name_suffix'],
+                            address_street=guest_data['address_street'],
+                            address_number=guest_data['address_number'],
+                            address_city=guest_data['address_city'],
+                            phone=guest_data['phone'],
+                        )
+                        guest.save()
+                        room_reservation.guests.add(guest)
         elif 'meals' in reservation_data:
             reservation.meals.all().delete()
             for meal_data in reservation_data['meals']:

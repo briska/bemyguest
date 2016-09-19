@@ -51,7 +51,6 @@ let Guest = React.createClass({
     },
 
     getGuest: function() {
-        if (!(this.state.name && this.state.surname)) return null;
         return {
             id: this.props.guest ? this.props.guest.id : null,
             namePrefix: this.state.namePrefix,
@@ -76,6 +75,7 @@ let Guest = React.createClass({
                     <input type="text" name="surname" value={surname} placeholder={trans('SURNAME')} onChange={this.handleChange} />
                     <input type="text" name="nameSuffix" value={nameSuffix} placeholder={trans('NAME_SUFFIX')} onChange={this.handleChange} />
                     <Glyphicon glyph={showDetails ? 'chevron-up' : 'chevron-down'} onClick={this.toggleDetails} />
+                    <Glyphicon glyph="trash" onClick={this.clearData} />
                 </div>
                 {showDetails &&
                     <div className="guest-address">
