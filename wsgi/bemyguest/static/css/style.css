@@ -352,6 +352,9 @@ button.close {
 #messages {
   margin-top: 10px; }
 
+.modal-content, .btn {
+  border-radius: 0; }
+
 #login-form {
   margin-top: 30px;
   text-align: center; }
