@@ -26,6 +26,10 @@ let RoomReservationDetails = React.createClass({
         global.window.removeEventListener('mousedown', this.globalClose);
     },
 
+    isOpened: function() {
+        return this.state.show;
+    },
+
     globalClose: function(e) {
         if (!this.props.getTarget().contains(e.target) && !ReactDOM.findDOMNode(this.refs.details).contains(e.target)) {
             this.close();

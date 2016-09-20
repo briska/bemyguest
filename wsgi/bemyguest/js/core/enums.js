@@ -13,5 +13,10 @@ module.exports = {
         SAVING_DIET: 1,
         DIABETIC_DIET: 2,
         GLUTENFREE_DIET: 3
+    },
+    DRAG_TYPE: {
+        LEFT: -1,
+        MOVE: 0,
+        RIGHT: 1
     }
 };

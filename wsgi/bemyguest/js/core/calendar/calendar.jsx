@@ -53,9 +53,8 @@ let Calendar = React.createClass({
 
     startSelectingNewReservation(e, roomId, date) {
         if (this.props.context.getStore(NewReservationStore).getRoomReservation(roomId)) return false;
-        this.setState({selectingNewReservation: roomId, selectingFromX: e.clientX}, () => {
-            this.props.context.getStore(NewReservationStore).selectRoom(roomId, date);
-        });
+        this.setState({selectingNewReservation: roomId, selectingFromX: e.clientX});
+        this.props.context.getStore(NewReservationStore).selectRoom(roomId, date);
         global.window.addEventListener('mousemove', this.selectNewReservation);
         global.window.addEventListener('mouseup', this.stopSelectingNewReservation);
     },

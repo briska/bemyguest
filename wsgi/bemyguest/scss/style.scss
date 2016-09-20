@@ -321,11 +321,11 @@ button.close {
                 z-index: 20;
 
                 &.drag-left {
-                    left: -10px;
+                    left: 0px;
                 }
 
                 &.drag-right {
-                    right: -10px;
+                    right: 0px;
                 }
             }
         }

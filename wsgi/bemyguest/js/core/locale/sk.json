@@ -56,6 +56,7 @@
     "CANCEL": "Zrušiť",
     "CLOSE": "Zavrieť",
     "USE_DOUBLECLICK_TO_EDIT": "pre úpravu údajov použite dvojklik myši",
+    "CONFIRM_ROOM_RESERVATION_DATES_CHANGE": "Naozaj chcete zmeniť dátum rezervácie tejto izby?",
     "STATS": "Štatistiky",
     "LOGGED_OUT": "Platnosť vašej relácie vypršala. Pre pokračovanie sa prihláste.",
     "INVALID_CREDENTIALS": "Nesprávne prihlasovacie meno alebo heslo.",

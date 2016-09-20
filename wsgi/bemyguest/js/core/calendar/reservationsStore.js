@@ -17,6 +17,14 @@ let ReservationsStore = createStore({
         return this._reservations;
     },
 
+    getReservation: function(reservationId) {
+        return _.find(this._reservations, {id: reservationId});
+    },
+
+    getRoomReservation: function(reservationId, roomReservationId) {
+        return _.find(this.getReservation(reservationId).roomReservations, {id: roomReservationId});
+    },
+
     handleReservation: function(reservation) {
         reservation.dateCreated = moment(reservation.dateCreated);
         reservation.dateFrom = null;

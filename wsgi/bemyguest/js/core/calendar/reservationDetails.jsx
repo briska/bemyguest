@@ -32,19 +32,19 @@ let ReservationDetails = React.createClass({
             show: false
         };
     },
-    
+
     shouldComponentUpdate: function(nextProps, nextState) {
         return this.state.show || nextState.show;
     },
-    
+
     open: function() {
         this.setState({show: true});
     },
-    
+
     close: function() {
         this.setState({show: false});
     },
-    
+
     remove: function() {
         if (!confirm(trans('CONFIRM_REMOVING_RESERVATION'))) return;
         this.close();
@@ -53,7 +53,7 @@ let ReservationDetails = React.createClass({
         };
         this.props.context.executeAction(actions.removeReservation, payload);
     },
-    
+
     render: function() {
         let {context, reservation} = this.props;
         let {show} = this.state;

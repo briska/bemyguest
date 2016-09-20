@@ -7,7 +7,7 @@ require('moment/locale/sk');
 const connectToStores = require('fluxible-addons-react/connectToStores');
 const actions = require('core/actions');
 const NewReservationStore = require('core/calendar/newReservationStore');
-import {cellWidth, cellHeight, headHeight, monthHeight} from 'core/enums';
+import {cellWidth, cellHeight, headHeight, monthHeight, DRAG_TYPE} from 'core/enums';
 import Glyphicon from 'react-bootstrap/lib/Glyphicon';
 import RoomsStore from 'core/roomsStore';
 import {diffDays} from 'core/utils/utils';
@@ -16,14 +16,11 @@ let SheetNewReservation = React.createClass({
 
     getInitialState: function(){
         return {
-            drag: false,
-            dragDirection: null,
+            drag: null,
+            dragType: null,
             dragFromWidth: null,
             dragFromLeft: null,
-            dragFromX: null,
-            move: false,
-            moveFromLeft: null,
-            moveFromX: null
+            dragFromX: null
         };
     },
 
@@ -31,48 +28,15 @@ let SheetNewReservation = React.createClass({
         this.props.context.getStore(NewReservationStore).deselectRoom(roomId);
     },
 
-    startMove: function(e, roomId, direction) {
-        let $roomReservation = $('#sheet-new-reservation-' + roomId);
-        this.setState({
-            move: roomId,
-            moveFromLeft: $roomReservation.position().left,
-            moveFromX: e.clientX
-        });
-        global.window.addEventListener('mousemove', this.move);
-        global.window.addEventListener('mouseup', this.stopMove);
-    },
-
-    move: function(e) {
-        let $roomReservation = $('#sheet-new-reservation-' + this.state.move);
-        $roomReservation.css({left: this.state.moveFromLeft + e.clientX - this.state.moveFromX});
-    },
-
-    stopMove: function(e) {
-        let days = (e.clientX - this.state.moveFromX) / cellWidth;
-        if (Math.abs(days) > 0.5) {
-            this.props.context.getStore(NewReservationStore).addRoomReservationDays(this.state.move, days, ['dateFrom', 'dateTo']);
-        }
-        else {
-            $('#sheet-new-reservation-' + this.state.move).width(this.state.moveFromWidth).css({left: this.state.moveFromLeft});
-        }
-        this.setState({
-            move: false,
-            moveFromLeft: null,
-            moveFromX: null
-        });
-        global.window.removeEventListener('mousemove', this.move);
-        global.window.removeEventListener('mouseup', this.stopMove);
-    },
-
     startDrag: function(e, roomId, direction) {
         e.stopPropagation();
         e.preventDefault();
-        let $roomReservation = $('#sheet-new-reservation-' + roomId);
+        let $roomReservationEl = $('#sheet-new-reservation-' + roomId);
         this.setState({
             drag: roomId,
             dragDirection: direction,
-            dragFromWidth: $roomReservation.width(),
-            dragFromLeft: $roomReservation.position().left,
+            dragFromWidth: $roomReservationEl.width(),
+            dragFromLeft: $roomReservationEl.position().left,
             dragFromX: e.clientX
         });
         global.window.addEventListener('mousemove', this.drag);
@@ -80,39 +44,35 @@ let SheetNewReservation = React.createClass({
     },
 
     drag: function(e) {
-        let $roomReservation = $('#sheet-new-reservation-' + this.state.drag);
-        if (this.state.dragDirection == 'left') {
-            $roomReservation.width(this.state.dragFromWidth + this.state.dragFromX - e.clientX);
-            $roomReservation.css({left: this.state.dragFromLeft + e.clientX - this.state.dragFromX});
+        let {drag, dragType, dragFromWidth, dragFromLeft, dragFromX} = this.state;
+        let $roomReservationEl = $('#sheet-new-reservation-' + drag);
+        if (dragType == DRAG_TYPE.LEFT || dragType == DRAG_TYPE.RIGHT) {
+            $roomReservationEl.width(dragFromWidth + dragType * (e.clientX - dragFromX));
         }
-        else {
-            $roomReservation.width(this.state.dragFromWidth + e.clientX - this.state.dragFromX);
+        if (dragType == DRAG_TYPE.LEFT || dragType == DRAG_TYPE.MOVE) {
+            $roomReservationEl.css({left: dragFromLeft + e.clientX - dragFromX});
         }
     },
 
     stopDrag: function(e) {
-        let days = (e.clientX - this.state.dragFromX) / cellWidth;
-        if (Math.abs(days) > 0.5) {
-            this.props.context.getStore(NewReservationStore).addRoomReservationDays(
-                this.state.drag, days, [this.state.dragDirection == 'left' ? 'dateFrom' : 'dateTo']);
-        }
-        else {
-            $('#sheet-new-reservation-' + this.state.drag).width(this.state.dragFromWidth).css({left: this.state.dragFromLeft});
-        }
+        let {dragType, dragFromWidth, dragFromLeft, dragFromX} = this.state;
         this.setState({
-            drag: false,
-            dragDirection: null,
+            drag: null,
+            dragType: null,
             dragFromWidth: null,
             dragFromLeft: null,
             dragFromX: null
         });
         global.window.removeEventListener('mousemove', this.drag);
         global.window.removeEventListener('mouseup', this.stopDrag);
-    },
 
-    shouldComponentUpdate: function(nextProps, nextState) {
-        // return !_.isEqual(this.props.roomReservations, nextProps.roomReservations);
-        return true;
+        let days = (e.clientX - dragFromX) / cellWidth;
+        if (Math.abs(days) > 0.5) {
+            this.props.context.getStore(NewReservationStore).addRoomReservationDays(drag, days, dragType);
+        }
+        else {
+            $('#sheet-new-reservation-' + drag).width(dragFromWidth).css({left: dragFromLeft});
+        }
     },
 
     render: function() {
@@ -133,11 +93,14 @@ let SheetNewReservation = React.createClass({
                                 height: cellHeight + 'px',
                                 left: (diffDays(dateFrom, roomReservation.dateFrom) - 0.5) * cellWidth + 'px',
                                 top: headHeight + monthHeight + roomIndex * cellHeight + 'px'}}>
-                            <div className="reservation-body" onMouseDown={(e) => this.startMove(e, roomReservation.roomId)}>
-                                <div className="drag drag-left" onMouseDown={(e) => this.startDrag(e, roomReservation.roomId, 'left')} />
-                                <div className="drag drag-right" onMouseDown={(e) => this.startDrag(e, roomReservation.roomId, 'right')} />
+                            <div className="reservation-body" onMouseDown={(e) => this.startDrag(e, roomReservation.roomId, DRAG_TYPE.MOVE)}>
+                                <div className="drag drag-left" onMouseDown={(e) => this.startDrag(e, roomReservation.roomId, DRAG_TYPE.LEFT)} />
+                                <div className="drag drag-right" onMouseDown={(e) => this.startDrag(e, roomReservation.roomId, DRAG_TYPE.RIGHT)} />
                                 <span>{trans('NEW_RESERVATION')}</span>
-                                <span className="top-right"><Glyphicon glyph="remove" onClick={() => {this.deselectRoom(roomReservation.roomId);}} /></span>
+                                {roomReservationDays > 1 &&
+                                    <span className="top-right">
+                                        <Glyphicon glyph="remove" onClick={() => {this.deselectRoom(roomReservation.roomId);}} />
+                                    </span>}
                             </div>
                         </div>
                     );

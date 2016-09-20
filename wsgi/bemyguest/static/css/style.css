@@ -494,9 +494,9 @@ button.close {
         cursor: ew-resize;
         z-index: 20; }
         .calendar-sheet-container .room-reservation .reservation-body .drag.drag-left {
-          left: -10px; }
+          left: 0px; }
         .calendar-sheet-container .room-reservation .reservation-body .drag.drag-right {
-          right: -10px; }
+          right: 0px; }
   .calendar-sheet-container.two-headers .calendar-row:last-of-type .calendar-cell {
     border-bottom: 0;
     margin-bottom: -1px; }

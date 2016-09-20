@@ -85,69 +85,84 @@ def reservations(request):
 def reservation(request, pk):
     if request.user.is_anonymous():
         return JsonResponse({'error': 'loggedOut'})
+
     reservation = Reservation.objects.get(id=pk)
+
     if request.method == 'DELETE':
         reservation.delete()
         return JsonResponse({})
+
     if request.method == 'POST':
         reservation_data = convert_dict_keys_deep(json.loads(request.body))
         first_day = reservation.get_date_from()
         last_day = reservation.get_date_to()
+
         if 'room_reservation_remove' in reservation_data:
             room_reservation = reservation.room_reservations.get(id=reservation_data['room_reservation_remove'])
             room_reservation.delete()
+
         elif 'room_reservation' in reservation_data:
             room_reservation_data = reservation_data['room_reservation']
             room_reservation = reservation.room_reservations.get(id=room_reservation_data['id'])
-            room_reservation.room_id = room_reservation_data['room_id']
 
-            dtime_data_from = convert_to_datetime(room_reservation_data['date_from'])
-            dtime_data_to = convert_to_datetime(room_reservation_data['date_to'])
-            is_from_different = True if room_reservation.date_from != dtime_data_from else False
-            is_to_different = True if room_reservation.date_to != dtime_data_to else False
+            if 'room_id' in room_reservation_data:
+                room_reservation.room_id = room_reservation_data['room_id']
 
-#             if is_from_different or is_to_different:
-#                 # was moved
-#                 if (room_reservation.date_to - room_reservation.date_from).days == (dtime_data_to - dtime_data_from).days:
-#                     reservation.meals.all().update(date=F('date') + (dtime_data_to - room_reservation.date_to).days)
-#                 else:
-#                     reservation.meals.filter(~Q(date__range=(dtime_data_from, dtime_data_to))).delete()
+            if 'date_from' in room_reservation_data or 'date_to' in room_reservation_data:
+                dtime_data_from = convert_to_datetime(room_reservation_data['date_from'])
+                dtime_data_to = convert_to_datetime(room_reservation_data['date_to'])
+                is_from_different = True if room_reservation.date_from != dtime_data_from else False
+                is_to_different = True if room_reservation.date_to != dtime_data_to else False
 
-            room_reservation.date_from = room_reservation_data['date_from']
-            room_reservation.date_to = room_reservation_data['date_to']
+#                 if is_from_different or is_to_different:
+#                     # was moved
+#                     if (room_reservation.date_to - room_reservation.date_from).days == (dtime_data_to - dtime_data_from).days:
+#                         reservation.meals.all().update(date=F('date') + (dtime_data_to - room_reservation.date_to).days)
+#                     else:
+#                         reservation.meals.filter(~Q(date__range=(dtime_data_from, dtime_data_to))).delete()
+
+                if 'date_from' in room_reservation_data:
+                    room_reservation.date_from = room_reservation_data['date_from']
+                if 'date_to' in room_reservation_data:
+                    room_reservation.date_to = room_reservation_data['date_to']
+
             room_reservation.save()
+
+            if 'guests' in room_reservation_data:
+                for guest_data in room_reservation_data['guests']:
+                    if guest_data['id']:
+                        guest = room_reservation.guests.get(id=guest_data['id'])
+                        if (not guest_data['name'] or not guest_data['surname']):
+                            guest.delete()
+                        guest.name_prefix = guest_data['name_prefix']
+                        guest.name = guest_data['name']
+                        guest.surname = guest_data['surname']
+                        guest.name_suffix = guest_data['name_suffix']
+                        guest.address_street = guest_data['address_street']
+                        guest.address_number = guest_data['address_number']
+                        guest.address_city = guest_data['address_city']
+                        guest.phone = guest_data['phone']
+                        guest.save()
+                    else:
+                        if (guest_data['name'] and guest_data['surname']):
+                            guest = Guest(
+                                name_prefix=guest_data['name_prefix'],
+                                name=guest_data['name'],
+                                surname=guest_data['surname'],
+                                name_suffix=guest_data['name_suffix'],
+                                address_street=guest_data['address_street'],
+                                address_number=guest_data['address_number'],
+                                address_city=guest_data['address_city'],
+                                phone=guest_data['phone'],
+                            )
+                            guest.save()
+                            room_reservation.guests.add(guest)
+
             if 'prices' in reservation_data:
                 reservation.price_housing = reservation_data['prices']['price_housing']
                 reservation.price_spiritual = reservation_data['prices']['price_spiritual']
                 reservation.save()
-            for guest_data in room_reservation_data['guests']:
-                if guest_data['id']:
-                    guest = room_reservation.guests.get(id=guest_data['id'])
-                    if (not guest_data['name'] or not guest_data['surname']):
-                        guest.delete()
-                    guest.name_prefix = guest_data['name_prefix']
-                    guest.name = guest_data['name']
-                    guest.surname = guest_data['surname']
-                    guest.name_suffix = guest_data['name_suffix']
-                    guest.address_street = guest_data['address_street']
-                    guest.address_number = guest_data['address_number']
-                    guest.address_city = guest_data['address_city']
-                    guest.phone = guest_data['phone']
-                    guest.save()
-                else:
-                    if (guest_data['name'] and guest_data['surname']):
-                        guest = Guest(
-                            name_prefix=guest_data['name_prefix'],
-                            name=guest_data['name'],
-                            surname=guest_data['surname'],
-                            name_suffix=guest_data['name_suffix'],
-                            address_street=guest_data['address_street'],
-                            address_number=guest_data['address_number'],
-                            address_city=guest_data['address_city'],
-                            phone=guest_data['phone'],
-                        )
-                        guest.save()
-                        room_reservation.guests.add(guest)
+
         elif 'meals' in reservation_data:
             reservation.meals.all().delete()
             for meal_data in reservation_data['meals']:
@@ -157,6 +172,7 @@ def reservation(request, pk):
                 )
                 meal.set_counts(meal_data['counts'])
                 meal.save()
+
         elif 'overall_date' in reservation_data:
             overall_date_data = reservation_data['overall_date']
             dtime_data_from = convert_to_datetime(overall_date_data['date_from'])
@@ -173,6 +189,7 @@ def reservation(request, pk):
                 room_reservation.date_from = overall_date_data['date_from']
                 room_reservation.date_to = overall_date_data['date_to']
                 room_reservation.save()
+
         else:
             if 'name' in reservation_data:
                 reservation.name = reservation_data['name']
@@ -195,6 +212,7 @@ def reservation(request, pk):
             elif 'approved' in reservation_data:
                 reservation.approved = True
             reservation.save()
+
     return JsonResponse({'reservation': serialize_reservation(reservation)})
 
 
