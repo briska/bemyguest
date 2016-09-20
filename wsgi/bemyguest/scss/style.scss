@@ -445,6 +445,10 @@ button.close {
         .guest {
             margin-top: 15px;
 
+            &.extra-bed .glyphicon {
+                color: $gray;
+            }
+
             input {
                 margin-right: 5px;
             }
@@ -454,8 +458,12 @@ button.close {
                 width: 20px;
             }
 
-            .glyphicon-minus, .glyphicon-plus {
+            .glyphicon-minus, .glyphicon-plus, .glyphicon-chevron-up, .glyphicon-chevron-down, .glyphicon-remove, .glyphicon-trash {
                 cursor: pointer;
+            }
+
+            .glyphicon-trash {
+                margin-left: 15px;
             }
 
             .guest-address, .guest-phone {

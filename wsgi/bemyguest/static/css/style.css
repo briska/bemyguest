@@ -571,13 +571,17 @@ button.close {
 
 .create-reservation .rooms .guest {
   margin-top: 15px; }
+  .create-reservation .rooms .guest.extra-bed .glyphicon {
+    color: #bbb; }
   .create-reservation .rooms .guest input {
     margin-right: 5px; }
   .create-reservation .rooms .guest .glyphicon {
     margin-right: 5px;
     width: 20px; }
-  .create-reservation .rooms .guest .glyphicon-minus, .create-reservation .rooms .guest .glyphicon-plus {
+  .create-reservation .rooms .guest .glyphicon-minus, .create-reservation .rooms .guest .glyphicon-plus, .create-reservation .rooms .guest .glyphicon-chevron-up, .create-reservation .rooms .guest .glyphicon-chevron-down, .create-reservation .rooms .guest .glyphicon-remove, .create-reservation .rooms .guest .glyphicon-trash {
     cursor: pointer; }
+  .create-reservation .rooms .guest .glyphicon-trash {
+    margin-left: 15px; }
   .create-reservation .rooms .guest .guest-address, .create-reservation .rooms .guest .guest-phone {
     margin-left: 30px;
     margin-top: 5px; }

@@ -2,6 +2,7 @@ const _ = require('lodash');
 const React = require('react');
 const trans = require('core/utils/trans');
 import Glyphicon from 'react-bootstrap/lib/Glyphicon';
+const cx = require('classnames');
 
 let CreateReservationGuest = React.createClass({
     getInitialState: function() {
@@ -14,18 +15,19 @@ let CreateReservationGuest = React.createClass({
             addressNumber: '',
             addressCity: '',
             phone: '',
-            showDetails: false
+            showDetails: false,
+            extraBed: this.props.extraBed
         };
     },
-    
+
     handleChange: function(e) {
         this.setState({[e.target.name]: e.target.value});
     },
-    
+
     toggleDetails: function() {
         this.setState({showDetails: !this.state.showDetails});
     },
-    
+
     getGuest: function() {
         if (!(this.state.name && this.state.surname)) return null;
         return {
@@ -39,18 +41,23 @@ let CreateReservationGuest = React.createClass({
             phone: this.state.phone
         };
     },
-    
+
+    clearData: function() {
+        this.setState(this.getInitialState());
+    },
+
     render: function() {
-        let {namePrefix, name, surname, nameSuffix, addressStreet, addressNumber, addressCity, phone, showDetails} = this.state;
+        let {namePrefix, name, surname, nameSuffix, addressStreet, addressNumber, addressCity, phone, showDetails, extraBed} = this.state;
         return (
-            <div className="guest">
+            <div className={cx('guest', extraBed ? 'extra-bed' : '')}>
                 <div className="guest-name">
                     <Glyphicon glyph="user" />
                     <input type="text" name="namePrefix" value={namePrefix} placeholder={trans('NAME_PREFIX')} onChange={this.handleChange} />
                     <input type="text" name="name" value={name} placeholder={trans('NAME')} onChange={this.handleChange} />
                     <input type="text" name="surname" value={surname} placeholder={trans('SURNAME')} onChange={this.handleChange} />
                     <input type="text" name="nameSuffix" value={nameSuffix} placeholder={trans('NAME_SUFFIX')} onChange={this.handleChange} />
-                    <Glyphicon glyph={showDetails ? 'minus' : 'plus'} onClick={this.toggleDetails} />
+                    <Glyphicon glyph={showDetails ? 'chevron-up' : 'chevron-down'} onClick={this.toggleDetails} />
+                    <Glyphicon glyph="trash" onClick={this.clearData} />
                 </div>
                 {showDetails &&
                     <div className="guest-address">

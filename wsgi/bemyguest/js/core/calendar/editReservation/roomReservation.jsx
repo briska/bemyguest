@@ -160,7 +160,7 @@ let RoomReservation = React.createClass({
                         </div>}
                         {extraBed &&
                         <Guest
-                            key={'detail-guest-' + room.capacity + 1}
+                            key={'detail-guest-' + room.capacity}
                             ref={'guest' + room.capacity}
                             context={this.props.context}
                             guest={guests[room.capacity]}

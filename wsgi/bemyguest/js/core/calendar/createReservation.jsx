@@ -28,40 +28,46 @@ let CreateReservation = React.createClass({
             contactMail: '',
             contactPhone: '',
             notes: '',
-            mailCommunication: ''
+            mailCommunication: '',
+            extraBed: false
         };
     },
-    
+
     componentWillReceiveProps: function(nextProps) {
         if (nextProps.capacity != this.props.capacity
             || !_.isEqual(nextProps.datesRange, this.props.datesRange)) {
             this.setState({guestsCount: nextProps.capacity});
         }
     },
-    
+
     shouldComponentUpdate: function(nextProps, nextState) {
         return this.state.show || nextState.show;
     },
-    
+
     open: function() {
         this.setState({show: true});
     },
-    
+
+    openExtraBed: function() {
+        this.setState({extraBed: !this.state.extraBed});
+    },
+
     close: function() {
         this.setState({show: false});
     },
-    
+
     handleChange: function(e) {
         this.setState({[e.target.name]: e.target.value});
     },
-    
+
     saveReservation: function(event) {
         let roomReservations = _.map(this.props.roomReservations, (roomReservation) => {
             let room = this.props.context.getStore(RoomsStore).getRoom(roomReservation.roomId);
             roomReservation.dateFrom.hour(14);
             roomReservation.dateTo.hour(10);
             roomReservation.guests = [];
-            for (let index = 0; index < room.capacity; index++) {
+            let totalGuestsCount = this.state.extraBed ? room.capacity + 1 : room.capacity;
+            for (let index = 0; index < totalGuestsCount; index++) {
                 let guest = this.refs['guestR' + room.id + 'I' + index].getGuest();
                 if (guest) {
                     roomReservation.guests.push(guest);
@@ -113,10 +119,10 @@ let CreateReservation = React.createClass({
         };
         this.props.context.executeAction(actions.createReservation, reservation);
     },
-    
+
     render: function() {
         let {context, roomReservations, datesRange} = this.props;
-        let {show, name, guestsCount, purpose, spiritualGuide, contactName, contactMail, contactPhone, notes, mailCommunication} = this.state;
+        let {show, name, guestsCount, purpose, spiritualGuide, contactName, contactMail, contactPhone, notes, mailCommunication, extraBed} = this.state;
         let roomReservationsToRender = _.map(roomReservations, (roomReservation) => {
             let room = context.getStore(RoomsStore).getRoom(roomReservation.roomId);
             return (
@@ -133,6 +139,16 @@ let CreateReservation = React.createClass({
                                 context={context} />
                         );
                     })}
+                    {!extraBed &&
+                    <div className="guest">
+                        <Glyphicon glyph='plus' onClick={this.openExtraBed} />
+                    </div>}
+                    {extraBed &&
+                    <CreateReservationGuest
+                        key={'guest-' + room.id + '-' + room.capacity}
+                        ref={'guestR' + room.id + 'I' + room.capacity}
+                        context={context}
+                        extraBed={true}/>}
                 </div>
             );
         });
@@ -171,7 +187,7 @@ let CreateReservation = React.createClass({
                         {roomReservationsToRender}
                     </div>
                     {false && // hide meals when creating reservation
-                        <div className="form-group meals"> 
+                        <div className="form-group meals">
                             <div className="meal-types calendar-aside" style={{marginTop: monthHeight + 'px'}}>
                                 <div className="aside-cell" style={{height: headHeight + 'px'}}></div>
                                 <div className="aside-cell" style={{height: cellHeight + 'px'}}>{trans('BREAKFAST')}</div>
