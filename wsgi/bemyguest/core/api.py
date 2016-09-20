@@ -109,10 +109,10 @@ def reservation(request, pk):
                 room_reservation.room_id = room_reservation_data['room_id']
 
             if 'date_from' in room_reservation_data or 'date_to' in room_reservation_data:
-                dtime_data_from = convert_to_datetime(room_reservation_data['date_from'])
-                dtime_data_to = convert_to_datetime(room_reservation_data['date_to'])
-                is_from_different = True if room_reservation.date_from != dtime_data_from else False
-                is_to_different = True if room_reservation.date_to != dtime_data_to else False
+#                 dtime_data_from = convert_to_datetime(room_reservation_data['date_from'])
+#                 dtime_data_to = convert_to_datetime(room_reservation_data['date_to'])
+#                 is_from_different = True if room_reservation.date_from != dtime_data_from else False
+#                 is_to_different = True if room_reservation.date_to != dtime_data_to else False
 
 #                 if is_from_different or is_to_different:
 #                     # was moved
