@@ -70,6 +70,11 @@ class Reservation(models.Model):
     def __unicode__(self):
         return '%s' % (self.name if self.name else self.contact_name)
 
+    def get_date_from(self):
+        return self.room_reservations.order_by('date_from').values().first()['date_from']
+
+    def get_date_to(self):
+        return self.room_reservations.order_by('-date_to').values().first()['date_to']
 
 class Guest(models.Model):
     name_prefix = models.TextField(blank=True)

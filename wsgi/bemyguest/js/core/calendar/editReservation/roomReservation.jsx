@@ -101,9 +101,8 @@ let RoomReservation = React.createClass({
         if (this.state.saving) {
             this.setState(this.getStateFromSource(nextProps));
         }
-
-        if (nextProps.reservationDateFrom != this.state.dateFrom || nextProps.reservationDateTo != this.state.dateTo) {
-            this.setState({dateFrom: nextProps.reservationDateFrom, dateTo: nextProps.reservationDateTo});
+        else if (nextProps.roomReservation.dateFrom != this.state.dateFrom || nextProps.roomReservation.dateTo != this.state.dateTo) {
+            this.setState({dateFrom: nextProps.roomReservation.dateFrom, dateTo: nextProps.roomReservation.dateTo});
         }
     },
 
@@ -129,9 +128,9 @@ let RoomReservation = React.createClass({
                     {!saving &&
                         <Button className="form-group-button cancel" onClick={this.cancel}><Glyphicon glyph="remove" /></Button>}
                     {!saving &&
-                        <Button bsStyle="success" className="form-group-button save" onClick={this.save}><Glyphicon glyph="ok" /></Button>}
-                    {!saving &&
                         <Button bsStyle="danger" className="form-group-button remove" onClick={this.remove}><Glyphicon glyph="trash" /></Button>}
+                    {!saving &&
+                        <Button bsStyle="success" className="form-group-button save" onClick={this.save}><Glyphicon glyph="ok" /></Button>}
                     <div className="date">
                         <DatePicker
                             dateFormat="DD. MM. YYYY"

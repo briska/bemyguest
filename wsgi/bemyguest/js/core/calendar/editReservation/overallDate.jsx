@@ -53,6 +53,8 @@ let OverallDate = React.createClass({
     componentWillReceiveProps: function(nextProps) {
         if (this.state.saving) {
             this.setState(this.getStateFromSource(nextProps));
+        } else {
+            this.setState({dateFrom: nextProps.reservationDateFrom, dateTo: nextProps.reservationDateTo})
         }
     },
 
