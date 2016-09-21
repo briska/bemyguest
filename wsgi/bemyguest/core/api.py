@@ -1,5 +1,4 @@
 import json
-import dateutil.parser, dateutil.tz
 from django.views.decorators.csrf import csrf_exempt
 from core.models import Reservation, RoomReservation, Guest, Meal, Feast
 from core.serializers import serialize_reservation, serialize_user, serialize_feast
@@ -57,18 +56,19 @@ def reservations(request):
             )
             room_reservation.save()
             for guest_data in room_reservation_data['guests']:
-                guest = Guest(
-                    name_prefix=guest_data['name_prefix'],
-                    name=guest_data['name'],
-                    surname=guest_data['surname'],
-                    name_suffix=guest_data['name_suffix'],
-                    address_street=guest_data['address_street'],
-                    address_number=guest_data['address_number'],
-                    address_city=guest_data['address_city'],
-                    phone=guest_data['phone'],
-                )
-                guest.save()
-                room_reservation.guests.add(guest)
+                if (guest_data['name'] and guest_data['surname']):
+                    guest = Guest(
+                        name_prefix=guest_data['name_prefix'],
+                        name=guest_data['name'],
+                        surname=guest_data['surname'],
+                        name_suffix=guest_data['name_suffix'],
+                        address_street=guest_data['address_street'],
+                        address_number=guest_data['address_number'],
+                        address_city=guest_data['address_city'],
+                        phone=guest_data['phone'],
+                    )
+                    guest.save()
+                    room_reservation.guests.add(guest)
         for meal_data in reservation_data['meals']:
             meal = Meal(
                 reservation=reservation,
@@ -109,24 +109,26 @@ def reservation(request, pk):
                 room_reservation.room_id = room_reservation_data['room_id']
 
             if 'date_from' in room_reservation_data or 'date_to' in room_reservation_data:
-#                 dtime_data_from = convert_to_datetime(room_reservation_data['date_from'])
-#                 dtime_data_to = convert_to_datetime(room_reservation_data['date_to'])
-#                 is_from_different = True if room_reservation.date_from != dtime_data_from else False
-#                 is_to_different = True if room_reservation.date_to != dtime_data_to else False
-
-#                 if is_from_different or is_to_different:
-#                     # was moved
-#                     if (room_reservation.date_to - room_reservation.date_from).days == (dtime_data_to - dtime_data_from).days:
-#                         reservation.meals.all().update(date=F('date') + (dtime_data_to - room_reservation.date_to).days)
-#                     else:
-#                         reservation.meals.filter(~Q(date__range=(dtime_data_from, dtime_data_to))).delete()
-
                 if 'date_from' in room_reservation_data:
                     room_reservation.date_from = room_reservation_data['date_from']
                 if 'date_to' in room_reservation_data:
                     room_reservation.date_to = room_reservation_data['date_to']
-
             room_reservation.save()
+
+            new_first_day = reservation.get_date_from()
+            new_last_day = reservation.get_date_to()
+
+
+            if 'date_from' in room_reservation_data or 'date_to' in room_reservation_data:
+                is_from_different = True if first_day != new_first_day else False
+                is_to_different = True if last_day != new_last_day else False
+
+                if is_from_different or is_to_different:
+                    # was moved
+                    if (last_day - first_day).days == (new_last_day - new_first_day).days:
+                        reservation.meals.all().update(date=F('date') + (new_last_day - last_day).days)
+                    else:
+                        reservation.meals.filter(~Q(date__range=(new_first_day, new_last_day))).delete()
 
             if 'guests' in room_reservation_data:
                 for guest_data in room_reservation_data['guests']:
@@ -168,7 +170,7 @@ def reservation(request, pk):
             for meal_data in reservation_data['meals']:
                 meal = Meal(
                     reservation=reservation,
-                    date=dateutil.parser.parse(meal_data['date']).astimezone(dateutil.tz.tzlocal()).date(),
+                    date=convert_to_datetime(meal_data['date']).date(),
                 )
                 meal.set_counts(meal_data['counts'])
                 meal.save()

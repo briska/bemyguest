@@ -10,7 +10,7 @@ import Glyphicon from 'react-bootstrap/lib/Glyphicon';
 import Button from 'react-bootstrap/lib/Button';
 import RoomsStore from 'core/roomsStore';
 import Textarea from 'react-textarea-autosize';
-import CreateReservationGuest from 'core/calendar/createReservationGuest';
+import Guest from 'core/calendar/editReservation/guest';
 import CreateReservationMeal from 'core/calendar/createReservationMeal';
 import CalendarHeader from 'core/calendar/calendarHeader';
 import {cellHeight, cellWidth, headHeight, monthHeight, MEAL_TYPES, DIETS} from 'core/enums';
@@ -133,7 +133,7 @@ let CreateReservation = React.createClass({
                     <p className="date">{roomReservation.dateFrom.format('D. MMMM YYYY')} - {roomReservation.dateTo.format('D. MMMM YYYY')}</p>
                     {_.map(_.range(room.capacity), (index) => {
                         return (
-                            <CreateReservationGuest
+                            <Guest
                                 key={'guest-' + room.id + '-' + index}
                                 ref={'guestR' + room.id + 'I' + index}
                                 context={context} />
@@ -144,7 +144,7 @@ let CreateReservation = React.createClass({
                         <Glyphicon glyph='plus' onClick={this.openExtraBed} />
                     </div>}
                     {extraBed &&
-                    <CreateReservationGuest
+                    <Guest
                         key={'guest-' + room.id + '-' + room.capacity}
                         ref={'guestR' + room.id + 'I' + room.capacity}
                         context={context}
