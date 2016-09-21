@@ -28,13 +28,13 @@ let SheetNewReservation = React.createClass({
         this.props.context.getStore(NewReservationStore).deselectRoom(roomId);
     },
 
-    startDrag: function(e, roomId, direction) {
+    startDrag: function(e, roomId, dragType) {
         e.stopPropagation();
         e.preventDefault();
         let $roomReservationEl = $('#sheet-new-reservation-' + roomId);
         this.setState({
             drag: roomId,
-            dragDirection: direction,
+            dragType: dragType,
             dragFromWidth: $roomReservationEl.width(),
             dragFromLeft: $roomReservationEl.position().left,
             dragFromX: e.clientX
@@ -55,7 +55,7 @@ let SheetNewReservation = React.createClass({
     },
 
     stopDrag: function(e) {
-        let {dragType, dragFromWidth, dragFromLeft, dragFromX} = this.state;
+        let {drag, dragType, dragFromWidth, dragFromLeft, dragFromX} = this.state;
         this.setState({
             drag: null,
             dragType: null,
@@ -65,7 +65,6 @@ let SheetNewReservation = React.createClass({
         });
         global.window.removeEventListener('mousemove', this.drag);
         global.window.removeEventListener('mouseup', this.stopDrag);
-
         let days = (e.clientX - dragFromX) / cellWidth;
         if (Math.abs(days) > 0.5) {
             this.props.context.getStore(NewReservationStore).addRoomReservationDays(drag, days, dragType);
