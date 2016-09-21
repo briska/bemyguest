@@ -10,6 +10,7 @@ import DatePicker from 'react-datepicker';
 const moment = require('moment');
 require('moment/locale/sk');
 import Guest from 'core/calendar/editReservation/guest';
+import ConfirmDialog from 'core/utils/confirmDialog';
 import {diffDays, getHousingPrice, getSpiritualPrice} from 'core/utils/utils';
 
 let RoomReservation = React.createClass({
@@ -50,15 +51,18 @@ let RoomReservation = React.createClass({
     },
 
     remove: function() {
-        if (!confirm(trans('CONFIRM_REMOVING_ROOM_RESERVATION'))) return;
-        this.setState({saving: true});
-        let payload = {
-            id: this.props.reservationId,
-            data: {
-                roomReservationRemove: this.props.roomReservation.id
-            }
-        };
-        this.props.context.executeAction(actions.editReservation, payload);
+        this.refs.deleteRoom.open(() => {
+            this.setState({saving: true});
+            let payload = {
+                id: this.props.reservationId,
+                data: {
+                    roomReservationRemove: this.props.roomReservation.id
+                }
+            };
+            this.props.context.executeAction(actions.editReservation, payload);
+        }, ()=> {
+            return;
+        });
     },
 
     save: function() {
@@ -112,6 +116,10 @@ let RoomReservation = React.createClass({
         if (edit) {
             return (
                 <div className="room-reservation form-group">
+                    <ConfirmDialog
+                        ref="deleteRoom"
+                        body={trans('CONFIRM_REMOVING_ROOM_RESERVATION')}
+                        confirmBSStyle="danger"/>
                     <select onChange={this.handleRoom} value={room.id}>
                         {_.map(context.getStore(RoomsStore).getHouses(), (selectHouse) => {
                             return (
