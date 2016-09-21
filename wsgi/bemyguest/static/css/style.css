@@ -355,6 +355,9 @@ button.close {
 .modal-content, .btn {
   border-radius: 0; }
 
+.confirmDialog .modal-body {
+  padding: 30px; }
+
 #login-form {
   margin-top: 30px;
   text-align: center; }

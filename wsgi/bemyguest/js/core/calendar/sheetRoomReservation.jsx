@@ -11,6 +11,7 @@ import RoomsStore from 'core/roomsStore';
 import RoomReservationDetails from 'core/calendar/roomReservationDetails';
 import ReservationsStore from 'core/calendar/reservationsStore';
 import actions from 'core/actions';
+import ConfirmDialog from 'core/utils/confirmDialog';
 
 let SheetRoomReservation = React.createClass({
     getInitialState: function(){
@@ -84,25 +85,29 @@ let SheetRoomReservation = React.createClass({
         global.window.removeEventListener('mouseup', this.stopDrag);
 
         let days = (e.clientX - dragFromX) / cellWidth;
-        if (Math.abs(days) > 0.5 && confirm(trans('CONFIRM_ROOM_RESERVATION_DATES_CHANGE'))) {
-            let {reservation, roomReservation} = this.props;
-            let payload = {
-                id: reservation.id,
-                data: {
-                    roomReservation: {
-                        id: roomReservation.id,
-                        roomId: roomReservation.roomId,
-                        //TODO prices - surely better on server, not here in js
+        if (Math.abs(days) > 0.5) {
+            this.refs.moveConfirm.open(() => {
+                let {reservation, roomReservation} = this.props;
+                let payload = {
+                    id: reservation.id,
+                    data: {
+                        roomReservation: {
+                            id: roomReservation.id,
+                            roomId: roomReservation.roomId,
+                            //TODO prices - surely better on server, not here in js
+                        }
                     }
+                };
+                if (dragType == DRAG_TYPE.LEFT || dragType == DRAG_TYPE.MOVE) {
+                    payload.data.roomReservation.dateFrom = moment(roomReservation.dateFrom).add(days, 'days');
                 }
-            };
-            if (dragType == DRAG_TYPE.LEFT || dragType == DRAG_TYPE.MOVE) {
-                payload.data.roomReservation.dateFrom = moment(roomReservation.dateFrom).add(days, 'days');
-            }
-            if (dragType == DRAG_TYPE.RIGHT || dragType == DRAG_TYPE.MOVE)  {
-                payload.data.roomReservation.dateTo = moment(roomReservation.dateTo).add(days, 'days');
-            }
-            this.props.context.executeAction(actions.editReservation, payload);
+                if (dragType == DRAG_TYPE.RIGHT || dragType == DRAG_TYPE.MOVE)  {
+                    payload.data.roomReservation.dateTo = moment(roomReservation.dateTo).add(days, 'days');
+                }
+                this.props.context.executeAction(actions.editReservation, payload);
+            }, ()=> {
+                $(ReactDOM.findDOMNode(this)).width(dragFromWidth).css({left: dragFromLeft});
+            });
         }
         else {
             $(ReactDOM.findDOMNode(this)).width(dragFromWidth).css({left: dragFromLeft});
@@ -127,6 +132,9 @@ let SheetRoomReservation = React.createClass({
                 onMouseDown={(e) => this.startDrag(e, DRAG_TYPE.MOVE)}
                 onMouseUp={this.showDetails}
                 onDoubleClick={this.showFullDetails}>
+                <ConfirmDialog
+                    ref="moveConfirm"
+                    body={trans('CONFIRM_ROOM_RESERVATION_DATES_CHANGE')}/>
                 <div className="reservation-body">
                     <div className="drag drag-left" onMouseDown={(e) => this.startDrag(e, DRAG_TYPE.LEFT)} />
                     <div className="drag drag-right" onMouseDown={(e) => this.startDrag(e, DRAG_TYPE.RIGHT)} />

@@ -23,6 +23,7 @@ import OverallDate from 'core/calendar/editReservation/overallDate';
 import RoomReservation from 'core/calendar/editReservation/roomReservation';
 import Meals from 'core/calendar/editReservation/meals';
 import Approval from 'core/calendar/editReservation/approval';
+import ConfirmDialog from 'core/utils/confirmDialog';
 import actions from 'core/actions';
 
 let ReservationDetails = React.createClass({
@@ -46,12 +47,15 @@ let ReservationDetails = React.createClass({
     },
 
     remove: function() {
-        if (!confirm(trans('CONFIRM_REMOVING_RESERVATION'))) return;
-        this.close();
-        let payload = {
-            'id': this.props.reservation.id
-        };
-        this.props.context.executeAction(actions.removeReservation, payload);
+        this.refs.deleteReservation.open(() => {
+            this.close();
+            let payload = {
+                'id': this.props.reservation.id
+            };
+            this.props.context.executeAction(actions.removeReservation, payload);
+        }, ()=> {
+            return;
+        });
     },
 
     render: function() {
@@ -60,6 +64,10 @@ let ReservationDetails = React.createClass({
         let datesRange = getDatesRange(reservation.dateFrom, reservation.dateTo);
         return (
             <Modal dialogClassName="reservation-details" bsSize="lg" show={show} onHide={this.close}>
+                <ConfirmDialog
+                    ref="deleteReservation"
+                    body={trans('CONFIRM_REMOVING_RESERVATION')}
+                    confirmBSStyle="danger"/>
                 <Modal.Header closeButton>
                     <Name context={context} reservationId={reservation.id} name={reservation.name} />
                 </Modal.Header>

@@ -10,12 +10,12 @@ let Page = React.createClass({
         else if (this.props.page == 'stats') return Stats;
         else return null;
     },
-    
+
     componentDidMount: function() {
         this.props.context.executeAction(actions.loadUser);
         this.props.context.executeAction(actions.loadFeasts);
     },
-    
+
     render: function() {
         let CurrentPage = this.getCurrentPage();
         return (
