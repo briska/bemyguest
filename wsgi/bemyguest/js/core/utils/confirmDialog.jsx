@@ -11,7 +11,6 @@ let ConfirmDialog = React.createClass({
         confirmBSStyle: React.PropTypes.string,
         confirmText: React.PropTypes.node,
         showCancelButton: React.PropTypes.bool.isRequired,
-        title: React.PropTypes.node.isRequired,
         visible: React.PropTypes.bool,
     },
 
