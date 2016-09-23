@@ -62,6 +62,7 @@ let ReservationDetails = React.createClass({
         let {context, reservation} = this.props;
         let {show} = this.state;
         let datesRange = getDatesRange(reservation.dateFrom, reservation.dateTo);
+        let isLastRoom = reservation.roomReservations.length == 1;
         return (
             <Modal dialogClassName="reservation-details" bsSize="lg" show={show} onHide={this.close}>
                 <ConfirmDialog
@@ -84,7 +85,8 @@ let ReservationDetails = React.createClass({
                                 reservationId={reservation.id}
                                 roomReservation={roomReservation}
                                 reservationDateFrom={reservation.dateFrom}
-                                reservationDateTo={reservation.dateTo} />
+                                reservationDateTo={reservation.dateTo}
+                                isLastRoom={isLastRoom}/>
                         );
                     })}
                     <Meals context={context} reservationId={reservation.id} meals={reservation.meals} datesRange={datesRange} />

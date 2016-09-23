@@ -53,13 +53,20 @@ let RoomReservation = React.createClass({
     remove: function() {
         this.refs.deleteRoom.open(() => {
             this.setState({saving: true});
-            let payload = {
-                id: this.props.reservationId,
-                data: {
-                    roomReservationRemove: this.props.roomReservation.id
-                }
-            };
-            this.props.context.executeAction(actions.editReservation, payload);
+            if (this.props.isLastRoom) {
+                let payload = {
+                    'id': this.props.reservationId
+                };
+                this.props.context.executeAction(actions.removeReservation, payload);
+            } else {
+                let payload = {
+                    id: this.props.reservationId,
+                    data: {
+                        roomReservationRemove: this.props.roomReservation.id
+                    }
+                };
+                this.props.context.executeAction(actions.editReservation, payload);
+            }
         }, ()=> {
             return;
         });
@@ -118,7 +125,7 @@ let RoomReservation = React.createClass({
                 <div className="room-reservation form-group">
                     <ConfirmDialog
                         ref="deleteRoom"
-                        body={trans('CONFIRM_REMOVING_ROOM_RESERVATION')}
+                        body={this.props.isLastRoom ? trans('CONFIRM_REMOVING_LAST_ROOM_RESERVATION') : trans('CONFIRM_REMOVING_ROOM_RESERVATION')}
                         confirmBSStyle="danger"/>
                     <select onChange={this.handleRoom} value={room.id}>
                         {_.map(context.getStore(RoomsStore).getHouses(), (selectHouse) => {

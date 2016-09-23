@@ -52,6 +52,7 @@
     "SAVE_RESERVATION": "Uložiť rezerváciu",
     "CONFIRM_REMOVING_RESERVATION": "Naozaj chcete odstrániť túto rezerváciu?",
     "CONFIRM_REMOVING_ROOM_RESERVATION": "Naozaj chcete odstrániť rezerváciu tejto izby?",
+    "CONFIRM_REMOVING_LAST_ROOM_RESERVATION": "Toto je posledná rezervovaná izba. Ak ju odstránite, bude odstránená celá rezervácia. Chcete pokračovať?",
     "REMOVE": "Odstrániť",
     "CANCEL": "Zrušiť",
     "CLOSE": "Zavrieť",
