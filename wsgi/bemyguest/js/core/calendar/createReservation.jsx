@@ -13,7 +13,7 @@ import Textarea from 'react-textarea-autosize';
 import Guest from 'core/calendar/editReservation/guest';
 import CreateReservationMeal from 'core/calendar/createReservationMeal';
 import CalendarHeader from 'core/calendar/calendarHeader';
-import {cellHeight, cellWidth, headHeight, monthHeight, MEAL_TYPES, DIETS} from 'core/enums';
+import {cellHeight, cellWidth, headHeight, monthHeight, MEAL_TYPES, DIETS, DATE_FORMAT, DAY_FORMAT} from 'core/enums';
 import {getHousingPrice, getSpiritualPrice} from 'core/utils/utils';
 
 let CreateReservation = React.createClass({
@@ -62,18 +62,19 @@ let CreateReservation = React.createClass({
 
     saveReservation: function(event) {
         let roomReservations = _.map(this.props.roomReservations, (roomReservation) => {
+            let rr = _.cloneDeep(roomReservation)
             let room = this.props.context.getStore(RoomsStore).getRoom(roomReservation.roomId);
-            roomReservation.dateFrom.hour(14);
-            roomReservation.dateTo.hour(10);
-            roomReservation.guests = [];
+            rr.dateFrom = moment(roomReservation.dateFrom).hour(14).format(DATE_FORMAT);
+            rr.dateTo = moment(roomReservation.dateTo).hour(10).format(DATE_FORMAT);
+            rr.guests = [];
             let totalGuestsCount = this.state.extraBed ? room.capacity + 1 : room.capacity;
             for (let index = 0; index < totalGuestsCount; index++) {
                 let guest = this.refs['guestR' + room.id + 'I' + index].getGuest();
                 if (guest) {
-                    roomReservation.guests.push(guest);
+                    rr.guests.push(guest);
                 }
             }
-            return roomReservation;
+            return rr;
         });
 //        let meals = _.map(this.props.datesRange, (date, i) => {
 //            return {
@@ -98,7 +99,7 @@ let CreateReservation = React.createClass({
                 counts[MEAL_TYPES.DINNER][DIETS.NONE_DIET] = 0;
             }
             return {
-                date: date,
+                date: date.format(DAY_FORMAT),
                 counts: counts
             };
         });
@@ -112,8 +113,6 @@ let CreateReservation = React.createClass({
             contactPhone: this.state.contactPhone,
             notes: this.state.notes,
             mailCommunication: this.state.mailCommunication,
-            priceHousing: getHousingPrice(_.size(this.props.datesRange)),
-            priceSpiritual: getSpiritualPrice(_.size(this.props.datesRange)),
             roomReservations: roomReservations,
             meals: meals
         };

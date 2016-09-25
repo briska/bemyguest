@@ -7,7 +7,7 @@ import actions from 'core/actions';
 const moment = require('moment');
 require('moment/locale/sk');
 import Meal from 'core/calendar/editReservation/meal';
-import {cellHeight, cellWidth, headHeight, monthHeight, MEAL_TYPES, DIETS} from 'core/enums';
+import {cellHeight, cellWidth, headHeight, monthHeight, MEAL_TYPES, DIETS, DAY_FORMAT} from 'core/enums';
 import {diffDays} from 'core/utils/utils';
 import CalendarHeader from 'core/calendar/calendarHeader';
 
@@ -19,21 +19,21 @@ let Meals = React.createClass({
             guestsCount: this.props.guestsCount
         };
     },
-    
+
     startEditing: function() {
         this.setState({edit: true});
     },
-    
+
     cancel: function() {
         _.each(this.refs, (meal) => {meal.cancel();});
         this.setState({edit: false});
     },
-    
+
     save: function() {
         this.setState({saving: true});
         let meals = _.map(this.props.datesRange, (date, i) => {
             return {
-                date: date,
+                date: date.format(DAY_FORMAT),
                 counts: _.map(MEAL_TYPES, (type) => {
                     return this.refs['mealD' + i + 'T' + type].getCounts();
                 })
@@ -47,13 +47,13 @@ let Meals = React.createClass({
         };
         this.props.context.executeAction(actions.editReservation, payload);
     },
-    
+
     componentWillReceiveProps: function(nextProps) {
         if (this.state.saving) {
             this.setState({saving: false, edit: false, guestsCount: nextProps.guestsCount});
         }
     },
-    
+
     render: function() {
         let {edit, saving} = this.state;
         let {meals, datesRange} = this.props;
@@ -70,7 +70,7 @@ let Meals = React.createClass({
                     <div className="aside-cell" style={{height: cellHeight + 'px'}}>{trans('LUNCH')}</div>
                     <div className="aside-cell" style={{height: cellHeight + 'px'}}>{trans('DINNER')}</div>
                 </div>
-                <div className="calendar-sheet-container">
+                <div className="calendar-sheet-container meals-sheet">
                     <div className="calendar-sheet" style={{width: _.size(datesRange) * cellWidth + 'px'}}>
                         <CalendarHeader context={context} dates={datesRange} />
                         <div className="calendar-table">
@@ -93,6 +93,17 @@ let Meals = React.createClass({
                             })}
                         </div>
                     </div>
+                    {edit && false &&
+                        <div className="meal-buttons" style={{marginTop: monthHeight + headHeight + 'px'}}>
+                            {_.map(MEAL_TYPES, (type) => {
+                                return (
+                                    <div className="buttons-container" style={{height: cellHeight + 'px'}}>
+                                        <Button className="meal-button all" bsSize="small">All</Button>
+                                        <Button className="meal-button none" bsSize="small">None</Button>
+                                    </div>
+                                );
+                            })}
+                        </div>}
                 </div>
             </div>
         );

@@ -1,5 +1,5 @@
 import re
-import dateutil.parser, dateutil.tz
+from datetime import datetime
 
 first_cap_re = re.compile('(.)([A-Z][a-z]+)')
 all_cap_re = re.compile('([a-z0-9])([A-Z])')
@@ -28,5 +28,5 @@ def convert_dict_keys_deep(obj):
         return converted_obj
     return obj
 
-def convert_to_datetime(srcDate):
-    return dateutil.parser.parse(srcDate).astimezone(dateutil.tz.tzlocal())
+def to_datetime(srcDate):
+    return datetime.strptime(srcDate, '%Y-%m-%d %H:%M:%S')

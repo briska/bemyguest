@@ -18,5 +18,7 @@ module.exports = {
         LEFT: -1,
         MOVE: 0,
         RIGHT: 1
-    }
+    },
+    DATE_FORMAT: 'YYYY-MM-DD HH:mm:ss',
+    DAY_FORMAT: 'YYYY-MM-DD'
 };

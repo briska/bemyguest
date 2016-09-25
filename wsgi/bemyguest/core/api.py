@@ -6,7 +6,8 @@ from django.http.response import JsonResponse
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login
 from django.db.models import Q, F
-from core.utils import convert_dict_keys_deep, convert_to_datetime
+from core.utils import convert_dict_keys_deep, to_datetime
+from datetime import datetime
 
 @csrf_exempt
 def user(request):
@@ -33,6 +34,7 @@ def reservations(request):
         return JsonResponse({'error': 'loggedOut'})
     if request.method == 'POST':
         reservation_data = convert_dict_keys_deep(json.loads(request.body))
+
         reservation = Reservation(
             name=reservation_data['name'],
             guests_count=reservation_data['guests_count'],
@@ -41,12 +43,11 @@ def reservations(request):
             contact_phone=reservation_data['contact_phone'],
             purpose=reservation_data['purpose'],
             spiritual_guide=reservation_data['spiritual_guide'],
-            price_housing=reservation_data['price_housing'],
-            price_spiritual=reservation_data['price_spiritual'],
             notes=reservation_data['notes'],
             mail_communication=reservation_data['mail_communication'],
         )
         reservation.save()
+
         for room_reservation_data in reservation_data['room_reservations']:
             room_reservation = RoomReservation(
                 room_id=room_reservation_data['room_id'],
@@ -55,6 +56,7 @@ def reservations(request):
                 date_to=room_reservation_data['date_to'],
             )
             room_reservation.save()
+
             for guest_data in room_reservation_data['guests']:
                 if (guest_data['name'] and guest_data['surname']):
                     guest = Guest(
@@ -69,13 +71,17 @@ def reservations(request):
                     )
                     guest.save()
                     room_reservation.guests.add(guest)
+
         for meal_data in reservation_data['meals']:
             meal = Meal(
                 reservation=reservation,
-                date=convert_to_datetime(meal_data['date']).date(),
+                date=meal_data['date'],
             )
             meal.set_counts(meal_data['counts'])
             meal.save()
+
+        reservation.update_prices()
+
         return JsonResponse({'reservation': serialize_reservation(reservation)})
     reservations = [serialize_reservation(reservation) for reservation in Reservation.objects.all().prefetch_related('room_reservations__guests', 'meals')]
     return JsonResponse({'reservations': reservations})
@@ -94,8 +100,6 @@ def reservation(request, pk):
 
     if request.method == 'POST':
         reservation_data = convert_dict_keys_deep(json.loads(request.body))
-        first_day = reservation.get_date_from()
-        last_day = reservation.get_date_to()
 
         if 'room_reservation_remove' in reservation_data:
             room_reservation = reservation.room_reservations.get(id=reservation_data['room_reservation_remove'])
@@ -109,26 +113,32 @@ def reservation(request, pk):
                 room_reservation.room_id = room_reservation_data['room_id']
 
             if 'date_from' in room_reservation_data or 'date_to' in room_reservation_data:
+                first_day = reservation.get_date_from()
+                last_day = reservation.get_date_to()
+
                 if 'date_from' in room_reservation_data:
                     room_reservation.date_from = room_reservation_data['date_from']
+
                 if 'date_to' in room_reservation_data:
                     room_reservation.date_to = room_reservation_data['date_to']
+
             room_reservation.save()
 
-            new_first_day = reservation.get_date_from()
-            new_last_day = reservation.get_date_to()
-
-
             if 'date_from' in room_reservation_data or 'date_to' in room_reservation_data:
-                is_from_different = True if first_day != new_first_day else False
-                is_to_different = True if last_day != new_last_day else False
+                new_first_day = reservation.get_date_from()
+                new_last_day = reservation.get_date_to()
+
+                is_from_different = first_day.date() != new_first_day.date()
+                is_to_different = last_day.date() != new_last_day.date()
 
                 if is_from_different or is_to_different:
-                    # was moved
+                    # reservation was moved
                     if (last_day - first_day).days == (new_last_day - new_first_day).days:
                         reservation.meals.all().update(date=F('date') + (new_last_day - last_day).days)
                     else:
                         reservation.meals.filter(~Q(date__range=(new_first_day, new_last_day))).delete()
+
+                    reservation.update_prices()
 
             if 'guests' in room_reservation_data:
                 for guest_data in room_reservation_data['guests']:
@@ -160,37 +170,35 @@ def reservation(request, pk):
                             guest.save()
                             room_reservation.guests.add(guest)
 
-            if 'prices' in reservation_data:
-                reservation.price_housing = reservation_data['prices']['price_housing']
-                reservation.price_spiritual = reservation_data['prices']['price_spiritual']
-                reservation.save()
-
         elif 'meals' in reservation_data:
             reservation.meals.all().delete()
             for meal_data in reservation_data['meals']:
                 meal = Meal(
                     reservation=reservation,
-                    date=convert_to_datetime(meal_data['date']).date(),
+                    date=meal_data['date'],
                 )
                 meal.set_counts(meal_data['counts'])
                 meal.save()
 
         elif 'overall_date' in reservation_data:
-            overall_date_data = reservation_data['overall_date']
-            dtime_data_from = convert_to_datetime(overall_date_data['date_from'])
-            dtime_data_to = convert_to_datetime(overall_date_data['date_to'])
-            is_from_different = True if first_day != dtime_data_from else False
-            is_to_different = True if last_day != dtime_data_to else False
+            first_day = reservation.get_date_from()
+            last_day = reservation.get_date_to()
+            date_from = to_datetime(reservation_data['overall_date']['date_from'])
+            date_to = to_datetime(reservation_data['overall_date']['date_to'])
+            is_from_different = first_day.date() != date_from.date()
+            is_to_different = last_day.date() != date_to.date()
             if is_from_different or is_to_different:
-                # was moved
-                if (last_day - first_day).days == (dtime_data_to - dtime_data_from).days:
-                    reservation.meals.all().update(date=F('date') + (dtime_data_to - last_day).days)
+                # reservation was moved
+                if (last_day - first_day).days == (date_to - date_from).days:
+                    reservation.meals.all().update(date=F('date') + (date_to - last_day).days)
                 else:
-                    reservation.meals.filter(~Q(date__range=(dtime_data_from, dtime_data_to))).delete()
+                    reservation.meals.filter(~Q(date__range=(date_from, date_to))).delete()
             for room_reservation in reservation.room_reservations.all():
-                room_reservation.date_from = overall_date_data['date_from']
-                room_reservation.date_to = overall_date_data['date_to']
+                room_reservation.date_from = date_from
+                room_reservation.date_to = date_to
                 room_reservation.save()
+
+            reservation.update_prices()
 
         else:
             if 'name' in reservation_data:

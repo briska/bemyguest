@@ -503,6 +503,8 @@ button.close {
   .calendar-sheet-container.two-headers .calendar-row:last-of-type .calendar-cell {
     border-bottom: 0;
     margin-bottom: -1px; }
+  .calendar-sheet-container.meals-sheet {
+    display: flex; }
 
 .room-reservation-details {
   position: absolute;

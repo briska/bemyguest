@@ -19,41 +19,33 @@ module.exports = {
             }
         };
     },
-    
+
     substr: (text, length) => {
         if (text.length < length) return text;
         return text.substr(length) + '...';
     },
-    
+
     shouldBeApproved: (days) => {
         if (days > 7) return true;
         return false;
     },
-    
+
     approvalBy: (days) => {
         if (days > 30) return 'CANONRY';
         if (days > 14) return 'PRIOR';
         if (days > 7) return 'PREFECT';
         return 'OTHER';
     },
-    
+
     diffDays: (dateFrom, dateTo) => {
         return moment(dateTo).startOf('day').diff(moment(dateFrom).startOf('day'), 'days') + 1;
     },
-    
+
     getDatesRange: (dateFrom, dateTo) => {
         let dates = [];
         for (let d = moment(dateFrom); d.isSameOrBefore(dateTo, 'day'); d.add(1, 'days')) {
             dates.push(moment(d));
         }
         return dates;
-    },
-    
-    getHousingPrice: (days) => {
-        return days * 16 + 1;
-    },
-    
-    getSpiritualPrice: (days) => {
-        return days * 2;
-    },
+    }
 }

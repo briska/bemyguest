@@ -12,6 +12,7 @@ require('moment/locale/sk');
 import Guest from 'core/calendar/editReservation/guest';
 import ConfirmDialog from 'core/utils/confirmDialog';
 import {diffDays, getHousingPrice, getSpiritualPrice} from 'core/utils/utils';
+import {DATE_FORMAT} from 'core/enums';
 
 let RoomReservation = React.createClass({
     getStateFromSource: function(propsSrc) {
@@ -90,21 +91,12 @@ let RoomReservation = React.createClass({
                 roomReservation: {
                     id: roomReservation.id,
                     roomId: room.id,
-                    dateFrom: moment(dateFrom).hour(14),
-                    dateTo: moment(dateTo).hour(10),
+                    dateFrom: moment(dateFrom).hour(14).format(DATE_FORMAT),
+                    dateTo: moment(dateTo).hour(10).format(DATE_FORMAT),
                     guests: guests
                 }
             }
         };
-        if (dateFrom.isBefore(reservationDateFrom, 'day') || dateTo.isAfter(reservationDateTo, 'day')) {
-            let from = dateFrom.isBefore(reservationDateFrom, 'day') ? dateFrom : reservationDateFrom;
-            let to = dateTo.isAfter(reservationDateTo, 'day') ? dateTo : reservationDateTo;
-            let days = diffDays(from, to);
-            payload.data.prices = {
-                priceHousing: getHousingPrice(days),
-                priceSpiritual: getSpiritualPrice(days)
-            }
-        }
         this.props.context.executeAction(actions.editReservation, payload);
     },
 

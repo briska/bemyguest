@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 import json
+from django.utils.functional import cached_property
 
 class Setting(models.Model):
     key = models.CharField(max_length=32)
@@ -69,6 +70,14 @@ class Reservation(models.Model):
 
     def __unicode__(self):
         return '%s' % (self.name if self.name else self.contact_name)
+
+    def update_prices(self):
+        date_from = self.get_date_from().replace(hour = 0, minute = 0, second = 0, microsecond = 0)
+        date_to = self.get_date_to().replace(hour = 0, minute = 0, second = 0, microsecond = 0)
+        days = (date_to - date_from).days + 1
+        self.price_housing = days * 16 + 1
+        self.price_spiritual = days * 2
+        self.save()
 
     def get_date_from(self):
         return self.room_reservations.order_by('date_from').values().first()['date_from']

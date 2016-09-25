@@ -9,6 +9,7 @@ import Label from 'react-bootstrap/lib/Label';
 import DatePicker from 'react-datepicker';
 import nl2br from 'react-nl2br';
 import actions from 'core/actions';
+import {DATE_FORMAT} from 'core/enums';
 
 let OverallDate = React.createClass({
     getStateFromSource: function(propsSrc) {
@@ -42,8 +43,8 @@ let OverallDate = React.createClass({
             'id': this.props.reservationId,
             'data': {
                 'overallDate': {
-                    'dateFrom' : this.state.dateFrom,
-                    'dateTo': this.state.dateTo
+                    'dateFrom' : moment(this.state.dateFrom).hour(14).format(DATE_FORMAT),
+                    'dateTo': moment(this.state.dateTo).hour(10).format(DATE_FORMAT)
                 }
             }
         };

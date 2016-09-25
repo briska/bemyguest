@@ -5,7 +5,7 @@ const trans = require('core/utils/trans');
 const cx = require('classnames');
 const moment = require('moment');
 require('moment/locale/sk');
-import {cellWidth, cellHeight, headHeight, monthHeight, DRAG_TYPE} from 'core/enums';
+import {cellWidth, cellHeight, headHeight, monthHeight, DRAG_TYPE, DATE_FORMAT} from 'core/enums';
 import {diffDays} from 'core/utils/utils';
 import RoomsStore from 'core/roomsStore';
 import RoomReservationDetails from 'core/calendar/roomReservationDetails';
@@ -94,15 +94,14 @@ let SheetRoomReservation = React.createClass({
                         roomReservation: {
                             id: roomReservation.id,
                             roomId: roomReservation.roomId,
-                            //TODO prices - surely better on server, not here in js
                         }
                     }
                 };
                 if (dragType == DRAG_TYPE.LEFT || dragType == DRAG_TYPE.MOVE) {
-                    payload.data.roomReservation.dateFrom = moment(roomReservation.dateFrom).add(days, 'days');
+                    payload.data.roomReservation.dateFrom = moment(roomReservation.dateFrom).add(days, 'days').hour(14).format(DATE_FORMAT);
                 }
                 if (dragType == DRAG_TYPE.RIGHT || dragType == DRAG_TYPE.MOVE)  {
-                    payload.data.roomReservation.dateTo = moment(roomReservation.dateTo).add(days, 'days');
+                    payload.data.roomReservation.dateTo = moment(roomReservation.dateTo).add(days, 'days').hour(10).format(DATE_FORMAT);
                 }
                 this.props.context.executeAction(actions.editReservation, payload);
             }, ()=> {

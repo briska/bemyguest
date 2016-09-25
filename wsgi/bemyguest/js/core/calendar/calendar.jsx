@@ -41,7 +41,7 @@ let Calendar = React.createClass({
     getInitialState: function(){
         return {
             dateFrom: moment('2016-08-01'),
-            dateTo: moment('2016-12-31'),
+            dateTo: moment('2017-12-31'),
             selectingNewReservation: false,
             selectingFromX: null
         };

@@ -37,7 +37,7 @@ let CalendarHeader = React.createClass({
             else {
                 days = moment(d).endOf('month').date();
             }
-            months.push({name: d.format('MMMM'), days: days});
+            months.push({name: d.format('MMMM YYYY'), days: days});
         }
         let monthsComp = (
             <div className="calendar-months">
@@ -57,7 +57,7 @@ let CalendarHeader = React.createClass({
                 {position == 'top' ? monthsComp : ''}
                 <div className="calendar-days">
                     {_.map(dates, (date, i) => {
-                        
+
                         let tooltip = null;
                         if (date.format('L') in feasts) {
                             let feast = feasts[date.format('L')];
