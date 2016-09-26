@@ -10,6 +10,7 @@ import Meal from 'core/calendar/editReservation/meal';
 import {cellHeight, cellWidth, headHeight, monthHeight, MEAL_TYPES, DIETS, DAY_FORMAT} from 'core/enums';
 import {diffDays} from 'core/utils/utils';
 import CalendarHeader from 'core/calendar/calendarHeader';
+import EditTools from 'core/calendar/editReservation/editTools';
 
 let Meals = React.createClass({
     getInitialState: function() {
@@ -60,10 +61,6 @@ let Meals = React.createClass({
         return (
             <div className="meals form-group" onDoubleClick={this.startEditing}>
                 <h4>{trans('MEALS')}</h4>
-                {edit && !saving &&
-                    <Button className="form-group-button cancel" onClick={this.cancel}><Glyphicon glyph="remove" /></Button>}
-                {edit && !saving &&
-                    <Button bsStyle="success" className="form-group-button save" onClick={this.save}><Glyphicon glyph="ok" /></Button>}
                 <div className="meal-types calendar-aside" style={{marginTop: monthHeight + 'px'}}>
                     <div className="aside-cell" style={{height: headHeight + 'px'}}></div>
                     <div className="aside-cell" style={{height: cellHeight + 'px'}}>{trans('BREAKFAST')}</div>
@@ -105,6 +102,7 @@ let Meals = React.createClass({
                             })}
                         </div>}
                 </div>
+                <EditTools edit={edit} saving={saving} onSave={this.save} onCancel={this.cancel} />
             </div>
         );
     }

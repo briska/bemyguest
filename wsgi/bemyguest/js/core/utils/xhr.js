@@ -15,7 +15,9 @@ function handleData(actionContext, successCallback, errorCallback, resp) {
         executeCallback(errorCallback, resp);
     }
     else if (resp.body.error && resp.body.error == 'loggedOut') {
-        executeCallback(errorCallback, resp);
+        if (errorCallback) {
+            errorCallback(resp);
+        }
         actionContext.dispatch('USER_LOGGED_OUT');
     }
     else if (resp.body.error) {

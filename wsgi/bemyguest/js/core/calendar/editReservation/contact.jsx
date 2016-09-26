@@ -5,6 +5,7 @@ import Glyphicon from 'react-bootstrap/lib/Glyphicon';
 import Button from 'react-bootstrap/lib/Button';
 import nl2br from 'react-nl2br';
 import actions from 'core/actions';
+import EditTools from 'core/calendar/editReservation/editTools';
 
 let Contact = React.createClass({
     getStateFromSource: function(propsSrc) {
@@ -66,10 +67,6 @@ let Contact = React.createClass({
         return (
             <div className="contact form-group" onDoubleClick={this.startEditing}>
                 <label className="inline">{trans('CONTACT')}:</label>
-                {edit && !saving &&
-                    <Button className="form-group-button cancel" onClick={this.cancel}><Glyphicon glyph="remove" /></Button>}
-                {edit && !saving &&
-                    <Button bsStyle="success" className="form-group-button save" onClick={this.save}><Glyphicon glyph="ok" /></Button>}
                 {edit &&
                     <span className="edit-contact">
                         <input type="text" value={contactName} name="contactName"  ref="focusTarget" placeholder={trans('CONTACT_NAME')} onChange={this.handleChange} />
@@ -78,6 +75,7 @@ let Contact = React.createClass({
                     </span>}
                 {!edit && contact &&
                     <span className="contact-box">{contact}</span>}
+                <EditTools edit={edit} saving={saving} onSave={this.save} onCancel={this.cancel} />
             </div>
         );
     }

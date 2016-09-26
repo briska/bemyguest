@@ -13,6 +13,7 @@ import Guest from 'core/calendar/editReservation/guest';
 import ConfirmDialog from 'core/utils/confirmDialog';
 import {diffDays, getHousingPrice, getSpiritualPrice} from 'core/utils/utils';
 import {DATE_FORMAT} from 'core/enums';
+import EditTools from 'core/calendar/editReservation/editTools';
 
 let RoomReservation = React.createClass({
     getStateFromSource: function(propsSrc) {
@@ -132,12 +133,6 @@ let RoomReservation = React.createClass({
                             );
                         })}
                     </select>
-                    {!saving &&
-                        <Button className="form-group-button cancel" onClick={this.cancel}><Glyphicon glyph="remove" /></Button>}
-                    {!saving &&
-                        <Button bsStyle="danger" className="form-group-button remove" onClick={this.remove}><Glyphicon glyph="trash" /></Button>}
-                    {!saving &&
-                        <Button bsStyle="success" className="form-group-button save" onClick={this.save}><Glyphicon glyph="ok" /></Button>}
                     <div className="date">
                         <DatePicker
                             dateFormat="DD. MM. YYYY"
@@ -173,6 +168,7 @@ let RoomReservation = React.createClass({
                             guest={guests[room.capacity]}
                             extraBed={true}/>}
                     </div>
+                    <EditTools edit={edit} saving={saving} onSave={this.save} onCancel={this.cancel} onRemove={this.remove} />
                 </div>
             );
         }

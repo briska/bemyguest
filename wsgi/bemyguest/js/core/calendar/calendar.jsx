@@ -103,7 +103,7 @@ let Calendar = React.createClass({
                     })}
                     <div className="room aside-cell" style={{height: headHeight + 'px'}}></div>
                 </div>
-                <div className="calendar-sheet-container reservation-sheet two-headers" ref="calendarSheet">
+                <div className="calendar-sheet-container reservation-calendar two-headers" ref="calendarSheet">
                     <div className="calendar-sheet" style={{width: _.size(sheetDates) * cellWidth + 'px'}}>
                         <CalendarHeader context={context} dates={sheetDates} position={'top'} />
                         <div className="calendar-table">

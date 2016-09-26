@@ -20,6 +20,10 @@ module.exports = {
         };
     },
 
+    getActionContext: () => {
+        return window.context.getActionContext();
+    },
+
     substr: (text, length) => {
         if (text.length < length) return text;
         return text.substr(length) + '...';

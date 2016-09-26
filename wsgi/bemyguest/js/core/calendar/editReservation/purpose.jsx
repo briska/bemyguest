@@ -6,6 +6,7 @@ import Button from 'react-bootstrap/lib/Button';
 import nl2br from 'react-nl2br';
 import actions from 'core/actions';
 import Textarea from 'react-textarea-autosize';
+import EditTools from 'core/calendar/editReservation/editTools';
 
 let Purpose = React.createClass({
     getStateFromSource: function(propsSrc) {
@@ -54,14 +55,11 @@ let Purpose = React.createClass({
         return (
             <div className="purpose form-group" onDoubleClick={this.startEditing}>
                 <label className="block">{trans('PURPOSE')}</label>
-                {edit && !saving &&
-                    <Button className="form-group-button cancel" onClick={this.cancel}><Glyphicon glyph="remove" /></Button>}
-                {edit && !saving &&
-                    <Button bsStyle="success" className="form-group-button save" onClick={this.save}><Glyphicon glyph="ok" /></Button>}
                 {edit &&
                     <Textarea value={purpose} name="purpose" autoFocus onChange={this.handleChange} />}
                 {!edit && purpose &&
                     <div className="purpose-box">{nl2br(purpose)}</div>}
+                <EditTools edit={edit} saving={saving} onSave={this.save} onCancel={this.cancel} />
             </div>
         );
     }

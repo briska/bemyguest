@@ -187,12 +187,14 @@ button.close {
     overflow: auto;
     margin-left: 120px;
 
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
+    &.reservation-calendar {
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
 
     .calendar-sheet {
         position: relative;
@@ -501,6 +503,10 @@ button.close {
         &:last-of-type, &.name {
             margin-bottom: 0;
         }
+
+        .edit-tools {
+            margin: 10px 0;
+        }
     }
 
     label {
@@ -520,27 +526,16 @@ button.close {
     }
 
     .form-group-button {
-        position: absolute;
-        top: -2px;
-        font-size: 12px;
-        padding: 2px 5px 1px;
         z-index: 100;
+        margin-right: 5px;
 
-        &.cancel {
-            right: 0;
-        }
+        &.cancel {}
 
-        &.save {
-            right: 30px;
-        }
+        &.save {}
 
-        &.remove {
-            right: 60px;
-        }
+        &.remove {}
 
-        &.note {
-            right: 60px;
-        }
+        &.note {}
     }
 
     .room-reservation {
@@ -625,5 +620,28 @@ button.close {
         float: left;
         padding-top: 8px;
         color: $gray;
+    }
+}
+
+.stats {
+    .stats-section {
+        background-color: $white;
+        padding: 15px;
+        margin-bottom: 15px;
+    }
+
+    .meals {
+        .week-selector {
+            margin-bottom: 15px;
+
+            .btn {
+                margin-right: 5px;
+            }
+
+            .week-date {
+                display: inline-block;
+                margin-left: 10px;
+            }
+        }
     }
 }

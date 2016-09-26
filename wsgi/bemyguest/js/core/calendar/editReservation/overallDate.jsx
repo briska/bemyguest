@@ -10,6 +10,7 @@ import DatePicker from 'react-datepicker';
 import nl2br from 'react-nl2br';
 import actions from 'core/actions';
 import {DATE_FORMAT} from 'core/enums';
+import EditTools from 'core/calendar/editReservation/editTools';
 
 let OverallDate = React.createClass({
     getStateFromSource: function(propsSrc) {
@@ -64,12 +65,6 @@ let OverallDate = React.createClass({
         if (edit) {
             return (
                 <div className="overall-date form-group">
-                    {!saving &&
-                        <Button className="form-group-button cancel" onClick={this.cancel}><Glyphicon glyph="remove" /></Button>}
-                    {!saving &&
-                        <Button bsStyle="success" className="form-group-button save" onClick={this.save}><Glyphicon glyph="ok" /></Button>}
-                    {!saving &&
-                        <div className="form-group-button note text-warning">{trans('OVERALL_WARN_MSG')}</div>}
                     <div className="date">
                         <DatePicker
                             dateFormat="DD. MM. YYYY"
@@ -83,6 +78,7 @@ let OverallDate = React.createClass({
                             minDate={moment(dateFrom).add(1, 'days')}
                             onChange={(date) => {this.handleDate('dateTo', date);}} />
                     </div>
+                    <EditTools edit={edit} saving={saving} onSave={this.save} onCancel={this.cancel} note={trans('OVERALL_WARN_MSG')} />
                 </div>
             );
         }
