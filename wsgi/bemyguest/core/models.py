@@ -69,7 +69,7 @@ class Reservation(models.Model):
     date_modified = models.DateTimeField(auto_now=True)
 
     def __unicode__(self):
-        return '%s' % (self.name if self.name else self.contact_name)
+        return self.get_reservation_title()
 
     def update_prices(self):
         date_from = self.get_date_from().replace(hour = 0, minute = 0, second = 0, microsecond = 0)
@@ -84,6 +84,9 @@ class Reservation(models.Model):
 
     def get_date_to(self):
         return self.room_reservations.order_by('-date_to').values().first()['date_to']
+
+    def get_reservation_title(self):
+        return self.name if self.name else self.contact_name
 
 class Guest(models.Model):
     name_prefix = models.TextField(blank=True)
@@ -145,5 +148,5 @@ class Meal(models.Model):
         return [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]]
 
     def __unicode__(self):
-        return '%s, %s' % (self.reservation, self.date)
+        return '%s, %s' % (self.reservation.get_reservation_title(), self.date)
 
