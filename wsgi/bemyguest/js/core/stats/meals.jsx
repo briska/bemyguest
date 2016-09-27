@@ -17,42 +17,53 @@ let Meals = React.createClass({
 
     getInitialState: function(){
         return {
-            weekDateFrom: moment().startOf('isoWeek'),
-            weekDateTo: moment().endOf('isoWeek'),
-            mealsFrom: null,
-            mealsTo: null,
+            currentWeekFrom: moment().startOf('isoWeek'),
+            currentWeekTo: moment().endOf('isoWeek'),
+            mealsDataFrom: null,
+            mealsDataTo: null,
             mealsSum: {}
         };
     },
 
     handleWeek: function(moveToNext) {
         if (moveToNext) {
-            this.setState({weekDateFrom: this.state.weekDateFrom.add(1, 'week'), weekDateTo: this.state.weekDateTo.add(1, 'week')});
+            this.setState({currentWeekFrom: this.state.currentWeekFrom.add(1, 'week'), currentWeekTo: this.state.currentWeekTo.add(1, 'week')});
         } else {
-            this.setState({weekDateFrom: this.state.weekDateFrom.subtract(1, 'week'), weekDateTo: this.state.weekDateTo.subtract(1, 'week')});
+            this.setState({currentWeekFrom: this.state.currentWeekFrom.subtract(1, 'week'), currentWeekTo: this.state.currentWeekTo.subtract(1, 'week')});
         }
     },
 
     setActualWeek: function() {
-        this.setState({weekDateFrom: moment().startOf('isoWeek'), weekDateTo: moment().endOf('isoWeek')});
+        this.setState({currentWeekFrom: moment().startOf('isoWeek'), currentWeekTo: moment().endOf('isoWeek')});
     },
 
-    loadMeals: function() {
-        let dayFrom = moment().startOf('isoWeek').subtract(2, 'week');
-        let dayTo = moment().endOf('isoWeek').add(8, 'week');
-        this.setState({mealsFrom: dayFrom, mealsTo: dayTo});
-        xhr.get(getActionContext(), '/api/meals/?date_from=' + dayFrom.format('YYYY-MM-DD') + '&date_to=' + dayTo.format('YYYY-MM-DD'), (resp) => {
-            this.setState({mealsSum: resp.body.mealsSum});
+    loadMeals: function(loadFromDay, loadToDay) {
+        if (this.state.mealsDataFrom == null || loadFromDay.isBefore(this.state.mealsDataFrom)) {
+            this.setState({mealsDataFrom: loadFromDay});
+        }
+        if (this.state.mealsDataTo == null || loadToDay.isAfter(this.state.mealsDataTo)) {
+            this.setState({mealsDataTo: loadToDay});
+        }
+        xhr.get(getActionContext(), '/api/meals/?date_from=' + loadFromDay.format('YYYY-MM-DD') + '&date_to=' + loadToDay.format('YYYY-MM-DD'), (resp) => {
+            this.setState({mealsSum: _.assign({}, this.state.mealsSum, resp.body.mealsSum)});
         });
     },
 
-    componentDidMount: function componentDidMount() {
-        this.loadMeals();
+    componentDidMount: function() {
+        this.loadMeals(moment().startOf('isoWeek').subtract(5, 'week'), moment().startOf('isoWeek').add(5, 'week'));
+    },
+
+    componentWillUpdate: function(nextProps, nextState) {
+        if (nextState.currentWeekFrom.isSameOrBefore(nextState.mealsDataFrom)) {
+            this.loadMeals(moment(nextState.currentWeekFrom).subtract(5, 'week'), moment(nextState.mealsDataFrom));
+        } else if (nextState.currentWeekTo.isSameOrAfter(nextState.mealsDataTo)) {
+            this.loadMeals(moment(nextState.mealsDataTo), moment(nextState.currentWeekTo).add(5, 'week'));
+        }
     },
 
     render: function() {
-        let {weekDateFrom, weekDateTo, mealsFrom, mealsTo, mealsSum} = this.state;
-        let datesRange = getDatesRange(this.state.weekDateFrom, this.state.weekDateTo);
+        let {currentWeekFrom, currentWeekTo, mealsDataFrom, mealsDataTo, mealsSum} = this.state;
+        let datesRange = getDatesRange(this.state.currentWeekFrom, this.state.currentWeekTo);
         return (
             <div className="meals stats-section">
                 <h2>{trans('MEALS')}</h2>
@@ -60,14 +71,12 @@ let Meals = React.createClass({
                     <Button onClick={() => {this.setActualWeek();}} bsSize="small">
                         {trans('ACTUAL_WEEK')}
                     </Button>
-                    <Button disabled={weekDateFrom.isSame(mealsFrom)} onClick={() => {this.handleWeek(false);}} bsSize="small">
+                    <Button onClick={() => {this.handleWeek(false);}} bsSize="small">
                         <Glyphicon glyph='chevron-left'/>
                     </Button>
-                    <Button disabled={weekDateTo.isSame(mealsTo)} onClick={() => {this.handleWeek(true);}} bsSize="small">
+                    <Button onClick={() => {this.handleWeek(true);}} bsSize="small">
                         <Glyphicon glyph='chevron-right'/>
                     </Button>
-                    <div className="week-date">{weekDateFrom.format('D. MMMM YYYY')} - {weekDateTo.format('D. MMMM YYYY')}</div>
-
                 </div>
                 <div className="meal-types calendar-aside" style={{marginTop: monthHeight + 'px'}}>
                     <div className="aside-cell" style={{height: headHeight + 'px'}}></div>
