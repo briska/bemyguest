@@ -7,7 +7,6 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login
 from django.db.models import Q, F
 from core.utils import convert_dict_keys_deep, to_datetime
-from collections import defaultdict
 
 @csrf_exempt
 def user(request):
@@ -232,22 +231,15 @@ def feasts(request):
     feasts = [serialize_feast(feast) for feast in Feast.objects.all()]
     return JsonResponse({'feasts': feasts})
 
+
 def meals(request):
     if request.user.is_anonymous():
         return JsonResponse({'error': 'loggedOut'})
 
-    mealsSum = defaultdict(list)
     if request.method == 'GET':
-        date_from = request.GET['date_from']
-        date_to = request.GET['date_to']
+        date_from = request.GET.get('date_from', None)
+        date_to = request.GET.get('date_to', None)
         if date_from and date_to:
-            meals = Meal.objects.filter(date__range=(date_from, date_to))
-            for meal in meals:
-                mealDate = meal.date.strftime('%d/%m/%Y')
-                if mealsSum.get(mealDate) is None:
-                    mealsSum[mealDate] = [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]];
-                mealCounts = meal.get_counts()
-                for i, mealTypes in enumerate(mealCounts):
-                    for j, dietCount in enumerate(mealTypes):
-                        mealsSum[mealDate][i][j] += dietCount
-    return JsonResponse({'mealsSum': mealsSum})
+            mealsSum = Meal.get_meals_sum(date_from, date_to)
+            return JsonResponse({'mealsSum': mealsSum})
+    return JsonResponse({'error': 'badRequest'})

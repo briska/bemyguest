@@ -1,7 +1,7 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 import json
-from django.utils.functional import cached_property
+from collections import OrderedDict
 
 class Setting(models.Model):
     key = models.CharField(max_length=32)
@@ -72,8 +72,8 @@ class Reservation(models.Model):
         return self.get_reservation_title()
 
     def update_prices(self):
-        date_from = self.get_date_from().replace(hour = 0, minute = 0, second = 0, microsecond = 0)
-        date_to = self.get_date_to().replace(hour = 0, minute = 0, second = 0, microsecond = 0)
+        date_from = self.get_date_from().replace(hour=0, minute=0, second=0, microsecond=0)
+        date_to = self.get_date_to().replace(hour=0, minute=0, second=0, microsecond=0)
         days = (date_to - date_from).days + 1
         self.price_housing = days * 16 + 1
         self.price_spiritual = days * 2
@@ -150,3 +150,16 @@ class Meal(models.Model):
     def __unicode__(self):
         return '%s, %s' % (self.reservation.get_reservation_title(), self.date)
 
+    @staticmethod
+    def get_meals_sum(date_from, date_to):
+        meals_sum = OrderedDict()
+        meals = Meal.objects.filter(date__range=(date_from, date_to)).order_by('date')
+        for meal in meals:
+            meal_date = meal.date.strftime('%Y-%m-%d')
+            if meals_sum.get(meal_date) is None:
+                meals_sum[meal_date] = [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]];
+            meal_counts = meal.get_counts()
+            for i, mealTypes in enumerate(meal_counts):
+                for j, dietCount in enumerate(mealTypes):
+                    meals_sum[meal_date][i][j] += dietCount
+        return meals_sum

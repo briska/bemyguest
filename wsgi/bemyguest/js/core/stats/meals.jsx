@@ -7,7 +7,7 @@ import actions from 'core/actions';
 const moment = require('moment');
 require('moment/locale/sk');
 import Meal from 'core/calendar/editReservation/meal';
-import {cellHeight, cellWidth, headHeight, monthHeight, MEAL_TYPES, DIETS} from 'core/enums';
+import {cellHeight, cellWidth, headHeight, monthHeight, MEAL_TYPES, DIETS, DAY_FORMAT} from 'core/enums';
 import CalendarHeader from 'core/calendar/calendarHeader';
 import {getDatesRange, getActionContext} from 'core/utils/utils';
 import DatePicker from 'react-datepicker';
@@ -25,18 +25,6 @@ let Meals = React.createClass({
         };
     },
 
-    handleWeek: function(moveToNext) {
-        if (moveToNext) {
-            this.setState({currentWeekFrom: this.state.currentWeekFrom.add(1, 'week'), currentWeekTo: this.state.currentWeekTo.add(1, 'week')});
-        } else {
-            this.setState({currentWeekFrom: this.state.currentWeekFrom.subtract(1, 'week'), currentWeekTo: this.state.currentWeekTo.subtract(1, 'week')});
-        }
-    },
-
-    setActualWeek: function() {
-        this.setState({currentWeekFrom: moment().startOf('isoWeek'), currentWeekTo: moment().endOf('isoWeek')});
-    },
-
     loadMeals: function(loadFromDay, loadToDay) {
         if (this.state.mealsDataFrom == null || loadFromDay.isBefore(this.state.mealsDataFrom)) {
             this.setState({mealsDataFrom: loadFromDay});
@@ -47,6 +35,18 @@ let Meals = React.createClass({
         xhr.get(getActionContext(), '/api/meals/?date_from=' + loadFromDay.format('YYYY-MM-DD') + '&date_to=' + loadToDay.format('YYYY-MM-DD'), (resp) => {
             this.setState({mealsSum: _.assign({}, this.state.mealsSum, resp.body.mealsSum)});
         });
+    },
+
+    setActualWeek: function() {
+        this.setState({currentWeekFrom: moment().startOf('isoWeek'), currentWeekTo: moment().endOf('isoWeek')});
+    },
+
+    handleWeek: function(moveToNext) {
+        if (moveToNext) {
+            this.setState({currentWeekFrom: this.state.currentWeekFrom.add(1, 'week'), currentWeekTo: this.state.currentWeekTo.add(1, 'week')});
+        } else {
+            this.setState({currentWeekFrom: this.state.currentWeekFrom.subtract(1, 'week'), currentWeekTo: this.state.currentWeekTo.subtract(1, 'week')});
+        }
     },
 
     componentDidMount: function() {
@@ -77,6 +77,10 @@ let Meals = React.createClass({
                     <Button onClick={() => {this.handleWeek(true);}} bsSize="small">
                         <Glyphicon glyph='chevron-right'/>
                     </Button>
+                    <a href={'/pdf/meals/?date_from=' + currentWeekFrom.format(DAY_FORMAT) + '&date_to=' + currentWeekTo.format(DAY_FORMAT)} className="btn btn-primary btn-sm"
+                            target="_blank">
+                        <Glyphicon glyph='download-alt'/> {trans('PDF')}
+                    </a>
                 </div>
                 <div className="meal-types calendar-aside" style={{marginTop: monthHeight + 'px'}}>
                     <div className="aside-cell" style={{height: headHeight + 'px'}}></div>
@@ -92,7 +96,7 @@ let Meals = React.createClass({
                                 return (
                                     <div className="calendar-row" key={'meal-row-' + type}>
                                         {_.map(datesRange, (date, i) => {
-                                            let key = date.format('DD/MM/YYYY');
+                                            let key = date.format(DAY_FORMAT);
                                             return (
                                                 <Meal
                                                     key={'meal-' + i + '-' + type}

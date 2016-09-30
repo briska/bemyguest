@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from core.models import Room, House
+from core.models import Room, House, Meal
 from core.serializers import serialize_house, serialize_room
 from django.contrib.auth.forms import AuthenticationForm
 from django.views.decorators.debug import sensitive_post_parameters
@@ -13,6 +13,8 @@ from django.utils.translation import ugettext_lazy as _
 from django.db.models.query import Prefetch
 import json
 from bemyguest import settings
+from core.utils import render_to_pdf
+from django.http.response import HttpResponseBadRequest
 
 # Create your views here.
 
@@ -67,3 +69,24 @@ def user_logout(request):
     logout(request)
     add_message(request, INFO, _('LOGGED_OUT'))
     return redirect(redirect_url)
+
+@csrf_exempt
+def pdf_meals(request):
+    if request.user.is_anonymous():
+        return HttpResponseBadRequest("loggedOut")
+
+    if request.method == 'GET':
+        date_from = request.GET.get('date_from', None)
+        date_to = request.GET.get('date_to', None)
+        if not date_from or not date_to:
+            return HttpResponseBadRequest("bad request: missing date_from or date_to")
+        meals = Meal.get_meals_sum(date_from, date_to)
+        return render_to_pdf(
+                'pdf/pdf_meals.html',
+                'strava_' + str(date_from) + '_' + str(date_to),
+                {
+                    'pagesize': 'A4',
+                    'title': 'beMyGuest v Sampore | Strava | ' + str(date_from) + '_' + str(date_to),
+                    'mylist': meals,
+                }
+            )

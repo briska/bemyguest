@@ -1,0 +1,72 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+        <title>{{ title }}</title>
+        <style type="text/css">
+            @page {
+                size: {{ pagesize }};
+                margin: 1cm;
+                @frame footer {
+                    -pdf-frame-content: footerContent;
+                    bottom: 0cm;
+                    margin-left: 9cm;
+                    margin-right: 9cm;
+                    height: 1cm;
+                }
+            }
+
+            .header {
+                text-align: center;
+                font-size: 24px;
+            }
+
+            .mealsTable {
+                font-size: 16px;
+                margin-top: 50px;
+                border: 1px solid #eeeebb;
+            }
+
+            .mealsTable .type {
+                width: 100px;
+            }
+
+            tr {
+                padding: 5px;
+            }
+
+            .hTr td {
+                background: #eee;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="header">
+            {{ title }}
+        </div>
+        <table class="mealsTable">
+            <thead>
+                <tr class="hTr">
+                    <td>Datum</td>
+                    <td>Ranajky</td>
+                    <td>Obed</td>
+                    <td>Vecera</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for key, values in mylist.items %}
+                    <tr class="mealRow">
+                        <td class="day">{{ key }}</td>
+                        {% for v in values %}
+                            <td class="type">{{ v.0 }}</td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div id="footerContent">
+            {%block page_foot%}
+                Strana <pdf:pagenumber>
+            {%endblock%}
+        </div>
+    </body>
+</html>

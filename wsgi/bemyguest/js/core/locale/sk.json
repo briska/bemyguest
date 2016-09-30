@@ -65,5 +65,7 @@
     "INVALID_CREDENTIALS": "Nesprávne prihlasovacie meno alebo heslo.",
     "USERNAME": "Používateľské meno",
     "PASSWORD": "Heslo",
-    "LOG_IN": "Prihlásiť"
+    "LOG_IN": "Prihlásiť",
+    "DOWNLOAD": "Stiahnuť",
+    "PDF": "PDF"
 }

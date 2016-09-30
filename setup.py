@@ -13,7 +13,11 @@ setup(
         'Django==1.8.4',
         'django-debug-panel==0.8.2',
         'django-debug-toolbar==1.4',
-        'python-dateutil==2.5.3'
+        'python-dateutil==2.5.3',
+        'reportlab',
+        'xhtml2pdf',
+        'html5lib==1.0b8',
+        'pypdf'
     ],
     dependency_links=[
         'https://pypi.python.org/simple/django/',

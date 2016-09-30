@@ -33,6 +33,8 @@ urlpatterns = [
     url(r'^api/reservations/(?P<pk>\d+)/$', core.api.reservation, name='api_reservation'),
     url(r'^api/feasts/$', core.api.feasts, name='api_feasts'),
     url(r'^api/meals/$', core.api.meals, name='api_meals'),
+
+    url(r'^pdf/meals/$', core.views.pdf_meals, name='pdf_meals'),
 ]
 
 if settings.DEBUG:
