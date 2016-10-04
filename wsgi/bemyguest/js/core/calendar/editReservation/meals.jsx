@@ -16,8 +16,7 @@ let Meals = React.createClass({
     getInitialState: function() {
         return {
             edit: false,
-            saving: false,
-            guestsCount: this.props.guestsCount
+            saving: false
         };
     },
 
@@ -51,13 +50,19 @@ let Meals = React.createClass({
 
     componentWillReceiveProps: function(nextProps) {
         if (this.state.saving) {
-            this.setState({saving: false, edit: false, guestsCount: nextProps.guestsCount});
+            this.setState({saving: false, edit: false});
         }
+    },
+
+    updateCount: function(mealType, updateType) {
+        _.map(this.props.datesRange, (date, i) => {
+            this.refs['mealD' + i + 'T' + mealType].updateCount(updateType);
+        });
     },
 
     render: function() {
         let {edit, saving} = this.state;
-        let {meals, datesRange} = this.props;
+        let {meals, datesRange, guestsCount} = this.props;
         return (
             <div className="meals form-group" onDoubleClick={this.startEditing}>
                 <h4>{trans('MEALS')}</h4>
@@ -82,7 +87,8 @@ let Meals = React.createClass({
                                                     ref={'mealD' + i + 'T' + type}
                                                     edit={edit}
                                                     context={context}
-                                                    counts={meals[key] ? meals[key][type] : _.times(_.size(DIETS), _.constant(0))} />
+                                                    counts={meals[key] ? meals[key][type] : _.times(_.size(DIETS), _.constant(0))}
+                                                    guestsCount={guestsCount} />
                                             )
                                         })}
                                     </div>
@@ -90,13 +96,16 @@ let Meals = React.createClass({
                             })}
                         </div>
                     </div>
-                    {edit && false &&
+                    {edit &&
                         <div className="meal-buttons" style={{marginTop: monthHeight + headHeight + 'px'}}>
                             {_.map(MEAL_TYPES, (type) => {
                                 return (
-                                    <div className="buttons-container" style={{height: cellHeight + 'px'}}>
-                                        <Button className="meal-button all" bsSize="small">All</Button>
-                                        <Button className="meal-button none" bsSize="small">None</Button>
+                                    <div key={'mealType-' + type} className="buttons-container" style={{height: cellHeight + 'px'}}>
+                                        <Button onClick={() => {this.updateCount(type, 'minus');}} className="meal-button minus-one" bsSize="small">-1</Button>
+                                        <Button onClick={() => {this.updateCount(type, 'plus');}} className="meal-button plus-one" bsSize="small">+1</Button>
+                                        <Button onClick={() => {this.updateCount(type, 'none');}} className="meal-button none" bsSize="small">{trans('NOBODY')}</Button>
+                                        <Button onClick={() => {this.updateCount(type, 'all');}} className="meal-button all" bsSize="small">{trans('ALL')}</Button>
+
                                     </div>
                                 );
                             })}

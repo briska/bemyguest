@@ -89,7 +89,7 @@ let ReservationDetails = React.createClass({
                                 isLastRoom={isLastRoom}/>
                         );
                     })}
-                    <Meals context={context} reservationId={reservation.id} meals={reservation.meals} datesRange={datesRange} />
+                    <Meals context={context} reservationId={reservation.id} meals={reservation.meals} datesRange={datesRange} guestsCount={reservation.guestsCount} />
                     <Purpose context={context} reservationId={reservation.id} purpose={reservation.purpose} />
                     <SpiritualGuide context={context} reservationId={reservation.id} spiritualGuide={reservation.spiritualGuide} />
                     <Contact

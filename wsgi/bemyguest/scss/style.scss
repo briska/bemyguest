@@ -299,6 +299,13 @@ button.close {
         }
     }
 
+    .buttons-container {
+        button {
+            margin: 2px 0 0 5px;
+            border: none;
+        }
+    }
+
     .room-reservation {
         position: absolute;
         text-align: center;

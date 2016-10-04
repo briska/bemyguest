@@ -67,5 +67,7 @@
     "PASSWORD": "Heslo",
     "LOG_IN": "Prihlásiť",
     "DOWNLOAD": "Stiahnuť",
-    "PDF": "PDF"
+    "PDF": "PDF",
+    "ALL": "Všetci",
+    "NOBODY": "Nikto"
 }

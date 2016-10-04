@@ -475,6 +475,9 @@ button.close {
             background: #fff; }
           .calendar-sheet-container .calendar-sheet .calendar-table .calendar-row .calendar-cell.even {
             background: #f3f3f3; }
+  .calendar-sheet-container .buttons-container button {
+    margin: 2px 0 0 5px;
+    border: none; }
   .calendar-sheet-container .room-reservation {
     position: absolute;
     text-align: center;

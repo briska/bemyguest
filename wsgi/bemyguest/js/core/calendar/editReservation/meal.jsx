@@ -34,6 +34,22 @@ let Meal = React.createClass({
         this.setState({isActive: true});
     },
 
+    updateCount: function(updateType) {
+        let updatedCount = this.state.counts[DIETS['NONE_DIET']];
+        if (updateType == 'plus') {
+            updatedCount += 1;
+        } else if (updateType == 'minus') {
+            updatedCount -= 1;
+        } else if (updateType == 'none') {
+            updatedCount = 0;
+        } else if (updateType == 'all') {
+            updatedCount = 5;
+        }
+        if (updatedCount >= 0 && updatedCount <= this.props.guestsCount) {
+            this.setState({counts: update(this.state.counts, {[DIETS['NONE_DIET']]: {$set: updatedCount}})});
+        }
+    },
+
     componentDidUpdate: function(prevProps, prevState) {
         if (this.state.isActive) {
             this.refs.focusTarget.select();
