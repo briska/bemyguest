@@ -7,7 +7,6 @@ const moment = require('moment');
 require('moment/locale/sk');
 const connectToStores = require('fluxible-addons-react/connectToStores');
 const actions = require('core/actions');
-const ReservationsStore = require('core/calendar/reservationsStore');
 const NewReservationStore = require('core/calendar/newReservationStore');
 const DatePicker = require('react-datepicker');
 import Button from 'react-bootstrap/lib/Button';
@@ -21,10 +20,6 @@ import CalendarHeader from 'core/calendar/calendarHeader';
 import {getDatesRange, diffDays} from 'core/utils/utils';
 
 let Calendar = React.createClass({
-    loadReservations: function() {
-        this.props.context.executeAction(actions.loadReservations);
-    },
-
     scrollCalendarToDay: function(selectedDay, useAnimation = true) {
         if (useAnimation) {
             $(ReactDOM.findDOMNode(this.refs.calendarSheet)).animate({scrollLeft: (diffDays(this.state.dateFrom, selectedDay) - 1) * cellWidth}, 300);
@@ -34,7 +29,6 @@ let Calendar = React.createClass({
     },
 
     componentDidMount: function() {
-        this.loadReservations();
         this.scrollCalendarToDay(moment(), false);
     },
 

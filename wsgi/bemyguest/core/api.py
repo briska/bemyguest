@@ -1,7 +1,7 @@
 import json
 from django.views.decorators.csrf import csrf_exempt
 from core.models import Reservation, RoomReservation, Guest, Meal, Feast
-from core.serializers import serialize_reservation, serialize_user, serialize_feast
+from core.serializers import serialize_reservation, serialize_user, serialize_feast, serialize_guest
 from django.http.response import JsonResponse
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login
@@ -67,6 +67,8 @@ def reservations(request):
                         address_number=guest_data['address_number'],
                         address_city=guest_data['address_city'],
                         phone=guest_data['phone'],
+                        recommended=guest_data['recommended'],
+                        note=guest_data['note'],
                     )
                     guest.save()
                     room_reservation.guests.add(guest)
@@ -153,6 +155,8 @@ def reservation(request, pk):
                         guest.address_number = guest_data['address_number']
                         guest.address_city = guest_data['address_city']
                         guest.phone = guest_data['phone']
+                        guest.recommended = guest_data['recommended']
+                        guest.note = guest_data['note']
                         guest.save()
                     else:
                         if (guest_data['name'] and guest_data['surname']):
@@ -165,6 +169,8 @@ def reservation(request, pk):
                                 address_number=guest_data['address_number'],
                                 address_city=guest_data['address_city'],
                                 phone=guest_data['phone'],
+                                recommended=guest_data['recommended'],
+                                note=guest_data['note'],
                             )
                             guest.save()
                             room_reservation.guests.add(guest)
@@ -243,3 +249,40 @@ def meals(request):
             mealsSum = Meal.get_meals_sum(date_from, date_to)
             return JsonResponse({'mealsSum': mealsSum})
     return JsonResponse({'error': 'badRequest'})
+
+
+@csrf_exempt
+def guests(request):
+    if request.user.is_anonymous():
+        return JsonResponse({'error': 'loggedOut'})
+
+    guests = [serialize_guest(guest) for guest in Guest.objects.all()]
+    return JsonResponse({'guests': guests})
+
+
+@csrf_exempt
+def guest(request, pk):
+    if request.user.is_anonymous():
+        return JsonResponse({'error': 'loggedOut'})
+
+    guest = Guest.objects.get(id=pk)
+
+    if request.method == 'DELETE':
+        guest.delete()
+        return JsonResponse({})
+
+    if request.method == 'POST':
+        guest_data = convert_dict_keys_deep(json.loads(request.body))
+        print guest_data;
+        guest.name_prefix = guest_data['name_prefix']
+        guest.name = guest_data['name']
+        guest.surname = guest_data['surname']
+        guest.name_suffix = guest_data['name_suffix']
+        guest.address_street = guest_data['address_street']
+        guest.address_number = guest_data['address_number']
+        guest.address_city = guest_data['address_city']
+        guest.phone = guest_data['phone']
+        guest.recommended = guest_data['recommended']
+        guest.note = guest_data['note']
+        guest.save()
+    return JsonResponse({'guest': serialize_guest(guest)})

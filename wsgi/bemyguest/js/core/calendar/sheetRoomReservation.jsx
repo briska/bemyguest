@@ -9,7 +9,6 @@ import {cellWidth, cellHeight, headHeight, monthHeight, DRAG_TYPE, DATE_FORMAT} 
 import {diffDays} from 'core/utils/utils';
 import RoomsStore from 'core/roomsStore';
 import RoomReservationDetails from 'core/calendar/roomReservationDetails';
-import ReservationsStore from 'core/calendar/reservationsStore';
 import actions from 'core/actions';
 import ConfirmDialog from 'core/utils/confirmDialog';
 

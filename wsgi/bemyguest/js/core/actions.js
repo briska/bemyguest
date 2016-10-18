@@ -55,4 +55,20 @@ function loadFeasts(actionContext, {}, done) {
     });
 };
 
-module.exports = {loadUser, logIn, loadReservations, createReservation, editReservation, removeReservation, loadFeasts};
+function loadGuests(actionContext, {}, done) {
+    xhr.get(actionContext, '/api/guests/', function(resp) {
+        actionContext.dispatch('GUESTS_LOADED', {guests: resp.body.guests});
+        done();
+    });
+};
+
+function editGuest(actionContext, {guest}, done) {
+    xhr.post(actionContext, '/api/guests/' + guest.id + '/', guest, function(resp) {
+        actionContext.dispatch('GUESTS_EDITED', {guest: resp.body.guest});
+        done();
+    }, function(resp) {
+        actionContext.dispatch('GUESTS_ERROR');
+    });
+};
+
+module.exports = {loadUser, logIn, loadReservations, createReservation, editReservation, removeReservation, loadFeasts, loadGuests, editGuest};

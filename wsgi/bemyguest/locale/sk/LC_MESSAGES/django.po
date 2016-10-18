@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-15 19:44+0200\n"
+"POT-Creation-Date: 2016-10-17 22:59+0200\n"
 "PO-Revision-Date: 2016-08-08 23:37+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -18,39 +18,39 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 "X-Generator: Poedit 1.8.2\n"
 
-#: .\core\models.py:14
+#: .\core\models.py:16
 msgid "RED"
 msgstr ""
 
-#: .\core\models.py:15
+#: .\core\models.py:17
 msgid "GREEN"
 msgstr ""
 
-#: .\core\models.py:16
+#: .\core\models.py:18
 msgid "BLUE"
 msgstr ""
 
-#: .\core\models.py:17
+#: .\core\models.py:19
 msgid "PINK"
 msgstr ""
 
-#: .\core\models.py:18
+#: .\core\models.py:20
 msgid "VIOLET"
 msgstr ""
 
-#: .\core\models.py:19
+#: .\core\models.py:21
 msgid "TURQUOISE"
 msgstr ""
 
-#: .\core\models.py:20
+#: .\core\models.py:22
 msgid "WHITE"
 msgstr ""
 
-#: .\core\views.py:57
+#: .\core\views.py:59
 msgid "WRONG_USERNAME_OR_PASSWORD"
 msgstr "Nesprávne prihlasovacie meno alebo heslo."
 
-#: .\core\views.py:68
+#: .\core\views.py:70
 msgid "LOGGED_OUT"
 msgstr "Boli ste úspešne odhlásený."
 
@@ -71,9 +71,29 @@ msgid "STATS"
 msgstr "Štatistiky"
 
 #: .\templates\base.html:24
+msgid "GUESTS"
+msgstr "Hostia"
+
+#: .\templates\base.html:25
 msgid "LOG_OUT"
 msgstr "Odhlásiť"
 
-#: .\templates\login.html:15
+#: .\templates\login.html:14
 msgid "LOG_IN"
 msgstr "Prihlásiť"
+
+#: .\templates\pdf\pdf_meals.html:51
+msgid "DATE"
+msgstr "Dátum"
+
+#: .\templates\pdf\pdf_meals.html:52
+msgid "BREAKFAST"
+msgstr "Raňajky"
+
+#: .\templates\pdf\pdf_meals.html:53
+msgid "LUNCH"
+msgstr "Obed"
+
+#: .\templates\pdf\pdf_meals.html:54
+msgid "DINNER"
+msgstr "Večera"

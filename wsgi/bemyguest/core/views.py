@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from core.models import Room, House, Meal
+from core.models import Room, House, Meal, RoomReservation
 from core.serializers import serialize_house, serialize_room
 from django.contrib.auth.forms import AuthenticationForm
 from django.views.decorators.debug import sensitive_post_parameters
@@ -13,7 +13,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.db.models.query import Prefetch
 import json
 from bemyguest import settings
-from core.utils import render_to_pdf
+from core.utils import render_to_pdf, to_datetime, generate_dates_list
 from django.http.response import HttpResponseBadRequest
 
 # Create your views here.
@@ -70,6 +70,7 @@ def user_logout(request):
     add_message(request, INFO, _('LOGGED_OUT'))
     return redirect(redirect_url)
 
+
 @csrf_exempt
 def pdf_meals(request):
     if request.user.is_anonymous():
@@ -81,12 +82,53 @@ def pdf_meals(request):
         if not date_from or not date_to:
             return HttpResponseBadRequest("bad request: missing date_from or date_to")
         meals = Meal.get_meals_sum(date_from, date_to)
+        dates = generate_dates_list(to_datetime(date_from + ' 00:00:00'), to_datetime(date_to + ' 00:00:00'), '%Y-%m-%d')
         return render_to_pdf(
                 'pdf/pdf_meals.html',
                 'strava_' + str(date_from) + '_' + str(date_to),
                 {
                     'pagesize': 'A4',
                     'title': 'beMyGuest v Sampore | Strava | ' + str(date_from) + '_' + str(date_to),
-                    'mylist': meals,
+                    'meals': meals,
+                    'dates': dates
                 }
             )
+
+
+@csrf_exempt
+def pdf_occupation(request):
+    if request.user.is_anonymous():
+        return HttpResponseBadRequest("loggedOut")
+
+    if request.method == 'GET':
+        date_from = request.GET.get('date_from', None)
+        date_to = request.GET.get('date_to', None)
+        out = request.GET.get('out', None)
+        if not date_from or not date_to:
+            return HttpResponseBadRequest("bad request: missing date_from or date_to")
+        occupation = RoomReservation.get_occupation(to_datetime(date_from + ' 00:00:00'), to_datetime(date_to + ' 23:59:59'))
+        dates = generate_dates_list(to_datetime(date_from + ' 00:00:00'), to_datetime(date_to + ' 00:00:00'), '%Y-%m-%d')
+        rooms = []
+        for house in House.objects.all().prefetch_related(Prefetch('rooms', queryset=Room.objects.all())):
+            for room in house.rooms.all():
+                rooms.append(serialize_room(room))
+        if (out == 'pdf'):
+            return render_to_pdf(
+                    'pdf/pdf_occupation.html',
+                    'obsadenost_' + str(date_from) + '_' + str(date_to),
+                    {
+                        'pagesize': 'A4',
+                        'title': 'beMyGuest v Sampore | Obsadenost | ' + str(date_from) + '_' + str(date_to),
+                        'occupation': occupation,
+                        'dates': dates,
+                        'rooms': rooms
+                    }
+                )
+        else:
+            return render(request, 'pdf/pdf_occupation.html', {
+                    'pagesize': 'A4',
+                    'title': 'beMyGuest v Sampore | Obsadenost | ' + str(date_from) + '_' + str(date_to),
+                    'occupation': occupation,
+                    'dates': dates,
+                    'rooms': rooms
+                })

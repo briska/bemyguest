@@ -10,7 +10,6 @@ import Meal from 'core/calendar/editReservation/meal';
 import {cellHeight, cellWidth, headHeight, monthHeight, MEAL_TYPES, DIETS, DAY_FORMAT} from 'core/enums';
 import CalendarHeader from 'core/calendar/calendarHeader';
 import {getDatesRange, getActionContext} from 'core/utils/utils';
-import DatePicker from 'react-datepicker';
 const xhr = require('core/utils/xhr');
 
 let Meals = React.createClass({

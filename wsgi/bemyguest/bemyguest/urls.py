@@ -26,6 +26,7 @@ urlpatterns = [
     url(r'^logout/$', core.views.user_logout, name='logout'),
     url(r'^$', core.views.react_base, {'page': 'calendar'}, name='calendar'),
     url(r'^stats/$', core.views.react_base, {'page': 'stats'}, name='stats'),
+    url(r'^guests/$', core.views.react_base, {'page': 'guests'}, name='guests'),
 
     url(r'^api/user/$', core.api.user, name='api_user'),
     url(r'^api/login/$', core.api.user_login, name='api_login'),
@@ -33,8 +34,11 @@ urlpatterns = [
     url(r'^api/reservations/(?P<pk>\d+)/$', core.api.reservation, name='api_reservation'),
     url(r'^api/feasts/$', core.api.feasts, name='api_feasts'),
     url(r'^api/meals/$', core.api.meals, name='api_meals'),
+    url(r'^api/guests/$', core.api.guests, name='api_guests'),
+    url(r'^api/guests/(?P<pk>\d+)/$', core.api.guest, name='api_guest'),
 
     url(r'^pdf/meals/$', core.views.pdf_meals, name='pdf_meals'),
+    url(r'^pdf/occupation/$', core.views.pdf_occupation, name='pdf_occupation'),
 ]
 
 if settings.DEBUG:

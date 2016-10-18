@@ -2,6 +2,7 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 import json
 from collections import OrderedDict
+from django.db.models import Q
 
 class Setting(models.Model):
     key = models.CharField(max_length=32)
@@ -97,6 +98,8 @@ class Guest(models.Model):
     address_number = models.TextField(blank=True)
     address_city = models.TextField(blank=True)
     phone = models.TextField(blank=True)
+    recommended = models.BooleanField(default=True)
+    note = models.TextField(blank=True)
 
     def __unicode__(self):
         return '%s %s %s %s' % (self.name_prefix, self.name, self.surname, self.name_suffix)
@@ -114,6 +117,29 @@ class RoomReservation(models.Model):
 
     def __unicode__(self):
         return '%s - %s' % (self.room.name, self.reservation.contact_name)
+
+    @staticmethod
+    def get_occupation(date_from, date_to):
+        occupations = OrderedDict()
+        room_reservations = RoomReservation.objects.filter(
+            (Q(date_from__gte=(date_from)) & Q(date_from__lte=(date_to))) |
+            (Q(date_to__gte=(date_from)) & Q(date_to__lte=(date_to))) |
+            (Q(date_from__lt=(date_from)) & Q(date_to__gt=(date_to)))
+            ).order_by('date_from')
+        for rr in room_reservations:
+            print rr.room, rr.reservation, rr.date_from
+#         meals_sum = OrderedDict()
+#         meals = Meal.objects.filter(date__range=(date_from, date_to)).order_by('date')
+#         for meal in meals:
+#             meal_date = meal.date.strftime('%Y-%m-%d')
+#             if meals_sum.get(meal_date) is None:
+#                 meals_sum[meal_date] = [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]];
+#             meal_counts = meal.get_counts()
+#             for i, mealTypes in enumerate(meal_counts):
+#                 for j, dietCount in enumerate(mealTypes):
+#                     meals_sum[meal_date][i][j] += dietCount
+#         return meals_sum
+
 
 
 MEAL_TYPES = {

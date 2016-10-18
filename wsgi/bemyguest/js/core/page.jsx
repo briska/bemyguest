@@ -3,17 +3,21 @@ const actions = require('core/actions');
 const UserMenu = require('core/user/userMenu');
 const Calendar = require('core/calendar/calendar');
 const Stats = require('core/stats/stats');
+const Guests = require('core/guests/guests');
 
 let Page = React.createClass({
     getCurrentPage: function() {
         if (this.props.page == 'calendar') return Calendar;
         else if (this.props.page == 'stats') return Stats;
+        else if (this.props.page == 'guests') return Guests;
         else return null;
     },
 
     componentDidMount: function() {
         this.props.context.executeAction(actions.loadUser);
         this.props.context.executeAction(actions.loadFeasts);
+        this.props.context.executeAction(actions.loadReservations);
+        this.props.context.executeAction(actions.loadGuests);
     },
 
     render: function() {

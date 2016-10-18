@@ -24,6 +24,8 @@ def serialize_guest(guest):
         'addressNumber': guest.address_number,
         'addressCity': guest.address_city,
         'phone': guest.phone,
+        'recommended': guest.recommended,
+        'note': guest.note,
     }
 
 def serialize_room_reservation(room_reservation):

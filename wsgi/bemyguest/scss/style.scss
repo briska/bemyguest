@@ -11,6 +11,7 @@ $black: #222;
 $newgreen: #eeff41;
 $lightorange: #ffefcc;
 $orange: #f2a23f;
+$red: #d9534f;
 
 $screen-xs-max: 767px;
 $screen-sm-min: 768px;
@@ -215,6 +216,8 @@ button.close {
                         &.top {
                             border-bottom: 1px solid $gray;
                             margin: 0 2px 4px;
+                            white-space: nowrap;
+                            overflow: hidden;
                         }
 
                         &.bottom {
@@ -635,9 +638,8 @@ button.close {
         background-color: $white;
         padding: 15px;
         margin-bottom: 15px;
-    }
+        overflow: auto;
 
-    .meals {
         .week-selector {
             margin-bottom: 15px;
 
@@ -649,6 +651,81 @@ button.close {
                 display: inline-block;
                 margin-left: 10px;
             }
+        }
+
+        .room-reservation {
+            cursor: default;
+        }
+    }
+}
+
+.guests {
+    .guests-section {
+        background-color: $white;
+        padding: 15px;
+        margin-bottom: 15px;
+        overflow: auto;
+
+        .guests-list-table {
+            border: 1px solid $bordergray;
+
+            thead {
+                background: $lightyellow;
+                border: 1px solid $borderyellow;
+
+                td {
+                    padding: 5px 10px;
+                    white-space: nowrap;
+                }
+            }
+
+            tbody {
+                .guest-row {
+                    cursor: pointer;
+
+                    &:nth-child(even) {
+                        background: $white;
+                    }
+
+                    &:nth-child(odd) {
+                        background: $lightgray
+                    }
+
+                    td {
+                        padding: 5px 10px;
+                        border-right: 1px solid $white;
+                    }
+
+                    .glyphicon-exclamation-sign {
+                        color: $red;
+                        margin-right: 6px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.guest-details-modal {
+    .glyphicon-chevron-up, .glyphicon-chevron-down, .glyphicon-remove, .glyphicon-trash {
+        cursor: pointer;
+    }
+
+    .guest-detail {
+        .form-row {
+            margin: 0 -15px 15px;
+            overflow: auto;
+        }
+
+        .form-label {
+            text-align: right;
+            margin-bottom: 0;
+            padding-top: 7px;
+        }
+
+        .form-element {
+            width: 100%;
+            padding: 6px 12px;
         }
     }
 }

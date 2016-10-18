@@ -16,6 +16,8 @@ let Guest = React.createClass({
                 addressNumber: guest.addressNumber,
                 addressCity: guest.addressCity,
                 phone: guest.phone,
+                recommended: guest.recommended,
+                note: guest.note,
                 showDetails: false,
                 extraBed: this.props.extraBed
             };
@@ -29,6 +31,8 @@ let Guest = React.createClass({
             addressNumber: '',
             addressCity: '',
             phone: '',
+            recommended: true,
+            note: '',
             showDetails: false,
             extraBed: this.props.extraBed
         };
@@ -60,7 +64,9 @@ let Guest = React.createClass({
             addressStreet: this.state.addressStreet,
             addressNumber: this.state.addressNumber,
             addressCity: this.state.addressCity,
-            phone: this.state.phone
+            phone: this.state.phone,
+            recommended: this.state.recommended,
+            note: this.state.note,
         };
     },
 

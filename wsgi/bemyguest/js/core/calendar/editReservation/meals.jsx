@@ -105,7 +105,6 @@ let Meals = React.createClass({
                                         <Button onClick={() => {this.updateCount(type, 'plus');}} className="meal-button plus-one" bsSize="small">+1</Button>
                                         <Button onClick={() => {this.updateCount(type, 'none');}} className="meal-button none" bsSize="small">{trans('NOBODY')}</Button>
                                         <Button onClick={() => {this.updateCount(type, 'all');}} className="meal-button all" bsSize="small">{trans('ALL')}</Button>
-
                                     </div>
                                 );
                             })}

@@ -1,5 +1,5 @@
 import re
-from datetime import datetime
+from datetime import datetime, timedelta
 import cStringIO as StringIO
 from xhtml2pdf import pisa
 from django.template.loader import get_template
@@ -34,8 +34,11 @@ def convert_dict_keys_deep(obj):
         return converted_obj
     return obj
 
-def to_datetime(srcDate):
-    return datetime.strptime(srcDate, '%Y-%m-%d %H:%M:%S')
+def to_datetime(src_date):
+    return datetime.strptime(src_date, '%Y-%m-%d %H:%M:%S')
+
+def to_date(src_date):
+    return datetime.strptime(src_date, '%Y-%m-%d').date()
 
 def render_to_pdf(template_src, filename, context_dict):
     template = get_template(template_src)
@@ -49,3 +52,9 @@ def render_to_pdf(template_src, filename, context_dict):
         response['Content-Disposition'] = 'filename="%s.pdf"' % (filename)
         return response
     return HttpResponse('We had some errors<pre>%s</pre>' % escape(html))
+
+def generate_dates_list(date_from, date_to, date_format):
+    r = (date_to + timedelta(days=1) - date_from).days
+#     dateList = [(date_from + timedelta(days=i)).strftime(date_format) for i in range(r)]
+    dateList = [date_from + timedelta(days=i) for i in range(r)]
+    return dateList
