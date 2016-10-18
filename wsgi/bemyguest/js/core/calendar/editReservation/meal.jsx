@@ -43,7 +43,7 @@ let Meal = React.createClass({
         } else if (updateType == 'none') {
             updatedCount = 0;
         } else if (updateType == 'all') {
-            updatedCount = 5;
+            updatedCount = this.props.guestsCount;
         }
         if (updatedCount >= 0 && updatedCount <= this.props.guestsCount) {
             this.setState({counts: update(this.state.counts, {[DIETS['NONE_DIET']]: {$set: updatedCount}})});
