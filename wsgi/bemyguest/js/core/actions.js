@@ -28,6 +28,7 @@ function loadReservations(actionContext, {}, done) {
 function createReservation(actionContext, payload, done) {
     xhr.post(actionContext, '/api/reservations/', payload, function(resp) {
         actionContext.dispatch('RESERVATION_CREATED', {reservation: resp.body.reservation});
+        actionContext.executeAction(loadGuests);
         done();
     });
 };
@@ -35,6 +36,7 @@ function createReservation(actionContext, payload, done) {
 function editReservation(actionContext, {id, data}, done) {
     xhr.post(actionContext, '/api/reservations/' + id + '/', data, function(resp) {
         actionContext.dispatch('RESERVATION_EDITED', {reservation: resp.body.reservation});
+        actionContext.executeAction(loadGuests);
         done();
     }, function(resp) {
         actionContext.dispatch('RESERVATION_ERROR');
@@ -44,6 +46,7 @@ function editReservation(actionContext, {id, data}, done) {
 function removeReservation(actionContext, {id, data}, done) {
     xhr.delete(actionContext, '/api/reservations/' + id + '/', data, function(resp) {
         actionContext.dispatch('RESERVATION_REMOVED', {id: id});
+        actionContext.executeAction(loadGuests);
         done();
     });
 };

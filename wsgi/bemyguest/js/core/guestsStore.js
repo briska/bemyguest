@@ -17,6 +17,19 @@ let GuestsStore = createStore({
         return _.find(this._guests, {id: guestId});
     },
 
+    getGuestsByMatch: function(namePart, surnamePart) {
+        let suggestions = _.filter(this._guests, function (guest) {
+            let nameContains = _.isEmpty(namePart) || _.some(guest.name, function (name) {
+                return 0 === guest.name.indexOf(namePart);
+            });
+            let surnameContains = _.isEmpty(surnamePart) || _.some(guest.surname, function (surname) {
+                return 0 === guest.surname.indexOf(surnamePart);
+            });
+            return nameContains && surnameContains;
+        });
+        return suggestions;
+    },
+
     handleGuest: function(guest) {
         return guest;
     },

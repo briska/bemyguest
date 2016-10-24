@@ -478,17 +478,39 @@ button.close {
                 width: 20px;
             }
 
-            .glyphicon-minus, .glyphicon-plus, .glyphicon-chevron-up, .glyphicon-chevron-down, .glyphicon-remove, .glyphicon-trash {
+            .glyphicon-minus, .glyphicon-plus, .glyphicon-chevron-up, .glyphicon-chevron-down, .glyphicon-remove, .glyphicon-remove, .glyphicon-pencil {
                 cursor: pointer;
+                color: #3cad99;
             }
 
-            .glyphicon-trash {
+            .glyphicon-pencil {
+                margin-left: 30px;
+            }
+
+            .glyphicon-remove {
                 margin-left: 15px;
             }
 
             .guest-address, .guest-phone {
                 margin-left: 30px;
                 margin-top: 5px;
+            }
+
+            .guest-suggestions {
+                background: #ffffcc;
+                margin: 10px 25px;
+                border: 1px solid #eeeebb;
+                max-height: 184px;
+                overflow-y: auto;
+
+                .suggestion-row {
+                    padding: 3px;
+                    cursor: pointer;
+
+                    &:hover {
+                        background: #ffefcc;
+                    }
+                }
             }
         }
     }
@@ -578,17 +600,39 @@ button.close {
                 width: 20px;
             }
 
-            .glyphicon-minus, .glyphicon-plus, .glyphicon-chevron-up, .glyphicon-chevron-down, .glyphicon-remove, .glyphicon-trash {
+            .glyphicon-minus, .glyphicon-plus, .glyphicon-chevron-up, .glyphicon-chevron-down, .glyphicon-remove, .glyphicon-remove, .glyphicon-pencil {
                 cursor: pointer;
+                color: #3cad99;
             }
 
-            .glyphicon-trash {
+            .glyphicon-pencil {
+                margin-left: 30px;
+            }
+
+            .glyphicon-remove {
                 margin-left: 15px;
             }
 
             .guest-address, .guest-phone {
                 margin-left: 30px;
                 margin-top: 5px;
+            }
+
+            .guest-suggestions {
+                background: #ffffcc;
+                margin: 10px 25px;
+                border: 1px solid #eeeebb;
+                max-height: 184px;
+                overflow-y: auto;
+
+                .suggestion-row {
+                    padding: 3px;
+                    cursor: pointer;
+
+                    &:hover {
+                        background: #ffefcc;
+                    }
+                }
             }
         }
 
@@ -695,19 +739,19 @@ button.close {
                         padding: 5px 10px;
                         border-right: 1px solid $white;
                     }
-
-                    .glyphicon-exclamation-sign {
-                        color: $red;
-                        margin-right: 6px;
-                    }
                 }
             }
         }
     }
 }
 
+.glyphicon-exclamation-sign {
+    color: $red;
+    margin-right: 6px;
+}
+
 .guest-details-modal {
-    .glyphicon-chevron-up, .glyphicon-chevron-down, .glyphicon-remove, .glyphicon-trash {
+    .glyphicon-chevron-up, .glyphicon-chevron-down, .glyphicon-remove, .glyphicon-remove {
         cursor: pointer;
     }
 

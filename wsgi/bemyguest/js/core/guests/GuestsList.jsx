@@ -20,7 +20,6 @@ let GuestsList = React.createClass({
         return {
             edit: null,
             saving: false,
-            selectedGuest: null,
             show: false
         };
     },
@@ -53,7 +52,7 @@ let GuestsList = React.createClass({
     },
 
     render: function() {
-        let {edit, saving, show} = this.state;
+        let {edit, show} = this.state;
         let guests = this.props.guests;
         let guestModal = (
             <Modal dialogClassName="guest-details-modal" bsSize="lg" show={show} onHide={this.close}>

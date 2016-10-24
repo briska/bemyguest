@@ -1,42 +1,45 @@
 {
-    "name": "bemyguest",
-    "version": "0.0.1",
-    "author": "briska",
-    "description": "a lightweight hotel room booking system",
-    "dependencies": {
-        "lodash": "latest",
-        "react": "latest",
-        "react-dom": "latest",
-        "fluxible": "latest",
-        "xhr": "latest",
-        "classnames": "latest",
-        "react-datepicker": "latest",
-        "react-textarea-autosize": "latest",
-        "react-bootstrap": "latest",
-        "counterpart": "latest",
-        "fluxible-addons-react": "latest",
-        "moment": "latest",
-        "react-addons-update": "latest",
-        "randomcolor": "latest",
-        "react-nl2br": "latest"
-    },
-    "devDependencies": {
-        "browserify": "latest",
-        "gulp": "latest",
-        "vinyl-source-stream": "latest",
-        "vinyl-buffer": "latest",
-        "gulp-babel": "latest",
-        "babel-preset-es2015": "latest",
-        "babel-plugin-transform-react-jsx": "latest",
-        "babel-preset-react": "latest",
-        "gulp-sass": "latest",
-        "gulp-watch": "latest",
-        "del": "latest",
-        "gulp-batch": "latest",
-        "gulp-uglify": "latest",
-        "extfs": "latest"
-    },
-    "babel": {
-        "presets": ["es2015", "react"]
-    }
+  "name": "bemyguest",
+  "version": "0.0.1",
+  "author": "briska",
+  "description": "a lightweight hotel room booking system",
+  "dependencies": {
+    "classnames": "latest",
+    "counterpart": "latest",
+    "fluxible": "latest",
+    "fluxible-addons-react": "latest",
+    "lodash": "latest",
+    "moment": "latest",
+    "randomcolor": "latest",
+    "react": "latest",
+    "react-addons-update": "latest",
+    "react-bootstrap": "latest",
+    "react-datepicker": "latest",
+    "react-dom": "latest",
+    "react-nl2br": "latest",
+    "react-textarea-autosize": "latest",
+    "xhr": "latest"
+  },
+  "devDependencies": {
+    "browserify": "latest",
+    "gulp": "latest",
+    "vinyl-source-stream": "latest",
+    "vinyl-buffer": "latest",
+    "gulp-babel": "latest",
+    "babel-preset-es2015": "latest",
+    "babel-plugin-transform-react-jsx": "latest",
+    "babel-preset-react": "latest",
+    "gulp-sass": "latest",
+    "gulp-watch": "latest",
+    "del": "latest",
+    "gulp-batch": "latest",
+    "gulp-uglify": "latest",
+    "extfs": "latest"
+  },
+  "babel": {
+    "presets": [
+      "es2015",
+      "react"
+    ]
+  }
 }

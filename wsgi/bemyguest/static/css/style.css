@@ -589,13 +589,27 @@ button.close {
   .create-reservation .rooms .guest .glyphicon {
     margin-right: 5px;
     width: 20px; }
-  .create-reservation .rooms .guest .glyphicon-minus, .create-reservation .rooms .guest .glyphicon-plus, .create-reservation .rooms .guest .glyphicon-chevron-up, .create-reservation .rooms .guest .glyphicon-chevron-down, .create-reservation .rooms .guest .glyphicon-remove, .create-reservation .rooms .guest .glyphicon-trash {
-    cursor: pointer; }
-  .create-reservation .rooms .guest .glyphicon-trash {
+  .create-reservation .rooms .guest .glyphicon-minus, .create-reservation .rooms .guest .glyphicon-plus, .create-reservation .rooms .guest .glyphicon-chevron-up, .create-reservation .rooms .guest .glyphicon-chevron-down, .create-reservation .rooms .guest .glyphicon-remove, .create-reservation .rooms .guest .glyphicon-remove, .create-reservation .rooms .guest .glyphicon-pencil {
+    cursor: pointer;
+    color: #3cad99; }
+  .create-reservation .rooms .guest .glyphicon-pencil {
+    margin-left: 30px; }
+  .create-reservation .rooms .guest .glyphicon-remove {
     margin-left: 15px; }
   .create-reservation .rooms .guest .guest-address, .create-reservation .rooms .guest .guest-phone {
     margin-left: 30px;
     margin-top: 5px; }
+  .create-reservation .rooms .guest .guest-suggestions {
+    background: #ffffcc;
+    margin: 10px 25px;
+    border: 1px solid #eeeebb;
+    max-height: 184px;
+    overflow-y: auto; }
+    .create-reservation .rooms .guest .guest-suggestions .suggestion-row {
+      padding: 3px;
+      cursor: pointer; }
+      .create-reservation .rooms .guest .guest-suggestions .suggestion-row:hover {
+        background: #ffefcc; }
 
 .create-reservation .meals input {
   width: 40px;
@@ -646,13 +660,27 @@ button.close {
   .reservation-details .room-reservation .guest .glyphicon {
     margin-right: 5px;
     width: 20px; }
-  .reservation-details .room-reservation .guest .glyphicon-minus, .reservation-details .room-reservation .guest .glyphicon-plus, .reservation-details .room-reservation .guest .glyphicon-chevron-up, .reservation-details .room-reservation .guest .glyphicon-chevron-down, .reservation-details .room-reservation .guest .glyphicon-remove, .reservation-details .room-reservation .guest .glyphicon-trash {
-    cursor: pointer; }
-  .reservation-details .room-reservation .guest .glyphicon-trash {
+  .reservation-details .room-reservation .guest .glyphicon-minus, .reservation-details .room-reservation .guest .glyphicon-plus, .reservation-details .room-reservation .guest .glyphicon-chevron-up, .reservation-details .room-reservation .guest .glyphicon-chevron-down, .reservation-details .room-reservation .guest .glyphicon-remove, .reservation-details .room-reservation .guest .glyphicon-remove, .reservation-details .room-reservation .guest .glyphicon-pencil {
+    cursor: pointer;
+    color: #3cad99; }
+  .reservation-details .room-reservation .guest .glyphicon-pencil {
+    margin-left: 30px; }
+  .reservation-details .room-reservation .guest .glyphicon-remove {
     margin-left: 15px; }
   .reservation-details .room-reservation .guest .guest-address, .reservation-details .room-reservation .guest .guest-phone {
     margin-left: 30px;
     margin-top: 5px; }
+  .reservation-details .room-reservation .guest .guest-suggestions {
+    background: #ffffcc;
+    margin: 10px 25px;
+    border: 1px solid #eeeebb;
+    max-height: 184px;
+    overflow-y: auto; }
+    .reservation-details .room-reservation .guest .guest-suggestions .suggestion-row {
+      padding: 3px;
+      cursor: pointer; }
+      .reservation-details .room-reservation .guest .guest-suggestions .suggestion-row:hover {
+        background: #ffefcc; }
 
 .reservation-details .room-reservation .form-control {
   width: 150px;
@@ -719,11 +747,12 @@ button.close {
       .guests .guests-section .guests-list-table tbody .guest-row td {
         padding: 5px 10px;
         border-right: 1px solid #fff; }
-      .guests .guests-section .guests-list-table tbody .guest-row .glyphicon-exclamation-sign {
-        color: #d9534f;
-        margin-right: 6px; }
 
-.guest-details-modal .glyphicon-chevron-up, .guest-details-modal .glyphicon-chevron-down, .guest-details-modal .glyphicon-remove, .guest-details-modal .glyphicon-trash {
+.glyphicon-exclamation-sign {
+  color: #d9534f;
+  margin-right: 6px; }
+
+.guest-details-modal .glyphicon-chevron-up, .guest-details-modal .glyphicon-chevron-down, .guest-details-modal .glyphicon-remove, .guest-details-modal .glyphicon-remove {
   cursor: pointer; }
 
 .guest-details-modal .guest-detail .form-row {
