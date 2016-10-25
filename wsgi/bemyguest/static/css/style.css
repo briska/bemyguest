@@ -586,15 +586,15 @@ button.close {
     color: #bbb; }
   .create-reservation .rooms .guest input {
     margin-right: 5px; }
+  .create-reservation .rooms .guest .known-info {
+    padding-right: 30px; }
   .create-reservation .rooms .guest .glyphicon {
     margin-right: 5px;
     width: 20px; }
   .create-reservation .rooms .guest .glyphicon-minus, .create-reservation .rooms .guest .glyphicon-plus, .create-reservation .rooms .guest .glyphicon-chevron-up, .create-reservation .rooms .guest .glyphicon-chevron-down, .create-reservation .rooms .guest .glyphicon-remove, .create-reservation .rooms .guest .glyphicon-remove, .create-reservation .rooms .guest .glyphicon-pencil {
     cursor: pointer;
     color: #3cad99; }
-  .create-reservation .rooms .guest .glyphicon-pencil {
-    margin-left: 30px; }
-  .create-reservation .rooms .guest .glyphicon-remove {
+  .create-reservation .rooms .guest .glyphicon-pencil, .create-reservation .rooms .guest .glyphicon-remove {
     margin-left: 15px; }
   .create-reservation .rooms .guest .guest-address, .create-reservation .rooms .guest .guest-phone {
     margin-left: 30px;
@@ -657,15 +657,15 @@ button.close {
     color: #bbb; }
   .reservation-details .room-reservation .guest input {
     margin-right: 5px; }
+  .reservation-details .room-reservation .guest .known-info {
+    padding-right: 30px; }
   .reservation-details .room-reservation .guest .glyphicon {
     margin-right: 5px;
     width: 20px; }
   .reservation-details .room-reservation .guest .glyphicon-minus, .reservation-details .room-reservation .guest .glyphicon-plus, .reservation-details .room-reservation .guest .glyphicon-chevron-up, .reservation-details .room-reservation .guest .glyphicon-chevron-down, .reservation-details .room-reservation .guest .glyphicon-remove, .reservation-details .room-reservation .guest .glyphicon-remove, .reservation-details .room-reservation .guest .glyphicon-pencil {
     cursor: pointer;
     color: #3cad99; }
-  .reservation-details .room-reservation .guest .glyphicon-pencil {
-    margin-left: 30px; }
-  .reservation-details .room-reservation .guest .glyphicon-remove {
+  .reservation-details .room-reservation .guest .glyphicon-pencil, .reservation-details .room-reservation .guest .glyphicon-remove {
     margin-left: 15px; }
   .reservation-details .room-reservation .guest .guest-address, .reservation-details .room-reservation .guest .guest-phone {
     margin-left: 30px;

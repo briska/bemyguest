@@ -32,19 +32,19 @@ let SheetRoomReservation = React.createClass({
                 return;
             }
         }
-        this.refs.roomReservationDetails.toggle();
+        this.refs.roomReservationDetails.refs.wrappedElement.toggle();
     },
 
     showFullDetails: function(e) {
-        this.refs.roomReservationDetails.close();
+        this.refs.roomReservationDetails.refs.wrappedElement.close();
         this.props.getReservationDetails().open();
     },
 
     startDrag: function(e, dragType) {
         e.stopPropagation();
         e.preventDefault();
-        if (this.refs.roomReservationDetails.isOpened()) {
-            this.refs.roomReservationDetails.close();
+        if (this.refs.roomReservationDetails.refs.wrappedElement.isOpened()) {
+            this.refs.roomReservationDetails.refs.wrappedElement.close();
             this.setState({
                 wasDetailsOpened: true
             });

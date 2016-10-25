@@ -4,6 +4,10 @@ const trans = require('core/utils/trans');
 const cx = require('classnames');
 import Glyphicon from 'react-bootstrap/lib/Glyphicon';
 const GuestsStore = require('core/guestsStore');
+import Modal from 'react-bootstrap/lib/Modal';
+import GuestDetail from 'core/guests/guestDetail';
+import actions from 'core/actions';
+import Button from 'react-bootstrap/lib/Button';
 
 let Guest = React.createClass({
     getStateFromSource: function(guest) {
@@ -21,8 +25,9 @@ let Guest = React.createClass({
                 recommended: guest.recommended,
                 note: guest.note,
                 showDetails: false,
-                extraBed: this.props.extraBed,
-                guestSuggestions: []
+                guestSuggestions: [],
+                show: false,
+                saving: false
             };
         }
         return {
@@ -38,8 +43,9 @@ let Guest = React.createClass({
             recommended: true,
             note: '',
             showDetails: false,
-            extraBed: this.props.extraBed,
-            guestSuggestions: []
+            guestSuggestions: [],
+            show: false,
+            saving: false
         };
     },
 
@@ -85,27 +91,65 @@ let Guest = React.createClass({
     },
 
     openEditUser: function() {
-        console.log('editing user');
+        this.setState({show: true});
+    },
+
+    close: function() {
+        this.setState({show: false});
+    },
+
+    save: function() {
+        this.setState({saving: true});
+        let guest = this.refs['guest-' + this.state.id].getGuest();
+        let payload = {
+            guest: guest
+        };
+        this.props.context.executeAction(actions.editGuest, payload);
+    },
+
+    componentWillReceiveProps: function(nextProps) {
+        if (this.state.saving) {
+            this.setState(this.getStateFromSource(nextProps.guest));
+        }
     },
 
     render: function() {
-        let {id, namePrefix, name, surname, nameSuffix, addressStreet, addressNumber, addressCity, phone, showDetails, extraBed, guestSuggestions} = this.state;
+        let {id, namePrefix, name, surname, nameSuffix, addressStreet, addressNumber, addressCity, phone, showDetails, guestSuggestions, show} = this.state;
+        let {extraBed, noEdit} = this.props;
         let hasId = id != null;
         let guestName = "";
         let guestAddress = "";
         let guestDetails = "";
+        let guestModal = null;
         if (hasId) {
             guestName = _.filter([namePrefix, name, surname, nameSuffix], null).join(' ');
             guestAddress = _.filter([addressStreet, addressNumber, addressCity], null).join(' ');
             guestDetails = (guestAddress ? (phone ? guestAddress + ', ' + phone : guestAddress) : phone);
+            let currentGuest = this.props.context.getStore(GuestsStore).getGuest(id);
+            guestModal = (
+                <Modal dialogClassName="guest-details-modal" bsSize="lg" show={show} onHide={this.close}>
+                    <Modal.Header closeButton />
+                    <Modal.Body>
+                        <GuestDetail
+                            ref={'guest-' + currentGuest.id}
+                            context={this.props.context}
+                            guest={currentGuest} />
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button bsStyle="success" onClick={this.save}>{trans('SAVE')}</Button>
+                        <Button onClick={this.close}>{trans('CLOSE')}</Button>
+                    </Modal.Footer>
+                </Modal>
+            );
         }
         return (
             <div className={cx('guest', extraBed ? 'extra-bed' : '')}>
                 {hasId &&
                     <div className="known-guest-info">
                         <Glyphicon glyph="user" />
-                        {guestName + (guestDetails ? ' (' + guestDetails + ')' : '')}
-                        <Glyphicon glyph="pencil" onClick={this.openEditUser} />
+                        <span className="known-info">{guestName + (guestDetails ? ' (' + guestDetails + ')' : '')}</span>
+                        {!noEdit &&
+                            <Glyphicon glyph="pencil" onClick={this.openEditUser} />}
                         <Glyphicon glyph="remove" onClick={this.clearData} />
                     </div>}
                 {!hasId &&
@@ -145,6 +189,7 @@ let Guest = React.createClass({
                             );
                         })}
                     </div>}
+                {guestModal}
             </div>
         );
     }

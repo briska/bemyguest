@@ -1,16 +1,20 @@
 const _ = require('lodash');
 const createStore = require('fluxible/addons/createStore');
 const update = require('react-addons-update');
+const moment = require('moment');
+require('moment/locale/sk');
 
 let GuestsStore = createStore({
     storeName: 'GuestsStore',
 
     initialize: function() {
         this._guests = [];
+        this._updated = moment();
     },
 
-    getGuests: function() {
-        return this._guests;
+    getGuests: function(guestIds) {
+        if (!guestIds) return this._guests;
+        return _.filter(this._guests, (guest) => {return guestIds.indexOf(guest.id) >= 0;});
     },
 
     getGuest: function(guestId) {
@@ -30,8 +34,16 @@ let GuestsStore = createStore({
         return suggestions;
     },
 
+    getUpdated: function() {
+        return this._updated;
+    },
+
     handleGuest: function(guest) {
         return guest;
+    },
+
+    setUpdated: function() {
+        this._updated = moment();
     },
 
     handlers: {
@@ -40,6 +52,7 @@ let GuestsStore = createStore({
                 guest = this.handleGuest(guest);
                 return guest;
             });
+            this.setUpdated();
             this.emitChange();
         },
 
@@ -48,11 +61,13 @@ let GuestsStore = createStore({
             guest = this.handleGuest(guest);
             let index = _.findIndex(this._guests, {id: guest.id});
             this._guests = update(this._guests, {[index]: {$set: guest}});
+            this.setUpdated();
             this.emitChange();
         },
 
         'GUESTS_REMOVED': function({id}) {
             this._guests = _.filter(this._guests, (guest) => {return guest.id != id;});
+            this.setUpdated();
             this.emitChange();
         },
 

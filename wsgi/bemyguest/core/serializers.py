@@ -34,7 +34,7 @@ def serialize_room_reservation(room_reservation):
         'roomId': room_reservation.room_id,
         'dateFrom': room_reservation.date_from,
         'dateTo': room_reservation.date_to,
-        'guests': [serialize_guest(guest) for guest in room_reservation.guests.all()],
+        'guests': [int(g) for g in room_reservation.guests.values_list('id', flat=True)],
     }
 
 def serialize_meal(meal):

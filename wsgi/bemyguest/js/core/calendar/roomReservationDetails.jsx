@@ -5,9 +5,11 @@ const trans = require('core/utils/trans');
 const cx = require('classnames');
 import {cellWidth, cellHeight, headHeight, monthHeight, detailsWidth} from 'core/enums';
 import RoomsStore from 'core/roomsStore';
+const GuestsStore = require('core/guestsStore');
 import {substr, approvalBy, getDatesRange} from 'core/utils/utils';
 import Glyphicon from 'react-bootstrap/lib/Glyphicon';
 import Overlay from 'react-bootstrap/lib/Overlay';
+const connectToStores = require('fluxible-addons-react/connectToStores');
 
 let RoomReservationDetails = React.createClass({
     getInitialState: function(){
@@ -44,7 +46,8 @@ let RoomReservationDetails = React.createClass({
         let {context, roomReservation, reservation, room, getTarget} = this.props;
         let {show} = this.state;
         let contact = _.filter([reservation.contactName, reservation.contactMail, reservation.contactPhone], null);
-        let guests = _.map(roomReservation.guests, (guest) => {
+        let guestsFromStore = this.props.context.getStore(GuestsStore).getGuests(roomReservation.guests);
+        let guests = _.map(guestsFromStore, (guest) => {
             return _.filter([guest.namePrefix, guest.name, guest.surname, guest.nameSuffix], null).join(' ');
         });
         let roomIds = _.map(reservation.roomReservations, 'roomId');
@@ -83,5 +86,9 @@ let RoomReservationDetails = React.createClass({
         );
     }
 });
+
+RoomReservationDetails = connectToStores(RoomReservationDetails, [GuestsStore], (context, props) => ({
+    guestsUpdated: context.getStore(GuestsStore).getUpdated()
+}));
 
 module.exports = RoomReservationDetails;

@@ -6,6 +6,7 @@ import Button from 'react-bootstrap/lib/Button';
 import nl2br from 'react-nl2br';
 import actions from 'core/actions';
 import RoomsStore from 'core/roomsStore';
+const GuestsStore = require('core/guestsStore');
 import DatePicker from 'react-datepicker';
 const moment = require('moment');
 require('moment/locale/sk');
@@ -14,6 +15,7 @@ import ConfirmDialog from 'core/utils/confirmDialog';
 import {diffDays, getHousingPrice, getSpiritualPrice} from 'core/utils/utils';
 import {DATE_FORMAT} from 'core/enums';
 import EditTools from 'core/calendar/editReservation/editTools';
+const connectToStores = require('fluxible-addons-react/connectToStores');
 
 let RoomReservation = React.createClass({
     getStateFromSource: function(propsSrc) {
@@ -112,7 +114,7 @@ let RoomReservation = React.createClass({
 
     render: function() {
         let {edit, saving, room, dateFrom, dateTo, extraBed} = this.state;
-        let guests = this.props.roomReservation.guests;
+        let guests = this.props.context.getStore(GuestsStore).getGuests(this.props.roomReservation.guests);
         if (edit) {
             return (
                 <div className="room-reservation form-group">
@@ -188,5 +190,9 @@ let RoomReservation = React.createClass({
         );
     }
 });
+
+RoomReservation = connectToStores(RoomReservation, [GuestsStore], (context, props) => ({
+    guestsUpdated: context.getStore(GuestsStore).getUpdated()
+}));
 
 module.exports = RoomReservation;
