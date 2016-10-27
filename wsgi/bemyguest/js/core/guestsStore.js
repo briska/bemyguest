@@ -39,6 +39,15 @@ let GuestsStore = createStore({
     },
 
     handleGuest: function(guest) {
+        if (!_.isEmpty(guest.visits)) {
+            guest.visits = _.map(guest.visits, (visit) => {
+                return {
+                    dateFrom: moment(visit.dateFrom),
+                    dateTo: moment(visit.dateTo),
+                    id: visit.id
+                };
+            });
+        }
         return guest;
     },
 

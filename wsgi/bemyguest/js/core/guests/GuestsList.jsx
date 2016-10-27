@@ -8,6 +8,7 @@ require('moment/locale/sk');
 import {getDatesRange, diffDays} from 'core/utils/utils';
 import Glyphicon from 'react-bootstrap/lib/Glyphicon';
 import Button from 'react-bootstrap/lib/Button';
+import {OverlayTrigger, Popover} from 'react-bootstrap';
 import {cellWidth, cellHeight, headHeight, monthHeight, DAY_FORMAT} from 'core/enums';
 import CalendarHeader from 'core/calendar/calendarHeader';
 const cx = require('classnames');
@@ -84,11 +85,23 @@ let GuestsList = React.createClass({
                             <td>{trans('NUMBER')}</td>
                             <td>{trans('CITY')}</td>
                             <td>{trans('PHONE')}</td>
+                            <td>{trans('VISITS')}</td>
                             <td>{trans('NOTES')}</td>
                         </tr>
                     </thead>
                     <tbody>
                         {_.map(guests, (guest, i) => {
+                            let visitsCount = guest.visits.length;
+                            let visitsPopup = null;
+                            if (visitsCount > 0) {
+                                visitsPopup = (
+                                    <Popover key={'visits-of-' + guest.id} id={'visits-list-' + guest.id} bsClass={cx('visits-popup', 'popover')}>
+                                        {_.map(guest.visits, (visit, i) => {
+                                            return <div key={'visit-date-' + i}>{visit.dateFrom.format('D.M.YYYY')} - {visit.dateTo.format('D.M.YYYY')}</div>
+                                        })}
+                                    </Popover>
+                                );
+                            }
                             return (
                                 <tr key={'guest-' + guest.id} className="guest-row" onDoubleClick={() => this.startEditing(guest)}>
                                     <td>{guest.namePrefix}</td>
@@ -99,6 +112,11 @@ let GuestsList = React.createClass({
                                     <td>{guest.addressNumber}</td>
                                     <td>{guest.addressCity}</td>
                                     <td>{guest.phone}</td>
+                                    <td className="keepCenter">{visitsCount > 0 &&
+                                        <OverlayTrigger trigger="click" placement="right" overlay={visitsPopup} rootClose arrowOffsetLeft="30">
+                                            <a className="visitsCount">{visitsCount}</a>
+                                        </OverlayTrigger>
+                                        }</td>
                                     <td>{!guest.recommended &&
                                         <Glyphicon glyph="exclamation-sign" alt={trans('NOT_RECOMMENDED')} />}{guest.note}</td>
                                 </tr>

@@ -110,7 +110,7 @@ class RoomReservation(models.Model):
     reservation = models.ForeignKey(Reservation, related_name='room_reservations')
     date_from = models.DateTimeField()
     date_to = models.DateTimeField()
-    guests = models.ManyToManyField(Guest, blank=True)
+    guests = models.ManyToManyField(Guest, blank=True, related_name='room_reservations')
 
     class Meta:
         ordering = ['room__index']

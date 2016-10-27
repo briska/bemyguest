@@ -8,6 +8,8 @@ import Modal from 'react-bootstrap/lib/Modal';
 import GuestDetail from 'core/guests/guestDetail';
 import actions from 'core/actions';
 import Button from 'react-bootstrap/lib/Button';
+const moment = require('moment');
+require('moment/locale/sk');
 
 let Guest = React.createClass({
     getStateFromSource: function(guest) {
@@ -115,7 +117,7 @@ let Guest = React.createClass({
 
     render: function() {
         let {id, namePrefix, name, surname, nameSuffix, addressStreet, addressNumber, addressCity, phone, showDetails, guestSuggestions, show} = this.state;
-        let {extraBed, noEdit} = this.props;
+        let {extraBed, noEdit, roomReservationFirstDay, roomReservationId} = this.props;
         let hasId = id != null;
         let guestName = "";
         let guestAddress = "";
@@ -177,11 +179,21 @@ let Guest = React.createClass({
                 {guestSuggestions.length > 0 && !hasId &&
                     <div className="guest-suggestions">
                         {_.map(guestSuggestions, (suggestion, i) => {
+                            let shortTime = false;
+                            if (suggestion.visits.length > 0) {
+                                let lastVisitDayPlusOffset = moment(_.filter(suggestion.visits, visit => visit.id != (roomReservationId || 0))[0].dateTo).add(6, 'months');
+                                let roomReservationStart = moment(roomReservationFirstDay);
+                                if (lastVisitDayPlusOffset.isAfter(roomReservationStart)) {
+                                    shortTime = true;
+                                }
+                            }
                             let guestName = _.filter([suggestion.namePrefix, suggestion.name, suggestion.surname, suggestion.nameSuffix], null).join(' ');
                             let guestAddress = _.filter([suggestion.addressStreet, suggestion.addressNumber, suggestion.addressCity], null).join(' ');
                             let guestDetails = (guestAddress ? (suggestion.phone ? guestAddress + ', ' + suggestion.phone : guestAddress) : suggestion.phone);
                             return (
                                 <div key={'suggestion-' + suggestion.id} className="suggestion-row" onClick={() => this.applySuggestion(suggestion)}>
+                                    {shortTime &&
+                                        <Glyphicon glyph="time" />}
                                     {!suggestion.recommended &&
                                         <Glyphicon glyph="exclamation-sign" alt={trans('NOT_RECOMMENDED')} />}
                                     {guestName + (guestDetails ? ' (' + guestDetails + ')' : '')}

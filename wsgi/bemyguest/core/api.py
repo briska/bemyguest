@@ -7,6 +7,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login
 from django.db.models import Q, F
 from core.utils import convert_dict_keys_deep, to_datetime
+from django.db.models.query import Prefetch
 
 @csrf_exempt
 def user(request):
@@ -275,7 +276,23 @@ def guests(request):
     if request.user.is_anonymous():
         return JsonResponse({'error': 'loggedOut'})
 
-    guests = [serialize_guest(guest) for guest in Guest.objects.all()]
+    guestsReservations = {}
+    for gReserv in Guest.objects.all().prefetch_related(Prefetch('room_reservations', queryset=RoomReservation.objects.order_by('-date_from'), to_attr='ordered_visits')):
+        roomReservations = gReserv.ordered_visits
+        reservationDates = []
+        for roomReservation in roomReservations:
+            rDates = {}
+            rDates['id'] = roomReservation.id
+            rDates['date_from'] = roomReservation.date_from
+            rDates['date_to'] = roomReservation.date_to
+            reservationDates.append(rDates)
+        guestsReservations[int(gReserv.id)] = reservationDates
+
+    guests = []
+    for guest in Guest.objects.order_by('surname', 'name', 'address_city').all():
+        setattr(guest, 'visits', guestsReservations[guest.id])
+        guests.append(serialize_guest(guest))
+
     return JsonResponse({'guests': guests})
 
 
@@ -292,7 +309,6 @@ def guest(request, pk):
 
     if request.method == 'POST':
         guest_data = convert_dict_keys_deep(json.loads(request.body))
-        print guest_data;
         guest.name_prefix = guest_data['name_prefix']
         guest.name = guest_data['name']
         guest.surname = guest_data['surname']

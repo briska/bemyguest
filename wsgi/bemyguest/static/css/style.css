@@ -747,10 +747,17 @@ button.close {
       .guests .guests-section .guests-list-table tbody .guest-row td {
         padding: 5px 10px;
         border-right: 1px solid #fff; }
+        .guests .guests-section .guests-list-table tbody .guest-row td.keepCenter {
+          text-align: center; }
+        .guests .guests-section .guests-list-table tbody .guest-row td .visitsCount {
+          padding: 0 10px; }
 
-.glyphicon-exclamation-sign {
+.glyphicon-exclamation-sign, .glyphicon-time {
   color: #d9534f;
   margin-right: 6px; }
+
+.glyphicon-time + .glyphicon-exclamation-sign {
+  margin-left: -6px; }
 
 .guest-details-modal .glyphicon-chevron-up, .guest-details-modal .glyphicon-chevron-down, .guest-details-modal .glyphicon-remove, .guest-details-modal .glyphicon-remove {
   cursor: pointer; }
@@ -767,3 +774,9 @@ button.close {
 .guest-details-modal .guest-detail .form-element {
   width: 100%;
   padding: 6px 12px; }
+
+.visits-popup.popover {
+  border-radius: 0;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none; }

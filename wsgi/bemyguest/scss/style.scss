@@ -738,6 +738,14 @@ button.close {
                     td {
                         padding: 5px 10px;
                         border-right: 1px solid $white;
+
+                        &.keepCenter {
+                            text-align:center;
+                        }
+
+                        .visitsCount {
+                            padding: 0 10px;
+                        }
                     }
                 }
             }
@@ -745,9 +753,13 @@ button.close {
     }
 }
 
-.glyphicon-exclamation-sign {
+.glyphicon-exclamation-sign, .glyphicon-time {
     color: $red;
     margin-right: 6px;
+}
+
+.glyphicon-time + .glyphicon-exclamation-sign {
+    margin-left: -6px;
 }
 
 .guest-details-modal {
@@ -771,5 +783,14 @@ button.close {
             width: 100%;
             padding: 6px 12px;
         }
+    }
+}
+
+.visits-popup {
+    &.popover {
+        border-radius: 0;
+        -webkit-box-shadow: none;
+        -moz-box-shadow: none;
+        box-shadow: none;
     }
 }

@@ -155,7 +155,9 @@ let RoomReservation = React.createClass({
                                     key={'detail-guest-' + index}
                                     ref={'guest' + index}
                                     context={this.props.context}
-                                    guest={guests[index]} />
+                                    guest={guests[index]}
+                                    roomReservationFirstDay={dateFrom}
+                                    roomReservationId={this.props.roomReservation.id} />
                             );
                         })}
                         {!extraBed &&
@@ -168,7 +170,9 @@ let RoomReservation = React.createClass({
                             ref={'guest' + room.capacity}
                             context={this.props.context}
                             guest={guests[room.capacity]}
-                            extraBed={true}/>}
+                            extraBed={true}
+                            roomReservationFirstDay={dateFrom}
+                            roomReservationId={this.props.roomReservation.id} />}
                     </div>
                     <EditTools edit={edit} saving={saving} onSave={this.save} onCancel={this.cancel} onRemove={this.remove} />
                 </div>

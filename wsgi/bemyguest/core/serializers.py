@@ -26,7 +26,17 @@ def serialize_guest(guest):
         'phone': guest.phone,
         'recommended': guest.recommended,
         'note': guest.note,
+        'visits': [serialize_visit(visit) for visit in guest.visits],
     }
+
+
+def serialize_visit(visit):
+    return {
+        'id': visit['id'],
+        'dateFrom': visit['date_from'],
+        'dateTo': visit['date_to'],
+    }
+
 
 def serialize_room_reservation(room_reservation):
     return {

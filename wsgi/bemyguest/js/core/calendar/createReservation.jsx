@@ -136,7 +136,8 @@ let CreateReservation = React.createClass({
                                 key={'guest-' + room.id + '-' + index}
                                 ref={'guestR' + room.id + 'I' + index}
                                 context={context}
-                                noEdit={true} />
+                                noEdit={true}
+                                roomReservationFirstDay={roomReservation.dateFrom} />
                         );
                     })}
                     {!extraBed &&
@@ -149,7 +150,8 @@ let CreateReservation = React.createClass({
                         ref={'guestR' + room.id + 'I' + room.capacity}
                         context={context}
                         extraBed={true}
-                        noEdit={true} />}
+                        noEdit={true}
+                        roomReservationFirstDay={roomReservation.dateFrom} />}
                 </div>
             );
         });
