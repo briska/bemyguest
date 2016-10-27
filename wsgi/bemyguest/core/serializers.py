@@ -14,6 +14,14 @@ def serialize_room(room):
     }
 
 def serialize_guest(guest):
+    visits = []
+    for roomReservation in guest.ordered_visits:
+        visit = {}
+        visit['id'] = roomReservation.id
+        visit['date_from'] = roomReservation.date_from
+        visit['date_to'] = roomReservation.date_to
+        visits.append(visit)
+
     return {
         'id': guest.id,
         'namePrefix': guest.name_prefix,
@@ -26,7 +34,7 @@ def serialize_guest(guest):
         'phone': guest.phone,
         'recommended': guest.recommended,
         'note': guest.note,
-        'visits': [serialize_visit(visit) for visit in guest.visits],
+        'visits': [serialize_visit(v) for v in visits],
     }
 
 

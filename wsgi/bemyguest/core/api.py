@@ -276,23 +276,8 @@ def guests(request):
     if request.user.is_anonymous():
         return JsonResponse({'error': 'loggedOut'})
 
-    guestsReservations = {}
-    for gReserv in Guest.objects.all().prefetch_related(Prefetch('room_reservations', queryset=RoomReservation.objects.order_by('-date_from'), to_attr='ordered_visits')):
-        roomReservations = gReserv.ordered_visits
-        reservationDates = []
-        for roomReservation in roomReservations:
-            rDates = {}
-            rDates['id'] = roomReservation.id
-            rDates['date_from'] = roomReservation.date_from
-            rDates['date_to'] = roomReservation.date_to
-            reservationDates.append(rDates)
-        guestsReservations[int(gReserv.id)] = reservationDates
-
-    guests = []
-    for guest in Guest.objects.order_by('surname', 'name', 'address_city').all():
-        setattr(guest, 'visits', guestsReservations[guest.id])
-        guests.append(serialize_guest(guest))
-
+    allGuests = Guest.objects.order_by('surname', 'name', 'address_city').all().prefetch_related(Prefetch('room_reservations', queryset=RoomReservation.objects.order_by('-date_from'), to_attr='ordered_visits'))
+    guests = [serialize_guest(guest) for guest in allGuests]
     return JsonResponse({'guests': guests})
 
 
@@ -302,6 +287,7 @@ def guest(request, pk):
         return JsonResponse({'error': 'loggedOut'})
 
     guest = Guest.objects.get(id=pk)
+    guest.ordered_visits = guest.room_reservations.order_by('-date_from')
 
     if request.method == 'DELETE':
         guest.delete()
