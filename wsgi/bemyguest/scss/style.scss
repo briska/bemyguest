@@ -12,6 +12,7 @@ $newgreen: #eeff41;
 $lightorange: #ffefcc;
 $orange: #f2a23f;
 $red: #d9534f;
+$green: #008000;
 
 $screen-xs-max: 767px;
 $screen-sm-min: 768px;
@@ -700,6 +701,52 @@ button.close {
         .room-reservation {
             cursor: default;
         }
+
+        .finances-table {
+            border: 1px solid $bordergray;
+
+            thead {
+                background: $lightyellow;
+                border: 1px solid $borderyellow;
+
+                td {
+                    padding: 5px 10px;
+                    white-space: nowrap;
+                    border-right: 1px solid $borderyellow;
+                }
+            }
+
+            tbody {
+                tr {
+                    cursor: pointer;
+
+                    &:nth-child(even) {
+                        background: $white;
+                    }
+
+                    &:nth-child(odd) {
+                        background: $lightgray
+                    }
+
+                    td {
+                        padding: 5px 10px;
+                        border-right: 1px solid $bordergray;
+
+                        &:last-child {
+                            border: none;
+                        }
+                    }
+                }
+            }
+
+            .keep-center {
+                text-align: center;
+            }
+
+            .keep-right {
+                text-align: right;
+            }
+        }
     }
 }
 
@@ -720,11 +767,12 @@ button.close {
                 td {
                     padding: 5px 10px;
                     white-space: nowrap;
+                    border-right: 1px solid $borderyellow;
                 }
             }
 
             tbody {
-                .guest-row {
+                tr {
                     cursor: pointer;
 
                     &:nth-child(even) {
@@ -737,17 +785,21 @@ button.close {
 
                     td {
                         padding: 5px 10px;
-                        border-right: 1px solid $white;
+                        border-right: 1px solid $bordergray;
 
-                        &.keepCenter {
-                            text-align:center;
+                        &:last-child {
+                            border: none;
                         }
 
-                        .visitsCount {
+                        .visits-count {
                             padding: 0 10px;
                         }
                     }
                 }
+            }
+
+            .keep-center {
+                text-align: center;
             }
         }
     }
@@ -793,4 +845,12 @@ button.close {
         -moz-box-shadow: none;
         box-shadow: none;
     }
+}
+
+.diff-positive {
+    color: $green;
+}
+
+.diff-negative {
+    color: $red;
 }

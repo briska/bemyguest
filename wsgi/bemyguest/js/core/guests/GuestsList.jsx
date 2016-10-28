@@ -103,7 +103,7 @@ let GuestsList = React.createClass({
                                 );
                             }
                             return (
-                                <tr key={'guest-' + guest.id} className="guest-row" onDoubleClick={() => this.startEditing(guest)}>
+                                <tr key={'guest-' + guest.id} onDoubleClick={() => this.startEditing(guest)}>
                                     <td>{guest.namePrefix}</td>
                                     <td>{guest.name}</td>
                                     <td>{guest.surname}</td>
@@ -112,9 +112,9 @@ let GuestsList = React.createClass({
                                     <td>{guest.addressNumber}</td>
                                     <td>{guest.addressCity}</td>
                                     <td>{guest.phone}</td>
-                                    <td className="keepCenter">{visitsCount > 0 &&
+                                    <td className="keep-center">{visitsCount > 0 &&
                                         <OverlayTrigger trigger="click" placement="right" overlay={visitsPopup} rootClose arrowOffsetLeft="30">
-                                            <a className="visitsCount">{visitsCount}</a>
+                                            <a className="visits-count">{visitsCount}</a>
                                         </OverlayTrigger>
                                         }</td>
                                     <td>{!guest.recommended &&

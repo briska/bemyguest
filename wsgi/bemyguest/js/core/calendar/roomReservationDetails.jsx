@@ -75,7 +75,7 @@ let RoomReservationDetails = React.createClass({
                         <p className="purpose"><span className="caption">{trans('PURPOSE')}:</span> {substr(reservation.purpose, 200)}</p>}
                     {reservation.spiritualGuide &&
                         <p className="spiritual-guide"><span className="caption">{trans('SPIRITUAL_GUIDE')}:</span> {reservation.spiritualGuide}</p>}
-                    <p className="price-payed"><span className="caption">{trans('PRICE_PAYED')}:</span> {reservation.pricePayed}€</p>
+                    <p className="price-payed"><span className="caption">{trans('PRICE_PAYED')}:</span> {reservation.pricePayed} €</p>
                     {reservation.notes &&
                         <p className="notes"><span className="caption">{trans('NOTES')}:</span> {substr(reservation.notes, 200)}</p>}
                     {!reservation.approved &&

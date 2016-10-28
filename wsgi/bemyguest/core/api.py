@@ -157,8 +157,6 @@ def reservation(request, pk):
                     else:
                         reservation.meals.filter(~Q(date__range=(new_first_day, new_last_day))).delete()
 
-                    reservation.update_prices()
-
             if 'guests' in room_reservation_data:
                 room_reservation.guests.clear()
                 for guest_data in room_reservation_data['guests']:
@@ -223,8 +221,6 @@ def reservation(request, pk):
                 room_reservation.date_to = date_to
                 room_reservation.save()
 
-            reservation.update_prices()
-
         else:
             if 'name' in reservation_data:
                 reservation.name = reservation_data['name']
@@ -247,6 +243,8 @@ def reservation(request, pk):
             elif 'approved' in reservation_data:
                 reservation.approved = True
             reservation.save()
+
+        reservation.update_prices()
 
     return JsonResponse({'reservation': serialize_reservation(reservation)})
 

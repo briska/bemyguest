@@ -724,6 +724,30 @@ button.close {
       margin-left: 10px; }
   .stats .stats-section .room-reservation {
     cursor: default; }
+  .stats .stats-section .finances-table {
+    border: 1px solid #ddd; }
+    .stats .stats-section .finances-table thead {
+      background: #ffffcc;
+      border: 1px solid #eeeebb; }
+      .stats .stats-section .finances-table thead td {
+        padding: 5px 10px;
+        white-space: nowrap;
+        border-right: 1px solid #eeeebb; }
+    .stats .stats-section .finances-table tbody tr {
+      cursor: pointer; }
+      .stats .stats-section .finances-table tbody tr:nth-child(even) {
+        background: #fff; }
+      .stats .stats-section .finances-table tbody tr:nth-child(odd) {
+        background: #f3f3f3; }
+      .stats .stats-section .finances-table tbody tr td {
+        padding: 5px 10px;
+        border-right: 1px solid #ddd; }
+        .stats .stats-section .finances-table tbody tr td:last-child {
+          border: none; }
+    .stats .stats-section .finances-table .keep-center {
+      text-align: center; }
+    .stats .stats-section .finances-table .keep-right {
+      text-align: right; }
 
 .guests .guests-section {
   background-color: #fff;
@@ -737,20 +761,23 @@ button.close {
       border: 1px solid #eeeebb; }
       .guests .guests-section .guests-list-table thead td {
         padding: 5px 10px;
-        white-space: nowrap; }
-    .guests .guests-section .guests-list-table tbody .guest-row {
+        white-space: nowrap;
+        border-right: 1px solid #eeeebb; }
+    .guests .guests-section .guests-list-table tbody tr {
       cursor: pointer; }
-      .guests .guests-section .guests-list-table tbody .guest-row:nth-child(even) {
+      .guests .guests-section .guests-list-table tbody tr:nth-child(even) {
         background: #fff; }
-      .guests .guests-section .guests-list-table tbody .guest-row:nth-child(odd) {
+      .guests .guests-section .guests-list-table tbody tr:nth-child(odd) {
         background: #f3f3f3; }
-      .guests .guests-section .guests-list-table tbody .guest-row td {
+      .guests .guests-section .guests-list-table tbody tr td {
         padding: 5px 10px;
-        border-right: 1px solid #fff; }
-        .guests .guests-section .guests-list-table tbody .guest-row td.keepCenter {
-          text-align: center; }
-        .guests .guests-section .guests-list-table tbody .guest-row td .visitsCount {
+        border-right: 1px solid #ddd; }
+        .guests .guests-section .guests-list-table tbody tr td:last-child {
+          border: none; }
+        .guests .guests-section .guests-list-table tbody tr td .visits-count {
           padding: 0 10px; }
+    .guests .guests-section .guests-list-table .keep-center {
+      text-align: center; }
 
 .glyphicon-exclamation-sign, .glyphicon-time {
   color: #d9534f;
@@ -780,3 +807,9 @@ button.close {
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   box-shadow: none; }
+
+.diff-positive {
+  color: #008000; }
+
+.diff-negative {
+  color: #d9534f; }

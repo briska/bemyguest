@@ -72,6 +72,8 @@ def serialize_reservation(reservation):
         'purpose': reservation.purpose,
         'spiritualGuide': reservation.spiritual_guide,
         'pricePayed': reservation.price_payed,
+        'priceHousing': reservation.price_housing,
+        'priceSpiritual': reservation.price_spiritual,
         'approved': reservation.approved,
         'notes': reservation.notes,
         'mailCommunication': reservation.mail_communication,

@@ -73,11 +73,11 @@ class Reservation(models.Model):
         return self.get_reservation_title()
 
     def update_prices(self):
-        date_from = self.get_date_from().replace(hour=0, minute=0, second=0, microsecond=0)
-        date_to = self.get_date_to().replace(hour=0, minute=0, second=0, microsecond=0)
-        days = (date_to - date_from).days + 1
-        self.price_housing = days * 16 + 1
-        self.price_spiritual = days * 2
+        date_from = self.get_date_from().date()
+        date_to = self.get_date_to().date()
+        days = (date_to - date_from).days
+        self.price_spiritual = days * 2 if self.spiritual_guide else 0
+        self.price_housing = self.count_room_reservations_price()
         self.save()
 
     def get_date_from(self):
@@ -88,6 +88,14 @@ class Reservation(models.Model):
 
     def get_reservation_title(self):
         return self.name if self.name else self.contact_name
+
+    def count_room_reservations_price(self):
+        totalPrice = 0
+        for roomReservation in self.room_reservations.order_by('date_from'):
+            guestsCount = roomReservation.guests.count()
+            totalNights = (roomReservation.date_to.date() - roomReservation.date_from.date()).days
+            totalPrice += 17 * guestsCount + (totalNights - 1) * 16 * guestsCount
+        return totalPrice
 
 class Guest(models.Model):
     name_prefix = models.TextField(blank=True)

@@ -64,7 +64,7 @@ let PricePayed = React.createClass({
                     <input type="number" value={pricePayed} name="pricePayed" ref="focusTarget" onChange={this.handleChange} />}
                 {!edit &&
                     <span>{pricePayed}</span>}
-                <span className="euro">€</span>
+                <span className="euro"> €</span>
                 <EditTools edit={edit} saving={saving} onSave={this.save} onCancel={this.cancel} />
             </div>
         );
