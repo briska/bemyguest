@@ -73,8 +73,8 @@ let GuestsList = React.createClass({
             </Modal>
         );
         return (
-            <div className="guests-list guests-section">
-                <table className="guests-list-table">
+            <div className="guests-list sub-section">
+                <table className={cx('guests-list-table', 'sub-section-table')}>
                     <thead>
                         <tr>
                             <td>{trans('NAME_PREFIX')}</td>

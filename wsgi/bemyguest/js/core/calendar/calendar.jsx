@@ -110,7 +110,7 @@ let Calendar = React.createClass({
                                             return (
                                                 <div
                                                     key={'cell-' + j}
-                                                    className={cx('calendar-cell', i % 2 ? 'odd' : 'even')}
+                                                    className="calendar-cell"
                                                     style={{width: cellWidth + 'px', height: cellHeight + 'px'}}
                                                     onMouseDown={(e) => {if (e.button == 0) this.startSelectingNewReservation(e, room.id, date);}}>
                                                 </div>

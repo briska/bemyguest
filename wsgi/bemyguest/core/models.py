@@ -11,25 +11,34 @@ class Setting(models.Model):
     def __unicode__(self):
         return '%s: %s' % (self.key, self.value)
 
-# keep in sync with feast-colors in style.scss
-FEAST_COLORS = (
+# keep in sync with event-colors in style.scss
+EVENT_COLORS = (
     (1, _('RED')),
     (2, _('GREEN')),
     (3, _('BLUE')),
     (4, _('PINK')),
     (5, _('VIOLET')),
-    (6, _('TURQUOISE')),
+    (6, _('BROWN')),
     (7, _('WHITE'))
 )
 
+EVENT_TYPE = (
+    (1, _('LITURGICAL')),
+    (2, _('COMMUNITY'))
+)
 
-class Feast(models.Model):
+class Event(models.Model):
     name = models.CharField(max_length=64)
-    date = models.DateField()
-    color = models.IntegerField(choices=FEAST_COLORS)
+    date_from = models.DateField()
+    date_to = models.DateField(null=True, blank=True)
+    type = models.IntegerField(choices=EVENT_TYPE)
+    color = models.IntegerField(choices=EVENT_COLORS)
 
     def __unicode__(self):
-        return '%s: %s' % (self.date, self.name)
+        if self.date_to is None:
+            return '%s: %s' % (self.date_from, self.name)
+        else:
+            return '%s_%s: %s' % (self.date_from, self.date_to, self.name)
 
 class House(models.Model):
     name = models.TextField(max_length=64)

@@ -76,4 +76,16 @@
     "VISITS": "Návštevy",
     "FINANCES": "Financie",
     "DIFFERENCE": "Rozdiel",
+    "SETTINGS": "Nastavenia",
+    "EVENTS": "Udalosti",
+    "EVENT_NAME": "Názov",
+    "EVENT_COLOR": "Farba",
+    "EVENT_TYPE": "Typ",
+    "EVENT_TYPE_NAME": {
+        "LITURGICAL": "Liturgický",
+        "COMMUNITY": "Komunitný",
+    },
+    "NEW_EVENT": "Nová udalosť",
+    "ALL_FIELDS_REQUIRED": "Všetky polia su povinné",
+    "CONFIRM_REMOVING_EVENT": "Naozaj chcete odstrániť túto udalosť?"
 }

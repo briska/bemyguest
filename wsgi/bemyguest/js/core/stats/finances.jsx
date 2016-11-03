@@ -29,9 +29,9 @@ let Finances = React.createClass({
     render: function() {
         let {reservations, context} = this.props;
         return (
-            <div className="finances stats-section">
+            <div className="finances sub-section">
                 <h2>{trans('FINANCES')}</h2>
-                <table className="finances-table">
+                <table className={cx('finances-table', 'sub-section-table')}>
                     <thead>
                         <tr>
                             <td>{trans('RESERVATION')}</td>

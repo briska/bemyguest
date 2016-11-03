@@ -51,5 +51,10 @@ module.exports = {
             dates.push(moment(d));
         }
         return dates;
+    },
+
+    translateEventType: (type) => {
+        if (type == 1) return 'LITURGICAL';
+        if (type == 2) return 'COMMUNITY';
     }
 }

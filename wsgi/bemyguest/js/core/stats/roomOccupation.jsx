@@ -68,7 +68,7 @@ let RoomOccupation = React.createClass({
         let datesRange = getDatesRange(this.state.currentWeekFrom, this.state.currentWeekTo);
         let roomReservationSubset = this.getWeekRooms();
         return (
-            <div className="room-occupation stats-section">
+            <div className="room-occupation sub-section">
                 <h2>{trans('ROOM_OCCUPATION')}</h2>
                 <div className="week-selector">
                     <Button onClick={() => {this.setActualWeek();}} bsSize="small">

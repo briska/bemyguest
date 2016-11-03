@@ -1,4 +1,4 @@
-/* keep in sync with FEAST_COLORS in models.py */
+/* keep in sync with EVENT_COLORS in models.py */
 .react-datepicker__tether-element-attached-top .react-datepicker__triangle, .react-datepicker__tether-element-attached-bottom .react-datepicker__triangle, .react-datepicker__year-read-view--down-arrow {
   margin-left: -8px;
   position: absolute; }
@@ -431,25 +431,25 @@ button.close {
             border-bottom: 2px solid #999; }
           .calendar-sheet-container .calendar-sheet .calendar-header .calendar-days .calendar-day.sunday {
             background: #ffefcc; }
-          .calendar-sheet-container .calendar-sheet .calendar-header .calendar-days .calendar-day.feast-1 {
-            background: #ffbebe;
+          .calendar-sheet-container .calendar-sheet .calendar-header .calendar-days .calendar-day.one-day-1 {
+            background: #ff7a7a;
             cursor: pointer; }
-          .calendar-sheet-container .calendar-sheet .calendar-header .calendar-days .calendar-day.feast-2 {
-            background: #b3ffc1;
+          .calendar-sheet-container .calendar-sheet .calendar-header .calendar-days .calendar-day.one-day-2 {
+            background: #b6f38f;
             cursor: pointer; }
-          .calendar-sheet-container .calendar-sheet .calendar-header .calendar-days .calendar-day.feast-3 {
-            background: #d4e9ff;
+          .calendar-sheet-container .calendar-sheet .calendar-header .calendar-days .calendar-day.one-day-3 {
+            background: #b4d9ff;
             cursor: pointer; }
-          .calendar-sheet-container .calendar-sheet .calendar-header .calendar-days .calendar-day.feast-4 {
-            background: #ffc8f1;
+          .calendar-sheet-container .calendar-sheet .calendar-header .calendar-days .calendar-day.one-day-4 {
+            background: #ffbbee;
             cursor: pointer; }
-          .calendar-sheet-container .calendar-sheet .calendar-header .calendar-days .calendar-day.feast-5 {
-            background: #f4b8ff;
+          .calendar-sheet-container .calendar-sheet .calendar-header .calendar-days .calendar-day.one-day-5 {
+            background: #c5a0ff;
             cursor: pointer; }
-          .calendar-sheet-container .calendar-sheet .calendar-header .calendar-days .calendar-day.feast-6 {
-            background: #c2ffe0;
+          .calendar-sheet-container .calendar-sheet .calendar-header .calendar-days .calendar-day.one-day-6 {
+            background: #e4ad73;
             cursor: pointer; }
-          .calendar-sheet-container .calendar-sheet .calendar-header .calendar-days .calendar-day.feast-7 {
+          .calendar-sheet-container .calendar-sheet .calendar-header .calendar-days .calendar-day.one-day-7 {
             background: #ffffff;
             cursor: pointer; }
           .calendar-sheet-container .calendar-sheet .calendar-header .calendar-days .calendar-day .day-number {
@@ -460,6 +460,34 @@ button.close {
             font-weight: 400; }
           .calendar-sheet-container .calendar-sheet .calendar-header .calendar-days .calendar-day .inner-wrapper {
             padding: 8px 5px 0; }
+            .calendar-sheet-container .calendar-sheet .calendar-header .calendar-days .calendar-day .inner-wrapper.more-days-1 {
+              border-top: 5px solid #ff7a7a;
+              padding-top: 3px;
+              cursor: pointer; }
+            .calendar-sheet-container .calendar-sheet .calendar-header .calendar-days .calendar-day .inner-wrapper.more-days-2 {
+              border-top: 5px solid #b6f38f;
+              padding-top: 3px;
+              cursor: pointer; }
+            .calendar-sheet-container .calendar-sheet .calendar-header .calendar-days .calendar-day .inner-wrapper.more-days-3 {
+              border-top: 5px solid #b4d9ff;
+              padding-top: 3px;
+              cursor: pointer; }
+            .calendar-sheet-container .calendar-sheet .calendar-header .calendar-days .calendar-day .inner-wrapper.more-days-4 {
+              border-top: 5px solid #ffbbee;
+              padding-top: 3px;
+              cursor: pointer; }
+            .calendar-sheet-container .calendar-sheet .calendar-header .calendar-days .calendar-day .inner-wrapper.more-days-5 {
+              border-top: 5px solid #c5a0ff;
+              padding-top: 3px;
+              cursor: pointer; }
+            .calendar-sheet-container .calendar-sheet .calendar-header .calendar-days .calendar-day .inner-wrapper.more-days-6 {
+              border-top: 5px solid #e4ad73;
+              padding-top: 3px;
+              cursor: pointer; }
+            .calendar-sheet-container .calendar-sheet .calendar-header .calendar-days .calendar-day .inner-wrapper.more-days-7 {
+              border-top: 5px solid #ffffff;
+              padding-top: 3px;
+              cursor: pointer; }
       .calendar-sheet-container .calendar-sheet .calendar-header .tooltip-inner {
         max-width: none;
         min-width: 100px;
@@ -468,15 +496,16 @@ button.close {
       width: 100%; }
       .calendar-sheet-container .calendar-sheet .calendar-table .calendar-row {
         overflow: hidden; }
+        .calendar-sheet-container .calendar-sheet .calendar-table .calendar-row:nth-child(even) {
+          background: #fff; }
+        .calendar-sheet-container .calendar-sheet .calendar-table .calendar-row:nth-child(odd) {
+          background: #f3f3f3; }
         .calendar-sheet-container .calendar-sheet .calendar-table .calendar-row .calendar-cell {
           border-right: 1px solid #ddd;
-          border-bottom: 1px solid #ddd;
           padding: 5px;
           float: left; }
-          .calendar-sheet-container .calendar-sheet .calendar-table .calendar-row .calendar-cell.odd {
-            background: #fff; }
-          .calendar-sheet-container .calendar-sheet .calendar-table .calendar-row .calendar-cell.even {
-            background: #f3f3f3; }
+        .calendar-sheet-container .calendar-sheet .calendar-table .calendar-row:last-of-type .calendar-cell {
+          border-bottom: 1px solid #ddd; }
   .calendar-sheet-container .buttons-container button {
     margin: 2px 0 0 5px;
     border: none; }
@@ -710,74 +739,48 @@ button.close {
   padding-top: 8px;
   color: #bbb; }
 
-.stats .stats-section {
-  background-color: #fff;
-  padding: 15px;
-  margin-bottom: 15px;
-  overflow: auto; }
-  .stats .stats-section .week-selector {
-    margin-bottom: 15px; }
-    .stats .stats-section .week-selector .btn {
-      margin-right: 5px; }
-    .stats .stats-section .week-selector .week-date {
-      display: inline-block;
-      margin-left: 10px; }
-  .stats .stats-section .room-reservation {
-    cursor: default; }
-  .stats .stats-section .finances-table {
-    border: 1px solid #ddd; }
-    .stats .stats-section .finances-table thead {
-      background: #ffffcc;
-      border: 1px solid #eeeebb; }
-      .stats .stats-section .finances-table thead td {
-        padding: 5px 10px;
-        white-space: nowrap;
-        border-right: 1px solid #eeeebb; }
-    .stats .stats-section .finances-table tbody tr {
-      cursor: pointer; }
-      .stats .stats-section .finances-table tbody tr:nth-child(even) {
-        background: #fff; }
-      .stats .stats-section .finances-table tbody tr:nth-child(odd) {
-        background: #f3f3f3; }
-      .stats .stats-section .finances-table tbody tr td {
-        padding: 5px 10px;
-        border-right: 1px solid #ddd; }
-        .stats .stats-section .finances-table tbody tr td:last-child {
-          border: none; }
-    .stats .stats-section .finances-table .keep-center {
-      text-align: center; }
-    .stats .stats-section .finances-table .keep-right {
-      text-align: right; }
+.stats .room-reservation {
+  cursor: default; }
 
-.guests .guests-section {
+.week-selector {
+  margin-bottom: 15px; }
+  .week-selector .btn {
+    margin-right: 5px; }
+  .week-selector .week-date {
+    display: inline-block;
+    margin-left: 10px; }
+
+.sub-section {
   background-color: #fff;
   padding: 15px;
   margin-bottom: 15px;
   overflow: auto; }
-  .guests .guests-section .guests-list-table {
+  .sub-section .sub-section-table {
     border: 1px solid #ddd; }
-    .guests .guests-section .guests-list-table thead {
+    .sub-section .sub-section-table thead {
       background: #ffffcc;
       border: 1px solid #eeeebb; }
-      .guests .guests-section .guests-list-table thead td {
+      .sub-section .sub-section-table thead td {
         padding: 5px 10px;
         white-space: nowrap;
         border-right: 1px solid #eeeebb; }
-    .guests .guests-section .guests-list-table tbody tr {
+    .sub-section .sub-section-table tbody tr {
       cursor: pointer; }
-      .guests .guests-section .guests-list-table tbody tr:nth-child(even) {
+      .sub-section .sub-section-table tbody tr:nth-child(even) {
         background: #fff; }
-      .guests .guests-section .guests-list-table tbody tr:nth-child(odd) {
+      .sub-section .sub-section-table tbody tr:nth-child(odd) {
         background: #f3f3f3; }
-      .guests .guests-section .guests-list-table tbody tr td {
+      .sub-section .sub-section-table tbody tr td {
         padding: 5px 10px;
         border-right: 1px solid #ddd; }
-        .guests .guests-section .guests-list-table tbody tr td:last-child {
+        .sub-section .sub-section-table tbody tr td:last-child {
           border: none; }
-        .guests .guests-section .guests-list-table tbody tr td .visits-count {
+        .sub-section .sub-section-table tbody tr td .visits-count {
           padding: 0 10px; }
-    .guests .guests-section .guests-list-table .keep-center {
+    .sub-section .sub-section-table .keep-center {
       text-align: center; }
+    .sub-section .sub-section-table .keep-right {
+      text-align: right; }
 
 .glyphicon-exclamation-sign, .glyphicon-time {
   color: #d9534f;
@@ -786,19 +789,19 @@ button.close {
 .glyphicon-time + .glyphicon-exclamation-sign {
   margin-left: -6px; }
 
-.guest-details-modal .glyphicon-chevron-up, .guest-details-modal .glyphicon-chevron-down, .guest-details-modal .glyphicon-remove, .guest-details-modal .glyphicon-remove {
+.guest-details-modal .glyphicon-chevron-up, .guest-details-modal .glyphicon-chevron-down, .guest-details-modal .glyphicon-remove, .guest-details-modal .glyphicon-remove, .event-details-modal .glyphicon-chevron-up, .event-details-modal .glyphicon-chevron-down, .event-details-modal .glyphicon-remove, .event-details-modal .glyphicon-remove {
   cursor: pointer; }
 
-.guest-details-modal .guest-detail .form-row {
+.guest-details-modal .guest-detail .form-row, .guest-details-modal .event-detail .form-row, .event-details-modal .guest-detail .form-row, .event-details-modal .event-detail .form-row {
   margin: 0 -15px 15px;
   overflow: auto; }
 
-.guest-details-modal .guest-detail .form-label {
+.guest-details-modal .guest-detail .form-label, .guest-details-modal .event-detail .form-label, .event-details-modal .guest-detail .form-label, .event-details-modal .event-detail .form-label {
   text-align: right;
   margin-bottom: 0;
   padding-top: 7px; }
 
-.guest-details-modal .guest-detail .form-element {
+.guest-details-modal .guest-detail .form-element, .guest-details-modal .event-detail .form-element, .event-details-modal .guest-detail .form-element, .event-details-modal .event-detail .form-element {
   width: 100%;
   padding: 6px 12px; }
 
@@ -808,8 +811,41 @@ button.close {
   -moz-box-shadow: none;
   box-shadow: none; }
 
+.visits-popup.small {
+  padding: 0px 10px; }
+
 .diff-positive {
   color: #008000; }
 
 .diff-negative {
   color: #d9534f; }
+
+.event-color-sample {
+  width: 30px;
+  height: 30px;
+  float: left;
+  border: 1px solid #bbb;
+  margin-right: 5px;
+  padding: 5px 0 0 7px;
+  cursor: pointer; }
+
+.event-color-preview-1 {
+  background: #ff7a7a; }
+
+.event-color-preview-2 {
+  background: #b6f38f; }
+
+.event-color-preview-3 {
+  background: #b4d9ff; }
+
+.event-color-preview-4 {
+  background: #ffbbee; }
+
+.event-color-preview-5 {
+  background: #c5a0ff; }
+
+.event-color-preview-6 {
+  background: #e4ad73; }
+
+.event-color-preview-7 {
+  background: #ffffff; }

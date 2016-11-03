@@ -64,7 +64,7 @@ let Meals = React.createClass({
         let {currentWeekFrom, currentWeekTo, mealsDataFrom, mealsDataTo, mealsSum} = this.state;
         let datesRange = getDatesRange(this.state.currentWeekFrom, this.state.currentWeekTo);
         return (
-            <div className="meals stats-section">
+            <div className="meals sub-section">
                 <h2>{trans('MEALS')}</h2>
                 <div className="week-selector">
                     <Button onClick={() => {this.setActualWeek();}} bsSize="small">

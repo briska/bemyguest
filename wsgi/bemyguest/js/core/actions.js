@@ -51,9 +51,32 @@ function removeReservation(actionContext, {id, data}, done) {
     });
 };
 
-function loadFeasts(actionContext, {}, done) {
-    xhr.get(actionContext, '/api/feasts/', function(resp) {
-        actionContext.dispatch('FEASTS_LOADED', {feasts: resp.body.feasts});
+function loadEvents(actionContext, {}, done) {
+    xhr.get(actionContext, '/api/events/', function(resp) {
+        actionContext.dispatch('EVENTS_LOADED', {events: resp.body.events});
+        done();
+    });
+};
+
+function createEvent(actionContext, payload, done) {
+    xhr.post(actionContext, '/api/events/', payload, function(resp) {
+        actionContext.dispatch('EVENT_CREATED', {event: resp.body.event});
+        done();
+    });
+};
+
+function editEvent(actionContext, {event}, done) {
+    xhr.post(actionContext, '/api/events/' + event.id + '/', event, function(resp) {
+        actionContext.dispatch('EVENT_EDITED', {event: resp.body.event});
+        done();
+    }, function(resp) {
+        actionContext.dispatch('EVENT_ERROR');
+    });
+};
+
+function removeEvent(actionContext, {id, data}, done) {
+    xhr.delete(actionContext, '/api/events/' + id + '/', data, function(resp) {
+        actionContext.dispatch('EVENT_REMOVED', {id: id});
         done();
     });
 };
@@ -74,4 +97,4 @@ function editGuest(actionContext, {guest}, done) {
     });
 };
 
-module.exports = {loadUser, logIn, loadReservations, createReservation, editReservation, removeReservation, loadFeasts, loadGuests, editGuest};
+module.exports = {loadUser, logIn, loadReservations, createReservation, editReservation, removeReservation, loadEvents, createEvent, editEvent, removeEvent, loadGuests, editGuest};

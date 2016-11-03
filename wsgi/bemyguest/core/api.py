@@ -1,7 +1,7 @@
 import json
 from django.views.decorators.csrf import csrf_exempt
-from core.models import Reservation, RoomReservation, Guest, Meal, Feast
-from core.serializers import serialize_reservation, serialize_user, serialize_feast, serialize_guest
+from core.models import Reservation, RoomReservation, Guest, Meal, Event
+from core.serializers import serialize_reservation, serialize_user, serialize_event, serialize_guest
 from django.http.response import JsonResponse
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login
@@ -249,12 +249,50 @@ def reservation(request, pk):
     return JsonResponse({'reservation': serialize_reservation(reservation)})
 
 
-def feasts(request):
+@csrf_exempt
+def events(request):
     if request.user.is_anonymous():
         return JsonResponse({'error': 'loggedOut'})
-    feasts = [serialize_feast(feast) for feast in Feast.objects.all()]
-    return JsonResponse({'feasts': feasts})
 
+    if request.method == 'POST':
+        event_data = convert_dict_keys_deep(json.loads(request.body))['event']
+        if (not event_data['name'] or not event_data['date_from'] or not event_data['type'] or not event_data['color']):
+            return JsonResponse({'error': 'badRequest'})
+
+        if (not event_data['id']):
+            event = Event(
+                name=event_data['name'],
+                date_from=event_data['date_from'],
+                date_to=event_data['date_to'],
+                type=event_data['type'],
+                color=event_data['color'],
+            )
+            event.save()
+            return JsonResponse({'event': serialize_event(event)})
+
+    events = [serialize_event(event) for event in Event.objects.order_by('date_from').all()]
+    return JsonResponse({'events': events})
+
+@csrf_exempt
+def event(request, pk):
+    if request.user.is_anonymous():
+        return JsonResponse({'error': 'loggedOut'})
+
+    event = Event.objects.get(id=pk)
+
+    if request.method == 'DELETE':
+        event.delete()
+        return JsonResponse({})
+
+    if request.method == 'POST':
+        event_data = convert_dict_keys_deep(json.loads(request.body))
+        event.name = event_data['name']
+        event.date_from = event_data['date_from']
+        event.date_to = event_data['date_to']
+        event.type = event_data['type']
+        event.color = event_data['color']
+        event.save()
+    return JsonResponse({'event': serialize_event(event)})
 
 def meals(request):
     if request.user.is_anonymous():

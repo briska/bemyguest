@@ -6,9 +6,8 @@ const moment = require('moment');
 require('moment/locale/sk');
 const connectToStores = require('fluxible-addons-react/connectToStores');
 import {cellWidth, headHeight, monthHeight} from 'core/enums';
-import FeastsStore from 'core/feastsStore';
-import OverlayTrigger from 'react-bootstrap/lib/OverlayTrigger';
-import Tooltip from 'react-bootstrap/lib/Tooltip';
+import EventsStore from 'core/eventsStore';
+import {OverlayTrigger, Popover} from 'react-bootstrap';
 
 let CalendarHeader = React.createClass({
 
@@ -17,7 +16,7 @@ let CalendarHeader = React.createClass({
     },
 
     render: function() {
-        let {dates, feasts, position} = this.props;
+        let {dates, parsedEvents, position} = this.props;
         let dateFrom = _.nth(dates, 0);
         let dateTo = _.nth(dates, -1);
         let today = moment();
@@ -57,14 +56,44 @@ let CalendarHeader = React.createClass({
                 {position == 'top' ? monthsComp : ''}
                 <div className="calendar-days">
                     {_.map(dates, (date, i) => {
-
                         let tooltip = null;
-                        if (date.format('L') in feasts) {
-                            let feast = feasts[date.format('L')];
-                            tooltip = (<Tooltip id={'tooltip-' + position + '-' + feast.id}>{feast.name}</Tooltip>);
+                        let oneDay = null;
+                        let inMoreDays = null;
+                        if (date.format('L') in parsedEvents) {
+                            let tooltipContent = "";
+                            let dayEvents = parsedEvents[date.format('L')];
+                            // liturgical
+                            if (dayEvents[1]) {
+                                let dayEv = dayEvents[1];
+                                if (dayEv.dateTo == null) {
+                                    oneDay = dayEv;
+                                } else {
+                                    inMoreDays = dayEv;
+                                }
+                                tooltipContent = tooltipContent + (tooltipContent ? ", " :  "") + dayEv.name;
+                            }
+                            // community
+                            if (dayEvents[2]) {
+                                let dayEv = dayEvents[2];
+                                if (dayEv.dateTo == null) {
+                                    oneDay = dayEv;
+                                } else {
+                                    inMoreDays = dayEv;
+                                }
+                                tooltipContent = tooltipContent + (tooltipContent ? ", " :  "") + dayEv.name
+                            }
+
+                            tooltip = (<Popover key={'pop-' + '-' + date.format('L')} id={'pop-' + '-' + date.format('L')} bsClass={cx('visits-popup', 'small', 'popover')} role="tooltip">
+                                {tooltipContent}
+                            </Popover>);
                         }
 
-                        let innerCell = (<div className="inner-wrapper">
+
+
+                        let innerCell = (<div className={cx(
+                                'inner-wrapper',
+                                inMoreDays ? 'more-days-' + inMoreDays.color : ''
+                            )}>
                             <span className="day-number">{date.format('Do')}</span>
                             <span className="day-name">{date.format('dddd')}</span>
                         </div>);
@@ -76,7 +105,7 @@ let CalendarHeader = React.createClass({
                                     'calendar-day',
                                     date.isSame(today, 'day') ? 'today' : '',
                                     date.day() === 0 ? 'sunday' : '',
-                                    date.format('L') in feasts ? 'feast-' + feasts[date.format('L')].color : ''
+                                    oneDay ? 'one-day-' + oneDay.color : ''
                                 )}
                                 style={{width: cellWidth + 'px', height: headHeight + 'px'}}>
                                 {tooltip != null ? <OverlayTrigger placement="top" overlay={tooltip} trigger="click" rootClose={true} container={this}>{innerCell}</OverlayTrigger> : innerCell}
@@ -90,8 +119,8 @@ let CalendarHeader = React.createClass({
     }
 });
 
-CalendarHeader = connectToStores(CalendarHeader, [FeastsStore], (context, props) => ({
-    feasts: context.getStore(FeastsStore).getFeasts()
+CalendarHeader = connectToStores(CalendarHeader, [EventsStore], (context, props) => ({
+    parsedEvents: context.getStore(EventsStore).getParsedEvents()
 }));
 
 module.exports = CalendarHeader;

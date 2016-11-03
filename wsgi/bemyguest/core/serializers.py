@@ -89,10 +89,12 @@ def serialize_user(user):
         'mail': user.email,
     }
 
-def serialize_feast(feast):
+def serialize_event(event):
     return {
-        'id': feast.id,
-        'name': feast.name,
-        'date': feast.date,
-        'color': feast.color,
+        'id': event.id,
+        'name': event.name,
+        'type': event.type,
+        'dateFrom': event.date_from,
+        'dateTo': event.date_to,
+        'color': event.color,
     }

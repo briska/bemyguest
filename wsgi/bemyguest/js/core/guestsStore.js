@@ -66,7 +66,6 @@ let GuestsStore = createStore({
         },
 
         'GUESTS_EDITED': function({guest}) {
-            let oldGuest = _.find(this._guests, {id: guest.id});
             guest = this.handleGuest(guest);
             let index = _.findIndex(this._guests, {id: guest.id});
             this._guests = update(this._guests, {[index]: {$set: guest}});

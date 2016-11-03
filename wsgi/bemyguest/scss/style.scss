@@ -21,8 +21,8 @@ $screen-md-min: 992px;
 $screen-md-max: 1199px;
 $screen-lg-min: 1200px;
 
-/* keep in sync with FEAST_COLORS in models.py */
-$feast-colors: #ffbebe, #b3ffc1, #d4e9ff, #ffc8f1, #f4b8ff, #c2ffe0, #ffffff;
+/* keep in sync with EVENT_COLORS in models.py */
+$event-colors: #ff7a7a, #b6f38f, #b4d9ff, #ffbbee, #c5a0ff, #e4ad73, #ffffff;
 
 @import '../node_modules/react-datepicker/dist/react-datepicker';
 
@@ -248,9 +248,9 @@ button.close {
                         background: $lightorange;
                     }
 
-                    @each $current-color in $feast-colors {
-                        $i: index($feast-colors, $current-color);
-                        &.feast-#{$i} {
+                    @each $current-color in $event-colors {
+                        $i: index($event-colors, $current-color);
+                        &.one-day-#{$i} {
                             background: $current-color;
                             cursor: pointer;
                         }
@@ -268,6 +268,15 @@ button.close {
 
                     .inner-wrapper {
                         padding: 8px 5px 0;
+
+                        @each $current-color in $event-colors {
+                            $i: index($event-colors, $current-color);
+                            &.more-days-#{$i} {
+                                border-top: 5px solid $current-color;
+                                padding-top: 3px;
+                                cursor: pointer;
+                            }
+                        }
                     }
                 }
             }
@@ -285,19 +294,22 @@ button.close {
             .calendar-row {
                 overflow: hidden;
 
-               .calendar-cell {
-                    border-right: 1px solid $bordergray;
-                    border-bottom: 1px solid $bordergray;
-                    padding: 5px;
-                    float: left;
-
-                    &.odd {
+                &:nth-child(even) {
                         background: $white;
                     }
 
-                    &.even {
-                        background: $lightgray;
-                    }
+                &:nth-child(odd) {
+                    background: $lightgray
+                }
+
+                .calendar-cell {
+                    border-right: 1px solid $bordergray;
+                    padding: 5px;
+                    float: left;
+                }
+
+                &:last-of-type .calendar-cell {
+                    border-bottom: 1px solid $bordergray;
                 }
             }
         }
@@ -679,128 +691,77 @@ button.close {
 }
 
 .stats {
-    .stats-section {
-        background-color: $white;
-        padding: 15px;
-        margin-bottom: 15px;
-        overflow: auto;
-
-        .week-selector {
-            margin-bottom: 15px;
-
-            .btn {
-                margin-right: 5px;
-            }
-
-            .week-date {
-                display: inline-block;
-                margin-left: 10px;
-            }
-        }
-
-        .room-reservation {
-            cursor: default;
-        }
-
-        .finances-table {
-            border: 1px solid $bordergray;
-
-            thead {
-                background: $lightyellow;
-                border: 1px solid $borderyellow;
-
-                td {
-                    padding: 5px 10px;
-                    white-space: nowrap;
-                    border-right: 1px solid $borderyellow;
-                }
-            }
-
-            tbody {
-                tr {
-                    cursor: pointer;
-
-                    &:nth-child(even) {
-                        background: $white;
-                    }
-
-                    &:nth-child(odd) {
-                        background: $lightgray
-                    }
-
-                    td {
-                        padding: 5px 10px;
-                        border-right: 1px solid $bordergray;
-
-                        &:last-child {
-                            border: none;
-                        }
-                    }
-                }
-            }
-
-            .keep-center {
-                text-align: center;
-            }
-
-            .keep-right {
-                text-align: right;
-            }
-        }
+    .room-reservation {
+        cursor: default;
     }
 }
 
-.guests {
-    .guests-section {
-        background-color: $white;
-        padding: 15px;
-        margin-bottom: 15px;
-        overflow: auto;
+.week-selector {
+    margin-bottom: 15px;
 
-        .guests-list-table {
-            border: 1px solid $bordergray;
+    .btn {
+        margin-right: 5px;
+    }
 
-            thead {
-                background: $lightyellow;
-                border: 1px solid $borderyellow;
+    .week-date {
+        display: inline-block;
+        margin-left: 10px;
+    }
+}
+
+.sub-section {
+    background-color: $white;
+    padding: 15px;
+    margin-bottom: 15px;
+    overflow: auto;
+
+    .sub-section-table {
+        border: 1px solid $bordergray;
+
+        thead {
+            background: $lightyellow;
+            border: 1px solid $borderyellow;
+
+            td {
+                padding: 5px 10px;
+                white-space: nowrap;
+                border-right: 1px solid $borderyellow;
+            }
+        }
+
+        tbody {
+            tr {
+                cursor: pointer;
+
+                &:nth-child(even) {
+                    background: $white;
+                }
+
+                &:nth-child(odd) {
+                    background: $lightgray
+                }
 
                 td {
                     padding: 5px 10px;
-                    white-space: nowrap;
-                    border-right: 1px solid $borderyellow;
-                }
-            }
+                    border-right: 1px solid $bordergray;
 
-            tbody {
-                tr {
-                    cursor: pointer;
-
-                    &:nth-child(even) {
-                        background: $white;
+                    &:last-child {
+                        border: none;
                     }
 
-                    &:nth-child(odd) {
-                        background: $lightgray
-                    }
-
-                    td {
-                        padding: 5px 10px;
-                        border-right: 1px solid $bordergray;
-
-                        &:last-child {
-                            border: none;
-                        }
-
-                        .visits-count {
-                            padding: 0 10px;
-                        }
+                    .visits-count {
+                        padding: 0 10px;
                     }
                 }
             }
+        }
 
-            .keep-center {
-                text-align: center;
-            }
+        .keep-center {
+            text-align: center;
+        }
+
+        .keep-right {
+            text-align: right;
         }
     }
 }
@@ -814,12 +775,12 @@ button.close {
     margin-left: -6px;
 }
 
-.guest-details-modal {
+.guest-details-modal, .event-details-modal {
     .glyphicon-chevron-up, .glyphicon-chevron-down, .glyphicon-remove, .glyphicon-remove {
         cursor: pointer;
     }
 
-    .guest-detail {
+    .guest-detail, .event-detail {
         .form-row {
             margin: 0 -15px 15px;
             overflow: auto;
@@ -845,6 +806,10 @@ button.close {
         -moz-box-shadow: none;
         box-shadow: none;
     }
+
+    &.small {
+        padding: 0px 10px;
+    }
 }
 
 .diff-positive {
@@ -853,4 +818,21 @@ button.close {
 
 .diff-negative {
     color: $red;
+}
+
+.event-color-sample {
+    width: 30px;
+    height: 30px;
+    float: left;
+    border: 1px solid $gray;
+    margin-right: 5px;
+    padding: 5px 0 0 7px;
+    cursor: pointer;
+}
+
+@each $current-color in $event-colors {
+    $i: index($event-colors, $current-color);
+    .event-color-preview-#{$i} {
+        background: $current-color;
+    }
 }
