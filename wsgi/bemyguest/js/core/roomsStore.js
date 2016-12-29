@@ -3,7 +3,7 @@ const createStore = require('fluxible/addons/createStore');
 
 let RoomsStore = createStore({
     storeName: 'RoomsStore',
-    
+
     initialize: function() {
         // TODO: validate requestData (or find better way)
         this._houses = requestData.houses;
@@ -11,37 +11,50 @@ let RoomsStore = createStore({
             room.house = _.find(this._houses, {'id': room.houseId});
             return room;
         });
-        
+
     },
-    
+
     getHouses: function() {
         return this._houses;
     },
-    
+
     getRooms: function(roomIds) {
         if (!roomIds) return this._rooms;
         return _.filter(this._rooms, (room) => {return roomIds.indexOf(room.id) >= 0;});
     },
-    
+
     getHouse: function(houseId) {
         return _.find(this._houses, {'id': houseId});
     },
-    
+
     getRoom: function(roomId) {
         return _.find(this._rooms, {'id': roomId});
     },
-    
+
+    getRoomByIndex: function(index) {
+        if (this._rooms[index]) {
+            return this._rooms[index];
+        }
+        else {
+            return null;
+        }
+    },
+
     getRoomIndex: function(roomId) {
         return _.findIndex(this._rooms, {'id': roomId});
     },
-    
+
+    getRoomsCount: function() {
+        return this._rooms.length;
+    },
+
     dehydrate: function() {
         return {
             houses: this._houses,
             rooms: this._rooms
         };
     },
-    
+
     rehydrate: function(state) {
         this._houses = state.houses;
         this._rooms = state.rooms;
