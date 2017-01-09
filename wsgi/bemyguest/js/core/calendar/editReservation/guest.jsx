@@ -179,14 +179,8 @@ let Guest = React.createClass({
                 {guestSuggestions.length > 0 && !hasId &&
                     <div className="guest-suggestions">
                         {_.map(guestSuggestions, (suggestion, i) => {
-                            let shortTime = false;
-                            if (suggestion.visits.length > 0) {
-                                let lastVisitDayPlusOffset = moment(_.filter(suggestion.visits, visit => visit.id != (roomReservationId || 0))[0].dateTo).add(6, 'months');
-                                let roomReservationStart = moment(roomReservationFirstDay);
-                                if (lastVisitDayPlusOffset.isAfter(roomReservationStart)) {
-                                    shortTime = true;
-                                }
-                            }
+                            let visits = _.filter(suggestion.visits, visit => visit.id != (roomReservationId || 0));
+                            let shortTime = visits.length > 0 && roomReservationFirstDay.diff(visits[0].dateTo, 'months') < 6;
                             let guestName = _.filter([suggestion.namePrefix, suggestion.name, suggestion.surname, suggestion.nameSuffix], null).join(' ');
                             let guestAddress = _.filter([suggestion.addressStreet, suggestion.addressNumber, suggestion.addressCity], null).join(' ');
                             let guestDetails = (guestAddress ? (suggestion.phone ? guestAddress + ', ' + suggestion.phone : guestAddress) : suggestion.phone);
