@@ -22,13 +22,11 @@ let GuestsStore = createStore({
     },
 
     getGuestsByMatch: function(namePart, surnamePart) {
+        namePart = namePart.toLowerCase();
+        surnamePart = surnamePart.toLowerCase();
         let suggestions = _.filter(this._guests, function (guest) {
-            let nameContains = _.isEmpty(namePart) || _.some(guest.name, function (name) {
-                return 0 === guest.name.indexOf(namePart);
-            });
-            let surnameContains = _.isEmpty(surnamePart) || _.some(guest.surname, function (surname) {
-                return 0 === guest.surname.indexOf(surnamePart);
-            });
+            let nameContains = _.isEmpty(namePart) || 0 === guest.name.toLowerCase().indexOf(namePart);
+            let surnameContains = _.isEmpty(surnamePart) || 0 === guest.surname.toLowerCase().indexOf(surnamePart);
             return nameContains && surnameContains;
         });
         return suggestions;
