@@ -584,94 +584,90 @@ button.close {
       font-size: 11px;
       margin-bottom: 5px; }
 
-.create-reservation .title {
+.reservation-modal .title {
   margin: 5px 0 0; }
 
-.create-reservation .form-group {
+.reservation-modal .form-group {
+  position: relative;
   margin-bottom: 30px; }
-  .create-reservation .form-group:last-of-type {
+  .reservation-modal .form-group:last-of-type, .reservation-modal .form-group.name {
     margin-bottom: 0; }
+  .reservation-modal .form-group .edit-tools {
+    margin: 10px 0; }
 
-.create-reservation label {
-  font-weight: 400; }
-  .create-reservation label.inline {
-    margin-right: 10px;
-    width: 80px; }
-  .create-reservation label.block {
-    display: block; }
+.reservation-modal label.inline {
+  margin-right: 10px;
+  margin-bottom: 0; }
 
-.create-reservation textarea {
+.reservation-modal label.block {
+  display: block; }
+
+.reservation-modal textarea {
   width: 100%;
   height: 30px; }
-  .create-reservation textarea.mail-communication {
-    height: 100px; }
 
-.create-reservation .rooms h4 {
+.reservation-modal .room-reservation h4 {
   margin-bottom: 5px; }
 
-.create-reservation .rooms .guest {
+.reservation-modal .guest {
   margin-top: 15px; }
-  .create-reservation .rooms .guest.extra-bed .glyphicon {
+  .reservation-modal .guest.extra-bed .glyphicon {
     color: #bbb; }
-  .create-reservation .rooms .guest input {
+  .reservation-modal .guest input {
     margin-right: 5px; }
-  .create-reservation .rooms .guest .known-info {
+  .reservation-modal .guest .known-info {
     padding-right: 30px; }
-  .create-reservation .rooms .guest .glyphicon {
+  .reservation-modal .guest .glyphicon {
     margin-right: 5px;
     width: 20px; }
-  .create-reservation .rooms .guest .glyphicon-minus, .create-reservation .rooms .guest .glyphicon-plus, .create-reservation .rooms .guest .glyphicon-chevron-up, .create-reservation .rooms .guest .glyphicon-chevron-down, .create-reservation .rooms .guest .glyphicon-remove, .create-reservation .rooms .guest .glyphicon-remove, .create-reservation .rooms .guest .glyphicon-pencil {
+  .reservation-modal .guest .glyphicon-minus, .reservation-modal .guest .glyphicon-plus, .reservation-modal .guest .glyphicon-chevron-up, .reservation-modal .guest .glyphicon-chevron-down, .reservation-modal .guest .glyphicon-remove, .reservation-modal .guest .glyphicon-remove, .reservation-modal .guest .glyphicon-pencil {
     cursor: pointer;
     color: #3cad99; }
-  .create-reservation .rooms .guest .glyphicon-pencil, .create-reservation .rooms .guest .glyphicon-remove {
+  .reservation-modal .guest .glyphicon-pencil, .reservation-modal .guest .glyphicon-remove {
     margin-left: 15px; }
-  .create-reservation .rooms .guest .guest-address, .create-reservation .rooms .guest .guest-phone {
+  .reservation-modal .guest .guest-address, .reservation-modal .guest .guest-phone {
     margin-left: 30px;
     margin-top: 5px; }
-  .create-reservation .rooms .guest .guest-suggestions {
+  .reservation-modal .guest .guest-suggestions {
     background: #ffffcc;
     margin: 10px 25px;
     border: 1px solid #eeeebb;
     max-height: 184px;
     overflow-y: auto; }
-    .create-reservation .rooms .guest .guest-suggestions .suggestion-row {
-      padding: 3px;
-      cursor: pointer; }
-      .create-reservation .rooms .guest .guest-suggestions .suggestion-row:hover {
+    .reservation-modal .guest .guest-suggestions .suggestion-row {
+      padding: 0 6px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      height: 30px; }
+      .reservation-modal .guest .guest-suggestions .suggestion-row:hover {
         background: #ffefcc; }
+        .reservation-modal .guest .guest-suggestions .suggestion-row:hover .last-visit {
+          font-size: 11px;
+          display: inline; }
+      .reservation-modal .guest .guest-suggestions .suggestion-row .guest-info {
+        margin-right: 5px; }
+      .reservation-modal .guest .guest-suggestions .suggestion-row .last-visit {
+        display: none;
+        font-size: 11px;
+        margin-left: 4px; }
+      .reservation-modal .guest .guest-suggestions .suggestion-row .glyphicon-exclamation-sign, .reservation-modal .guest .guest-suggestions .suggestion-row .glyphicon-time {
+        color: #d9534f;
+        margin-right: 0;
+        margin-left: 6px;
+        width: auto; }
 
-.create-reservation .meals input {
-  width: 40px;
-  height: 22px; }
+.create-reservation label {
+  font-weight: 400; }
+  .create-reservation label.inline {
+    width: 80px; }
 
-.reservation-details .title {
-  margin: 5px 0 0; }
-
-.reservation-details .form-group {
-  position: relative;
-  margin-bottom: 30px; }
-  .reservation-details .form-group:last-of-type, .reservation-details .form-group.name {
-    margin-bottom: 0; }
-  .reservation-details .form-group .edit-tools {
-    margin: 10px 0; }
-
-.reservation-details label.inline {
-  margin-right: 10px;
-  margin-bottom: 0; }
-
-.reservation-details label.block {
-  display: block; }
-
-.reservation-details textarea {
-  width: 100%;
-  height: 30px; }
+.create-reservation textarea.mail-communication {
+  height: 100px; }
 
 .reservation-details .form-group-button {
   z-index: 100;
   margin-right: 5px; }
-
-.reservation-details .room-reservation h4 {
-  margin-bottom: 5px; }
 
 .reservation-details .room-reservation select {
   padding: 5px 2px 4px;
@@ -679,37 +675,6 @@ button.close {
 
 .reservation-details .room-reservation .date {
   margin: 0 0 10px; }
-
-.reservation-details .room-reservation .guest {
-  margin-top: 15px; }
-  .reservation-details .room-reservation .guest.extra-bed .glyphicon {
-    color: #bbb; }
-  .reservation-details .room-reservation .guest input {
-    margin-right: 5px; }
-  .reservation-details .room-reservation .guest .known-info {
-    padding-right: 30px; }
-  .reservation-details .room-reservation .guest .glyphicon {
-    margin-right: 5px;
-    width: 20px; }
-  .reservation-details .room-reservation .guest .glyphicon-minus, .reservation-details .room-reservation .guest .glyphicon-plus, .reservation-details .room-reservation .guest .glyphicon-chevron-up, .reservation-details .room-reservation .guest .glyphicon-chevron-down, .reservation-details .room-reservation .guest .glyphicon-remove, .reservation-details .room-reservation .guest .glyphicon-remove, .reservation-details .room-reservation .guest .glyphicon-pencil {
-    cursor: pointer;
-    color: #3cad99; }
-  .reservation-details .room-reservation .guest .glyphicon-pencil, .reservation-details .room-reservation .guest .glyphicon-remove {
-    margin-left: 15px; }
-  .reservation-details .room-reservation .guest .guest-address, .reservation-details .room-reservation .guest .guest-phone {
-    margin-left: 30px;
-    margin-top: 5px; }
-  .reservation-details .room-reservation .guest .guest-suggestions {
-    background: #ffffcc;
-    margin: 10px 25px;
-    border: 1px solid #eeeebb;
-    max-height: 184px;
-    overflow-y: auto; }
-    .reservation-details .room-reservation .guest .guest-suggestions .suggestion-row {
-      padding: 3px;
-      cursor: pointer; }
-      .reservation-details .room-reservation .guest .guest-suggestions .suggestion-row:hover {
-        background: #ffefcc; }
 
 .reservation-details .room-reservation .form-control {
   width: 150px;
@@ -744,6 +709,10 @@ button.close {
 
 .guests .guests-count {
   font-size: 18px; }
+
+.guests .glyphicon-exclamation-sign {
+  color: #d9534f;
+  margin-right: 6px; }
 
 .week-selector {
   margin-bottom: 15px; }
@@ -784,13 +753,6 @@ button.close {
       text-align: center; }
     .sub-section .sub-section-table .keep-right {
       text-align: right; }
-
-.glyphicon-exclamation-sign, .glyphicon-time {
-  color: #d9534f;
-  margin-right: 6px; }
-
-.glyphicon-time + .glyphicon-exclamation-sign {
-  margin-left: -6px; }
 
 .guest-details-modal .glyphicon-chevron-up, .guest-details-modal .glyphicon-chevron-down, .guest-details-modal .glyphicon-remove, .guest-details-modal .glyphicon-remove, .event-details-modal .glyphicon-chevron-up, .event-details-modal .glyphicon-chevron-down, .event-details-modal .glyphicon-remove, .event-details-modal .glyphicon-remove {
   cursor: pointer; }

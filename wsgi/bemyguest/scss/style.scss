@@ -13,6 +13,8 @@ $lightorange: #ffefcc;
 $orange: #f2a23f;
 $red: #d9534f;
 $green: #008000;
+$turqoise: #3cad99;
+$brown: #de564a;
 
 $screen-xs-max: 767px;
 $screen-sm-min: 768px;
@@ -83,10 +85,10 @@ body {
 }
 
 a {
-    color: #3cad99;
+    color: $turqoise;
 
     &:hover {
-       color: #de564a;
+       color: $brown;
        text-decoration: none;
     }
 }
@@ -435,108 +437,7 @@ button.close {
     }
 }
 
-.create-reservation {
-    .title {
-        margin: 5px 0 0;
-    }
-
-    .form-group {
-        margin-bottom: 30px;
-
-        &:last-of-type {
-            margin-bottom: 0;
-        }
-    }
-
-    label {
-       font-weight: 400;
-
-        &.inline {
-            margin-right: 10px;
-            width: 80px;
-        }
-
-        &.block {
-            display: block;
-        }
-    }
-
-    textarea {
-        width: 100%;
-        height: 30px;
-
-        &.mail-communication {
-            height: 100px;
-        }
-    }
-
-    .rooms {
-        h4 {
-            margin-bottom: 5px;
-        }
-
-        .guest {
-            margin-top: 15px;
-
-            &.extra-bed .glyphicon {
-                color: $gray;
-            }
-
-            input {
-                margin-right: 5px;
-            }
-
-            .known-info {
-                padding-right: 30px;
-            }
-
-            .glyphicon {
-                margin-right: 5px;
-                width: 20px;
-            }
-
-            .glyphicon-minus, .glyphicon-plus, .glyphicon-chevron-up, .glyphicon-chevron-down, .glyphicon-remove, .glyphicon-remove, .glyphicon-pencil {
-                cursor: pointer;
-                color: #3cad99;
-            }
-
-            .glyphicon-pencil, .glyphicon-remove {
-                margin-left: 15px;
-            }
-
-            .guest-address, .guest-phone {
-                margin-left: 30px;
-                margin-top: 5px;
-            }
-
-            .guest-suggestions {
-                background: #ffffcc;
-                margin: 10px 25px;
-                border: 1px solid #eeeebb;
-                max-height: 184px;
-                overflow-y: auto;
-
-                .suggestion-row {
-                    padding: 3px;
-                    cursor: pointer;
-
-                    &:hover {
-                        background: #ffefcc;
-                    }
-                }
-            }
-        }
-    }
-
-    .meals {
-        input {
-            width: 40px;
-            height: 22px;
-        }
-    }
-}
-
-.reservation-details {
+.reservation-modal {
     .title {
         margin: 5px 0 0;
     }
@@ -570,24 +471,111 @@ button.close {
         height: 30px;
     }
 
-    .form-group-button {
-        z-index: 100;
-        margin-right: 5px;
-
-        &.cancel {}
-
-        &.save {}
-
-        &.remove {}
-
-        &.note {}
-    }
-
     .room-reservation {
         h4 {
             margin-bottom: 5px;
         }
+    }
 
+    .guest {
+        margin-top: 15px;
+
+        &.extra-bed .glyphicon {
+            color: $gray;
+        }
+
+        input {
+            margin-right: 5px;
+        }
+
+        .known-info {
+            padding-right: 30px;
+        }
+
+        .glyphicon {
+            margin-right: 5px;
+            width: 20px;
+        }
+
+        .glyphicon-minus, .glyphicon-plus, .glyphicon-chevron-up, .glyphicon-chevron-down, .glyphicon-remove, .glyphicon-remove, .glyphicon-pencil {
+            cursor: pointer;
+            color: $turqoise;
+        }
+
+        .glyphicon-pencil, .glyphicon-remove {
+            margin-left: 15px;
+        }
+
+        .guest-address, .guest-phone {
+            margin-left: 30px;
+            margin-top: 5px;
+        }
+
+        .guest-suggestions {
+            background: #ffffcc;
+            margin: 10px 25px;
+            border: 1px solid #eeeebb;
+            max-height: 184px;
+            overflow-y: auto;
+
+            .suggestion-row {
+                padding: 0 6px;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                height: 30px;
+
+                &:hover {
+                    background: #ffefcc;
+
+                    .last-visit {
+                        font-size: 11px;
+                        display: inline;
+                    }
+                }
+
+                .guest-info {
+                    margin-right: 5px;
+                }
+
+                .last-visit {
+                    display: none;
+                    font-size: 11px;
+                    margin-left: 4px;
+                }
+
+                .glyphicon-exclamation-sign, .glyphicon-time {
+                    color: $red;
+                    margin-right: 0;
+                    margin-left: 6px;
+                    width: auto;
+                }
+            }
+        }
+    }
+}
+
+.create-reservation {
+    label {
+       font-weight: 400;
+
+        &.inline {
+            width: 80px;
+        }
+    }
+
+    textarea.mail-communication {
+        height: 100px;
+    }
+}
+
+.reservation-details {
+    .form-group-button {
+        z-index: 100;
+        margin-right: 5px;
+    }
+
+    .room-reservation {
         select {
             padding: 5px 2px 4px;
             margin-bottom: 10px;
@@ -595,58 +583,6 @@ button.close {
 
         .date {
             margin: 0 0 10px;
-        }
-
-        .guest {
-            margin-top: 15px;
-
-            &.extra-bed .glyphicon {
-                color: $gray;
-            }
-
-            input {
-                margin-right: 5px;
-            }
-
-            .known-info {
-                padding-right: 30px;
-            }
-
-            .glyphicon {
-                margin-right: 5px;
-                width: 20px;
-            }
-
-            .glyphicon-minus, .glyphicon-plus, .glyphicon-chevron-up, .glyphicon-chevron-down, .glyphicon-remove, .glyphicon-remove, .glyphicon-pencil {
-                cursor: pointer;
-                color: #3cad99;
-            }
-
-            .glyphicon-pencil, .glyphicon-remove {
-                margin-left: 15px;
-            }
-
-            .guest-address, .guest-phone {
-                margin-left: 30px;
-                margin-top: 5px;
-            }
-
-            .guest-suggestions {
-                background: #ffffcc;
-                margin: 10px 25px;
-                border: 1px solid #eeeebb;
-                max-height: 184px;
-                overflow-y: auto;
-
-                .suggestion-row {
-                    padding: 3px;
-                    cursor: pointer;
-
-                    &:hover {
-                        background: #ffefcc;
-                    }
-                }
-            }
         }
 
         .form-control {
@@ -699,6 +635,11 @@ button.close {
 .guests {
     .guests-count {
         font-size: 18px;
+    }
+
+    .glyphicon-exclamation-sign {
+        color: $red;
+        margin-right: 6px;
     }
 }
 
@@ -770,15 +711,6 @@ button.close {
             text-align: right;
         }
     }
-}
-
-.glyphicon-exclamation-sign, .glyphicon-time {
-    color: $red;
-    margin-right: 6px;
-}
-
-.glyphicon-time + .glyphicon-exclamation-sign {
-    margin-left: -6px;
 }
 
 .guest-details-modal, .event-details-modal {

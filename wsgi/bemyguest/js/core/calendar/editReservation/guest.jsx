@@ -186,11 +186,17 @@ let Guest = React.createClass({
                             let guestDetails = (guestAddress ? (suggestion.phone ? guestAddress + ', ' + suggestion.phone : guestAddress) : suggestion.phone);
                             return (
                                 <div key={'suggestion-' + suggestion.id} className="suggestion-row" onClick={() => this.applySuggestion(suggestion)}>
-                                    {shortTime &&
-                                        <Glyphicon glyph="time" />}
+                                    <span className="guest-info">
+                                        {guestName + (guestDetails ? ' (' + guestDetails + ')' : '')}
+                                    </span>
                                     {!suggestion.recommended &&
                                         <Glyphicon glyph="exclamation-sign" alt={trans('NOT_RECOMMENDED')} />}
-                                    {guestName + (guestDetails ? ' (' + guestDetails + ')' : '')}
+                                    {shortTime &&
+                                        <Glyphicon glyph="time" />}
+                                    {shortTime &&
+                                        <span className="last-visit">
+                                            {visits[0].dateFrom.format('D. MMMM YYYY')} - {visits[0].dateTo.format('D. MMMM YYYY')}
+                                        </span>}
                                 </div>
                             );
                         })}

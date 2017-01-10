@@ -127,7 +127,7 @@ let CreateReservation = React.createClass({
             return (
                 <div
                     key={'create-reservation-' + room.id}
-                    className="form-group">
+                    className="form-group room-reservation">
                     <h4><span className="room-name">{room.name}</span> <span className="house-name">({room.house.name})</span></h4>
                     <p className="date">{roomReservation.dateFrom.format('D. MMMM YYYY')} - {roomReservation.dateTo.format('D. MMMM YYYY')}</p>
                     {_.map(_.range(room.capacity), (index) => {
@@ -171,7 +171,7 @@ let CreateReservation = React.createClass({
 //            );
 //        });
         return (
-            <Modal dialogClassName="create-reservation" bsSize="lg" show={show}>
+            <Modal dialogClassName="create-reservation reservation-modal" bsSize="lg" show={show}>
                 <Modal.Header closeButton onHide={this.close}>
                     <h3 className="title">{trans('NEW_RESERVATION')}</h3>
                 </Modal.Header>

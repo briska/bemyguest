@@ -64,7 +64,7 @@ let ReservationDetails = React.createClass({
         let datesRange = getDatesRange(reservation.dateFrom, reservation.dateTo);
         let isLastRoom = reservation.roomReservations.length == 1;
         return (
-            <Modal dialogClassName="reservation-details" bsSize="lg" show={show} onHide={this.close}>
+            <Modal dialogClassName="reservation-details reservation-modal" bsSize="lg" show={show} onHide={this.close}>
                 <ConfirmDialog
                     ref="deleteReservation"
                     body={trans('CONFIRM_REMOVING_RESERVATION')}
