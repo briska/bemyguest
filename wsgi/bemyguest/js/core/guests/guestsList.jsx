@@ -1,8 +1,6 @@
 const _ = require('lodash');
 const React = require('react');
 const trans = require('core/utils/trans');
-const connectToStores = require('fluxible-addons-react/connectToStores');
-const GuestsStore = require('core/guestsStore');
 const moment = require('moment');
 require('moment/locale/sk');
 import {getDatesRange, diffDays} from 'core/utils/utils';
@@ -77,6 +75,7 @@ let GuestsList = React.createClass({
                 <table className={cx('guests-list-table', 'sub-section-table')}>
                     <thead>
                         <tr>
+                            <td>{trans('ID')}</td>
                             <td>{trans('NAME_PREFIX')}</td>
                             <td>{trans('NAME')}</td>
                             <td>{trans('SURNAME')}</td>
@@ -104,6 +103,7 @@ let GuestsList = React.createClass({
                             }
                             return (
                                 <tr key={'guest-' + guest.id} onDoubleClick={() => this.startEditing(guest)}>
+                                    <td className="keep-right">{guest.id}</td>
                                     <td>{guest.namePrefix}</td>
                                     <td>{guest.name}</td>
                                     <td>{guest.surname}</td>
@@ -129,9 +129,5 @@ let GuestsList = React.createClass({
         );
     }
 });
-
-GuestsList = connectToStores(GuestsList, [GuestsStore], (context, props) => ({
-    guests: context.getStore(GuestsStore).getGuests()
-}));
 
 module.exports = GuestsList;

@@ -742,6 +742,9 @@ button.close {
 .stats .room-reservation {
   cursor: default; }
 
+.guests .guests-count {
+  font-size: 18px; }
+
 .week-selector {
   margin-bottom: 15px; }
   .week-selector .btn {
