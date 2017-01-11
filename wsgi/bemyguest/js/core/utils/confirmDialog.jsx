@@ -5,9 +5,9 @@ import Button from 'react-bootstrap/lib/Button';
 
 let ConfirmDialog = React.createClass({
     propTypes: {
-        body: React.PropTypes.node.isRequired,
-        buttonText: React.PropTypes.node,
-        cancelText: React.PropTypes.node,
+        body: React.PropTypes.node,
+        buttonText: React.PropTypes.string,
+        cancelText: React.PropTypes.string,
         confirmBSStyle: React.PropTypes.string,
         confirmText: React.PropTypes.node,
         showCancelButton: React.PropTypes.bool.isRequired,
@@ -17,27 +17,31 @@ let ConfirmDialog = React.createClass({
     getDefaultProps() {
         return {
             cancelText: trans('CANCEL'),
-            confirmText: 'OK',
+            confirmText: trans('OK'),
             confirmBSStyle: 'primary',
             showCancelButton: true,
         };
     },
 
     getInitialState() {
-        if (!this.props.visible) {
-            return {
-                isOpened: false,
-            };
-        } else {
-            return {
-                isOpened: true,
-            };
-        }
+        return {
+            isOpened: this.props.visible,
+            body: this.props.body || ''
+        };
     },
 
     open(onConfirm, onCancel) {
         this.setState({
             isOpened: true,
+            onConfirm: onConfirm,
+            onCancel: onCancel
+        });
+    },
+
+    openWithMsg(msg, onConfirm, onCancel) {
+        this.setState({
+            isOpened: true,
+            body: msg,
             onConfirm: onConfirm,
             onCancel: onCancel
         });
@@ -52,7 +56,7 @@ let ConfirmDialog = React.createClass({
         }
     },
 
-    onConfim() {
+    onConfirm() {
         this.setState({
             isOpened: false,
         });
@@ -66,11 +70,11 @@ let ConfirmDialog = React.createClass({
         return (
             <Modal ref='confirmDialog' dialogClassName='confirmDialog' show={this.state.isOpened} onHide={this.onClose}>
                 <Modal.Body>
-                    {this.props.body}
+                    {this.state.body}
                 </Modal.Body>
                 <Modal.Footer>
                     {cancelButton}
-                    <Button bsStyle={this.props.confirmBSStyle} onClick={this.onConfim}>{this.props.confirmText}</Button>
+                    <Button bsStyle={this.props.confirmBSStyle} onClick={this.onConfirm}>{this.props.confirmText}</Button>
                 </Modal.Footer>
             </Modal>
         );

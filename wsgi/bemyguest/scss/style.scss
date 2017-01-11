@@ -506,6 +506,10 @@ button.close {
 
         .glyphicon-chevron-up, .glyphicon-chevron-down, .glyphicon-pencil {
             color: $turqoise;
+
+            &:hover {
+                color: $brown;
+            }
         }
 
         .glyphicon-remove {

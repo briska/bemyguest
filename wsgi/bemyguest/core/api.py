@@ -126,20 +126,33 @@ def reservation(request, pk):
 
         elif 'room_reservation' in reservation_data:
             room_reservation_data = reservation_data['room_reservation']
-            room_reservation = reservation.room_reservations.get(id=room_reservation_data['id'])
 
-            if 'room_id' in room_reservation_data:
-                room_reservation.room_id = room_reservation_data['room_id']
+            if 'id' in room_reservation_data:
+                room_reservation = reservation.room_reservations.get(id=room_reservation_data['id'])
 
-            if 'date_from' in room_reservation_data or 'date_to' in room_reservation_data:
+                if 'room_id' in room_reservation_data:
+                    room_reservation.room_id = room_reservation_data['room_id']
+
+                if 'date_from' in room_reservation_data or 'date_to' in room_reservation_data:
+                    if 'date_from' in room_reservation_data:
+                        room_reservation.date_from = room_reservation_data['date_from']
+
+                    if 'date_to' in room_reservation_data:
+                        room_reservation.date_to = room_reservation_data['date_to']
+
+                    first_day = reservation.get_date_from()
+                    last_day = reservation.get_date_to()
+
+            else:
+                room_reservation = RoomReservation(
+                    room_id=room_reservation_data['room_id'],
+                    reservation=reservation,
+                    date_from=room_reservation_data['date_from'],
+                    date_to=room_reservation_data['date_to'],
+                )
+
                 first_day = reservation.get_date_from()
                 last_day = reservation.get_date_to()
-
-                if 'date_from' in room_reservation_data:
-                    room_reservation.date_from = room_reservation_data['date_from']
-
-                if 'date_to' in room_reservation_data:
-                    room_reservation.date_to = room_reservation_data['date_to']
 
             room_reservation.save()
 

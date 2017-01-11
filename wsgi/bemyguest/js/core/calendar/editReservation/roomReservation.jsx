@@ -23,10 +23,10 @@ let RoomReservation = React.createClass({
         return {
             edit: false,
             saving: false,
-            room: context.getStore(RoomsStore).getRoom(roomReservation.roomId),
-            dateFrom: roomReservation.dateFrom,
-            dateTo: roomReservation.dateTo,
-            extraBed: (propsSrc.roomReservation.guests.length > context.getStore(RoomsStore).getRoom(roomReservation.roomId).capacity) ? true : false
+            room: roomReservation ? context.getStore(RoomsStore).getRoom(roomReservation.roomId) : null,
+            dateFrom: roomReservation ? roomReservation.dateFrom : propsSrc.reservationDateFrom,
+            dateTo: roomReservation ? roomReservation.dateTo : propsSrc.reservationDateTo,
+            extraBed: (roomReservation && roomReservation.guests.length > context.getStore(RoomsStore).getRoom(roomReservation.roomId).capacity)
         };
     },
 
@@ -55,25 +55,26 @@ let RoomReservation = React.createClass({
     },
 
     remove: function() {
-        this.refs.deleteRoom.open(() => {
-            this.setState({saving: true});
-            if (this.props.isLastRoom) {
-                let payload = {
-                    'id': this.props.reservationId
-                };
-                this.props.context.executeAction(actions.removeReservation, payload);
-            } else {
-                let payload = {
-                    id: this.props.reservationId,
-                    data: {
-                        roomReservationRemove: this.props.roomReservation.id
-                    }
-                };
-                this.props.context.executeAction(actions.editReservation, payload);
+        this.refs.confirm.openWithMsg(
+            trans(this.props.isLastRoom ? 'CONFIRM_REMOVING_LAST_ROOM_RESERVATION' : 'CONFIRM_REMOVING_ROOM_RESERVATION'),
+            () => {
+                this.setState({saving: true});
+                if (this.props.isLastRoom) {
+                    let payload = {
+                        'id': this.props.reservationId
+                    };
+                    this.props.context.executeAction(actions.removeReservation, payload);
+                } else {
+                    let payload = {
+                        id: this.props.reservationId,
+                        data: {
+                            roomReservationRemove: this.props.roomReservation.id
+                        }
+                    };
+                    this.props.context.executeAction(actions.editReservation, payload);
+                }
             }
-        }, ()=> {
-            return;
-        });
+        );
     },
 
     save: function() {
@@ -92,7 +93,6 @@ let RoomReservation = React.createClass({
             id: reservationId,
             data: {
                 roomReservation: {
-                    id: roomReservation.id,
                     roomId: room.id,
                     dateFrom: moment(dateFrom).hour(14).format(DATE_FORMAT),
                     dateTo: moment(dateTo).hour(10).format(DATE_FORMAT),
@@ -100,6 +100,7 @@ let RoomReservation = React.createClass({
                 }
             }
         };
+        if (roomReservation) payload.data.roomReservation.id = roomReservation.id;
         this.props.context.executeAction(actions.editReservation, payload);
     },
 
@@ -107,22 +108,24 @@ let RoomReservation = React.createClass({
         if (this.state.saving) {
             this.setState(this.getStateFromSource(nextProps));
         }
-        else if (nextProps.roomReservation.dateFrom != this.state.dateFrom || nextProps.roomReservation.dateTo != this.state.dateTo) {
+        else if (nextProps.roomReservation && (nextProps.roomReservation.dateFrom != this.state.dateFrom || nextProps.roomReservation.dateTo != this.state.dateTo)) {
             this.setState({dateFrom: nextProps.roomReservation.dateFrom, dateTo: nextProps.roomReservation.dateTo});
         }
     },
 
     render: function() {
+        let {context, roomReservation} = this.props;
         let {edit, saving, room, dateFrom, dateTo, extraBed} = this.state;
-        let guests = this.props.context.getStore(GuestsStore).getGuests(this.props.roomReservation.guests);
+        let guests = roomReservation ? context.getStore(GuestsStore).getGuests(roomReservation.guests) : [];
         if (edit) {
             return (
                 <div className="room-reservation form-group">
                     <ConfirmDialog
-                        ref="deleteRoom"
-                        body={this.props.isLastRoom ? trans('CONFIRM_REMOVING_LAST_ROOM_RESERVATION') : trans('CONFIRM_REMOVING_ROOM_RESERVATION')}
-                        confirmBSStyle="danger"/>
-                    <select onChange={this.handleRoom} value={room.id}>
+                        ref="confirm"
+                        confirmBSStyle="danger" />
+                    <select onChange={this.handleRoom} value={room ? room.id : ''}>
+                        {!room &&
+                            <option value="">...</option>}
                         {_.map(context.getStore(RoomsStore).getHouses(), (selectHouse) => {
                             return (
                                 <optgroup label={selectHouse.name} key={'select-house-' + selectHouse.id}>
@@ -148,39 +151,47 @@ let RoomReservation = React.createClass({
                             minDate={moment(dateFrom).add(1, 'days')}
                             onChange={(date) => {this.handleDate('dateTo', date);}} />
                     </div>
-                    <div className="guests">
-                        {_.map(_.range(room.capacity), (index) => {
-                            return (
+                    {room &&
+                        <div className="guests">
+                            {_.map(_.range(room.capacity), (index) => {
+                                return (
+                                    <Guest
+                                        key={'detail-guest-' + index}
+                                        ref={'guest' + index}
+                                        context={this.props.context}
+                                        guest={guests[index]}
+                                        roomReservationFirstDay={dateFrom}
+                                        roomReservationId={roomReservation && roomReservation.id} />
+                                );
+                            })}
+                            {!extraBed &&
+                                <div className="guest open-extra-bed">
+                                    <button className="as-link" onClick={this.openExtraBed}>
+                                        <Glyphicon glyph='plus' />
+                                        {trans('ADD_EXTRA_BED')}
+                                    </button>
+                                </div>}
+                            {extraBed &&
                                 <Guest
-                                    key={'detail-guest-' + index}
-                                    ref={'guest' + index}
+                                    key={'detail-guest-' + room.capacity}
+                                    ref={'guest' + room.capacity}
                                     context={this.props.context}
-                                    guest={guests[index]}
+                                    guest={guests[room.capacity]}
+                                    extraBed={true}
                                     roomReservationFirstDay={dateFrom}
-                                    roomReservationId={this.props.roomReservation.id} />
-                            );
-                        })}
-                        {!extraBed &&
-                            <div className="guest open-extra-bed">
-                                <button className="as-link" onClick={this.openExtraBed}>
-                                    <Glyphicon glyph='plus' />
-                                    {trans('ADD_EXTRA_BED')}
-                                </button>
-                            </div>}
-                        {extraBed &&
-                            <Guest
-                                key={'detail-guest-' + room.capacity}
-                                ref={'guest' + room.capacity}
-                                context={this.props.context}
-                                guest={guests[room.capacity]}
-                                extraBed={true}
-                                roomReservationFirstDay={dateFrom}
-                                roomReservationId={this.props.roomReservation.id} />}
-                    </div>
-                    <EditTools edit={edit} saving={saving} onSave={this.save} onCancel={this.cancel} onRemove={this.remove} />
+                                    roomReservationId={roomReservation && roomReservation.id} />}
+                        </div>}
+                    <EditTools edit={edit} saving={saving} onSave={room && this.save} onCancel={this.cancel} onRemove={roomReservation && this.remove} />
                 </div>
             );
         }
+
+        if (!roomReservation) {
+            return (
+                <div className="room-reservation"></div>
+            );
+        }
+
         return (
             <div className="room-reservation form-group" onDoubleClick={this.startEditing}>
                 <h4><span className="room-name">{room.name}</span> <span className="house-name">({room.house.name})</span></h4>

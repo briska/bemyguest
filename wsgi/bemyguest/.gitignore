@@ -1,6 +1,6 @@
 # ignore everything
-static/js/*
+static/js/gen/*
 
 # but not these files
-!static/js/core/bundle.js
+!static/js/gen/core/bundle.js
 

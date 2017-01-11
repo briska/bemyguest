@@ -629,6 +629,8 @@ button.close {
     cursor: pointer; }
   .reservation-modal .guest .glyphicon-chevron-up, .reservation-modal .guest .glyphicon-chevron-down, .reservation-modal .guest .glyphicon-pencil {
     color: #3cad99; }
+    .reservation-modal .guest .glyphicon-chevron-up:hover, .reservation-modal .guest .glyphicon-chevron-down:hover, .reservation-modal .guest .glyphicon-pencil:hover {
+      color: #766c6a; }
   .reservation-modal .guest .glyphicon-remove {
     color: #d9534f; }
   .reservation-modal .guest .glyphicon-pencil, .reservation-modal .guest .glyphicon-remove {

@@ -58,13 +58,22 @@ let ReservationDetails = React.createClass({
         });
     },
 
+    addNewRoomReservation: function() {
+        let newRoomReservation = this.refs.newRoomReservation.refs.wrappedElement;
+        newRoomReservation.startEditing();
+        let $newRoomReservation =  $(ReactDOM.findDOMNode(newRoomReservation));
+        $newRoomReservation.closest('.modal').animate({
+            scrollTop: $newRoomReservation.position().top
+        }, 300);
+    },
+
     render: function() {
         let {context, reservation} = this.props;
         let {show} = this.state;
         let datesRange = getDatesRange(reservation.dateFrom, reservation.dateTo);
         let isLastRoom = reservation.roomReservations.length == 1;
         return (
-            <Modal dialogClassName="reservation-details reservation-modal" bsSize="lg" show={show} onHide={this.close}>
+            <Modal ref="modal" dialogClassName="reservation-details reservation-modal" bsSize="lg" show={show} onHide={this.close}>
                 <ConfirmDialog
                     ref="deleteReservation"
                     body={trans('CONFIRM_REMOVING_RESERVATION')}
@@ -86,9 +95,15 @@ let ReservationDetails = React.createClass({
                                 roomReservation={roomReservation}
                                 reservationDateFrom={reservation.dateFrom}
                                 reservationDateTo={reservation.dateTo}
-                                isLastRoom={isLastRoom}/>
+                                isLastRoom={isLastRoom} />
                         );
                     })}
+                    <RoomReservation
+                        ref="newRoomReservation"
+                        context={context}
+                        reservationId={reservation.id}
+                        reservationDateFrom={reservation.dateFrom}
+                        reservationDateTo={reservation.dateTo} />
                     <Meals context={context} reservationId={reservation.id} meals={reservation.meals} datesRange={datesRange} guestsCount={reservation.guestsCount} />
                     <Purpose context={context} reservationId={reservation.id} purpose={reservation.purpose} />
                     <SpiritualGuide context={context} reservationId={reservation.id} spiritualGuide={reservation.spiritualGuide} />
@@ -104,7 +119,8 @@ let ReservationDetails = React.createClass({
                 </Modal.Body>
                 <Modal.Footer>
                     <span className="edit-label"><Glyphicon glyph="pencil" /> {trans('USE_DOUBLECLICK_TO_EDIT')}</span>
-                    <Button onClick={this.remove} bsStyle="danger">{trans('REMOVE')}</Button>
+                    <Button onClick={this.addNewRoomReservation} bsStyle="primary">{trans('ADD_NEW_ROOM_RESERVATION')}</Button>
+                    <Button onClick={this.remove} bsStyle="danger">{trans('REMOVE_RESERVATION')}</Button>
                     <Button onClick={this.close}>{trans('CLOSE')}</Button>
                 </Modal.Footer>
             </Modal>

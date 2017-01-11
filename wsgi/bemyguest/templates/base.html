@@ -9,7 +9,8 @@
     <title>{% block title %}{% trans 'WEB_TITLE' %}{% endblock %}</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}?v={{ static_version }}" />
+    <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/gen/style.css' %}?v={{ static_version }}" />
     {% block head %}{% endblock %}
 </head>
 <body>
@@ -34,7 +35,7 @@
         <div id="footer" class="container-fluid">
         </div>
     </div>
-    <script type='text/javascript' src='{% static "libs/jquery-3.1.0.min.js" %}'></script>
+    <script type='text/javascript' src='{% static "js/libs/jquery-3.1.0.min.js" %}'></script>
     {% block js %}{% endblock %}
 </body>
 </html>
