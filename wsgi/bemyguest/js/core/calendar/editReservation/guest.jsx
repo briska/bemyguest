@@ -146,17 +146,16 @@ let Guest = React.createClass({
         }
         return (
             <div className={cx('guest', extraBed ? 'extra-bed' : '')}>
-                {hasId &&
+                {hasId ?
                     <div className="known-guest-info">
-                        <Glyphicon glyph="user" />
+                        <Glyphicon glyph={extraBed ? "plus" : "user"} />
                         <span className="known-info">{guestName + (guestDetails ? ' (' + guestDetails + ')' : '')}</span>
                         {!noEdit &&
                             <Glyphicon glyph="pencil" onClick={this.openEditUser} />}
                         <Glyphicon glyph="remove" onClick={this.clearData} />
-                    </div>}
-                {!hasId &&
+                    </div> :
                     <div className="guest-name">
-                        <Glyphicon glyph="user" />
+                        <Glyphicon glyph={extraBed ? "plus" : "user"} />
                         <input type="text" name="namePrefix" value={namePrefix} placeholder={trans('NAME_PREFIX')} onChange={this.handleChange} />
                         <input type="text" name="name" value={name} placeholder={trans('NAME')} onChange={(e) => {this.handleChange(e, this.getGuestSuggestions)}} autoComplete="off" />
                         <input type="text" name="surname" value={surname} placeholder={trans('SURNAME')} onChange={(e) => {this.handleChange(e, this.getGuestSuggestions)}} autoComplete="off" />

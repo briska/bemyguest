@@ -14,7 +14,7 @@ $orange: #f2a23f;
 $red: #d9534f;
 $green: #008000;
 $turqoise: #3cad99;
-$brown: #de564a;
+$brown: #766c6a;
 
 $screen-xs-max: 767px;
 $screen-sm-min: 768px;
@@ -84,8 +84,13 @@ body {
     }
 }
 
-a {
+a, .as-link {
     color: $turqoise;
+    border: 0;
+    background: transparent;
+    padding: 0;
+    text-align: left;
+    display: inline;
 
     &:hover {
        color: $brown;
@@ -480,8 +485,9 @@ button.close {
     .guest {
         margin-top: 15px;
 
-        &.extra-bed .glyphicon {
-            color: $gray;
+        &.open-extra-bed {
+            padding-top: 3px;
+            height: 26px;
         }
 
         input {
@@ -495,11 +501,15 @@ button.close {
         .glyphicon {
             margin-right: 5px;
             width: 20px;
+            cursor: pointer;
         }
 
-        .glyphicon-minus, .glyphicon-plus, .glyphicon-chevron-up, .glyphicon-chevron-down, .glyphicon-remove, .glyphicon-remove, .glyphicon-pencil {
-            cursor: pointer;
+        .glyphicon-chevron-up, .glyphicon-chevron-down, .glyphicon-pencil {
             color: $turqoise;
+        }
+
+        .glyphicon-remove {
+            color: $red;
         }
 
         .glyphicon-pencil, .glyphicon-remove {
@@ -592,6 +602,10 @@ button.close {
 
         .input-group-addon {
             display: none;
+        }
+
+        .guests {
+            margin-bottom: 20px;
         }
     }
 

@@ -39,7 +39,7 @@ let RoomReservation = React.createClass({
     },
 
     openExtraBed: function() {
-        this.setState({extraBed: !this.state.extraBed});
+        this.setState({extraBed: true});
     },
 
     handleDate: function(key, date) {
@@ -161,18 +161,21 @@ let RoomReservation = React.createClass({
                             );
                         })}
                         {!extraBed &&
-                        <div className="guest">
-                            <Glyphicon glyph='plus' onClick={this.openExtraBed} />
-                        </div>}
+                            <div className="guest open-extra-bed">
+                                <button className="as-link" onClick={this.openExtraBed}>
+                                    <Glyphicon glyph='plus' />
+                                    {trans('ADD_EXTRA_BED')}
+                                </button>
+                            </div>}
                         {extraBed &&
-                        <Guest
-                            key={'detail-guest-' + room.capacity}
-                            ref={'guest' + room.capacity}
-                            context={this.props.context}
-                            guest={guests[room.capacity]}
-                            extraBed={true}
-                            roomReservationFirstDay={dateFrom}
-                            roomReservationId={this.props.roomReservation.id} />}
+                            <Guest
+                                key={'detail-guest-' + room.capacity}
+                                ref={'guest' + room.capacity}
+                                context={this.props.context}
+                                guest={guests[room.capacity]}
+                                extraBed={true}
+                                roomReservationFirstDay={dateFrom}
+                                roomReservationId={this.props.roomReservation.id} />}
                     </div>
                     <EditTools edit={edit} saving={saving} onSave={this.save} onCancel={this.cancel} onRemove={this.remove} />
                 </div>

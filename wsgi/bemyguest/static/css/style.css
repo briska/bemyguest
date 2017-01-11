@@ -314,10 +314,15 @@ body {
       list-style: none;
       margin-left: 20px; }
 
-a {
-  color: #3cad99; }
-  a:hover {
-    color: #de564a;
+a, .as-link {
+  color: #3cad99;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  text-align: left;
+  display: inline; }
+  a:hover, .as-link:hover {
+    color: #766c6a;
     text-decoration: none; }
 
 .text-warning {
@@ -611,18 +616,21 @@ button.close {
 
 .reservation-modal .guest {
   margin-top: 15px; }
-  .reservation-modal .guest.extra-bed .glyphicon {
-    color: #bbb; }
+  .reservation-modal .guest.open-extra-bed {
+    padding-top: 3px;
+    height: 26px; }
   .reservation-modal .guest input {
     margin-right: 5px; }
   .reservation-modal .guest .known-info {
     padding-right: 30px; }
   .reservation-modal .guest .glyphicon {
     margin-right: 5px;
-    width: 20px; }
-  .reservation-modal .guest .glyphicon-minus, .reservation-modal .guest .glyphicon-plus, .reservation-modal .guest .glyphicon-chevron-up, .reservation-modal .guest .glyphicon-chevron-down, .reservation-modal .guest .glyphicon-remove, .reservation-modal .guest .glyphicon-remove, .reservation-modal .guest .glyphicon-pencil {
-    cursor: pointer;
+    width: 20px;
+    cursor: pointer; }
+  .reservation-modal .guest .glyphicon-chevron-up, .reservation-modal .guest .glyphicon-chevron-down, .reservation-modal .guest .glyphicon-pencil {
     color: #3cad99; }
+  .reservation-modal .guest .glyphicon-remove {
+    color: #d9534f; }
   .reservation-modal .guest .glyphicon-pencil, .reservation-modal .guest .glyphicon-remove {
     margin-left: 15px; }
   .reservation-modal .guest .guest-address, .reservation-modal .guest .guest-phone {
@@ -682,6 +690,9 @@ button.close {
 
 .reservation-details .room-reservation .input-group-addon {
   display: none; }
+
+.reservation-details .room-reservation .guests {
+  margin-bottom: 20px; }
 
 .reservation-details .meals h4 {
   margin-bottom: -20px; }

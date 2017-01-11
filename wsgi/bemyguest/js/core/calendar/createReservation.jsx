@@ -141,8 +141,11 @@ let CreateReservation = React.createClass({
                         );
                     })}
                     {!extraBed &&
-                    <div className="guest">
-                        <Glyphicon glyph='plus' onClick={this.openExtraBed} />
+                    <div className="guest open-extra-bed">
+                        <button className="as-link" onClick={this.openExtraBed}>
+                            <Glyphicon glyph='plus' />
+                            {trans('ADD_EXTRA_BED')}
+                        </button>
                     </div>}
                     {extraBed &&
                     <Guest
