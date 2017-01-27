@@ -182,6 +182,7 @@ class Meal(models.Model):
     unique_together = ('reservation', 'date')
 
     def set_counts(self, counts):
+        counts = [[int(meal_diet_type_count) for meal_diet_type_count in meal_type_counts] for meal_type_counts in counts]
         self.counts = json.dumps(counts)
 
     def get_counts(self):
