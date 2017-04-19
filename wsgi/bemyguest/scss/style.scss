@@ -34,7 +34,7 @@ $event-colors: #ff7a7a, #b6f38f, #b4d9ff, #ffbbee, #c5a0ff, #e4ad73, #ffffff;
     box-sizing: border-box;
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
-    outline: none;
+    outline: 0 !important;
 }
 
 body {
@@ -138,6 +138,15 @@ button.close {
 
 #messages {
     margin-top: 10px;
+}
+
+.modal-backdrop {
+    z-index: 1050;
+}
+
+.modal-secondary .modal-content {
+    width: 90%;
+    margin: 0 auto;
 }
 
 .modal-content, .btn {
@@ -472,6 +481,8 @@ button.close {
             margin-right: -15px;
             background: $lightgray;
             padding: 20px 15px;
+            border-top: 1px solid $bordergray;
+            border-bottom: 1px solid $bordergray;
             
             &.name {
                 margin-bottom: -15px;

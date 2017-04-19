@@ -133,7 +133,7 @@ let GuestDetail = React.createClass({
                 </div>
 
                 <div className="form-row">
-                    <div className="col-md-offset-3  col-md-2">
+                    <div className="col-md-offset-3  col-md-9">
                         <div className="checkbox">
                             <label>
                                 <input type="checkbox" id="recommended" name="recommended" checked={!recommended} onChange={this.handleComboboxChange} />

@@ -81,7 +81,7 @@ let SheetRoomReservation = React.createClass({
         }
         if (dragType == DRAG_TYPE.MOVE) {
             let newTop = dragFromTop + Math.round((e.clientY - dragFromY) / cellHeight) * cellHeight;
-            if (newTop >= headHeight + monthHeight && newTop < headHeight + monthHeight + (context.getStore(RoomsStore).getRoomsCount() - 1) * cellHeight) {
+            if (newTop >= headHeight + monthHeight && newTop <= headHeight + monthHeight + (context.getStore(RoomsStore).getRoomsCount() - 1) * cellHeight) {
                 $roomReservationEl.css({top: newTop});
             }
         }

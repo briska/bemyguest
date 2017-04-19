@@ -130,7 +130,7 @@ let Guest = React.createClass({
             guestDetails = (guestAddress ? (phone ? guestAddress + ', ' + phone : guestAddress) : phone);
             let currentGuest = this.props.context.getStore(GuestsStore).getGuest(id);
             guestModal = (
-                <Modal dialogClassName="guest-details-modal" bsSize="lg" show={show} onHide={this.close}>
+                <Modal dialogClassName="guest-details-modal modal-secondary" bsSize="lg" show={show} onHide={this.close}>
                     <Modal.Header closeButton />
                     <Modal.Body>
                         <GuestDetail

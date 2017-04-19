@@ -33,10 +33,6 @@ let RoomReservationDetails = React.createClass({
     },
 
     globalClose: function(e) {
-        console.log(this.props.getTarget());
-        console.log(e.target);
-        console.log(this.props.getTarget().contains(e.target));
-        console.log(ReactDOM.findDOMNode(this.refs.details).contains(e.target));
         if (!this.props.getTarget().contains(e.target) && !ReactDOM.findDOMNode(this.refs.details).contains(e.target)) {
             this.close();
         }
