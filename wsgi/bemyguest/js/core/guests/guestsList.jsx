@@ -103,7 +103,7 @@ let GuestsList = React.createClass({
                             }
                             return (
                                 <tr key={'guest-' + guest.id} onDoubleClick={() => this.startEditing(guest)}>
-                                    <td className="keep-right">{index}</td>
+                                    <td className="keep-right">{index + 1}</td>
                                     <td>{guest.namePrefix}</td>
                                     <td>{guest.name}</td>
                                     <td>{guest.surname}</td>
