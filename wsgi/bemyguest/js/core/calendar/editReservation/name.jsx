@@ -6,6 +6,7 @@ import Button from 'react-bootstrap/lib/Button';
 import nl2br from 'react-nl2br';
 import actions from 'core/actions';
 import EditTools from 'core/calendar/editReservation/editTools';
+import cx from 'classnames';
 
 let Name = React.createClass({
     getStateFromSource: function(propsSrc) {
@@ -52,7 +53,7 @@ let Name = React.createClass({
     render: function() {
         let {edit, saving, name} = this.state;
         return (
-            <div className="name form-group" onDoubleClick={this.startEditing}>
+            <div className={cx('name', 'form-group', edit && 'editing')} onDoubleClick={this.startEditing}>
                 {edit &&
                     <input type="text" value={name} name="name" onChange={this.handleChange} />}
                 {!edit &&

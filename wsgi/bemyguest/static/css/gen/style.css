@@ -276,13 +276,15 @@
 * {
   box-sizing: border-box;
   -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box; }
+  -webkit-box-sizing: border-box;
+  outline: none; }
 
 body {
   background: #eee;
   font-size: 14px;
   font-family: Open Sans, sans-serif;
-  color: #444; }
+  color: #444;
+  overflow-y: scroll; }
 
 #header {
   background: #fff;
@@ -321,7 +323,7 @@ a, .as-link {
   padding: 0;
   text-align: left;
   display: inline; }
-  a:hover, .as-link:hover {
+  a:hover, a:focus, a:active, .as-link:hover, .as-link:focus, .as-link:active {
     color: #766c6a;
     text-decoration: none; }
 
@@ -545,6 +547,10 @@ button.close {
     margin-bottom: -1px; }
   .calendar-sheet-container.meals-sheet {
     display: flex; }
+    .calendar-sheet-container.meals-sheet .calendar-sheet {
+      flex-shrink: 0; }
+    .calendar-sheet-container.meals-sheet .meal-buttons {
+      flex-shrink: 0; }
 
 .room-reservation-details {
   position: absolute;
@@ -597,14 +603,20 @@ button.close {
   margin-bottom: 30px; }
   .reservation-modal .form-group:last-of-type, .reservation-modal .form-group.name {
     margin-bottom: 0; }
+  .reservation-modal .form-group.editing {
+    margin-top: -15px;
+    margin-left: -15px;
+    margin-right: -15px;
+    background: #f3f3f3;
+    padding: 20px 15px; }
+    .reservation-modal .form-group.editing.name {
+      margin-bottom: -15px; }
   .reservation-modal .form-group .edit-tools {
-    margin: 10px 0; }
+    margin: 10px 0 0; }
 
-.reservation-modal label.inline {
-  margin-right: 10px;
-  margin-bottom: 0; }
-
-.reservation-modal label.block {
+.reservation-modal label {
+  font-weight: 400;
+  font-size: 18px;
   display: block; }
 
 .reservation-modal textarea {
@@ -614,9 +626,16 @@ button.close {
 .reservation-modal .room-reservation h4 {
   margin-bottom: 5px; }
 
+.reservation-modal .room-reservation .room-name {
+  font-size: 24px; }
+
+.reservation-modal .room-reservation .detail-guest {
+  color: #dd98d5;
+  font-style: italic; }
+
 .reservation-modal .guest {
   margin-top: 15px; }
-  .reservation-modal .guest.open-extra-bed {
+  .reservation-modal .guest.open-extra-bed, .reservation-modal .guest.known-guest {
     padding-top: 3px;
     height: 26px; }
   .reservation-modal .guest input {
@@ -632,7 +651,7 @@ button.close {
     .reservation-modal .guest .glyphicon-chevron-up:hover, .reservation-modal .guest .glyphicon-chevron-down:hover, .reservation-modal .guest .glyphicon-pencil:hover {
       color: #766c6a; }
   .reservation-modal .guest .glyphicon-remove {
-    color: #d9534f; }
+    color: #de574b; }
   .reservation-modal .guest .glyphicon-pencil, .reservation-modal .guest .glyphicon-remove {
     margin-left: 15px; }
   .reservation-modal .guest .guest-address, .reservation-modal .guest .guest-phone {
@@ -662,10 +681,13 @@ button.close {
         font-size: 11px;
         margin-left: 4px; }
       .reservation-modal .guest .guest-suggestions .suggestion-row .glyphicon-exclamation-sign, .reservation-modal .guest .guest-suggestions .suggestion-row .glyphicon-time {
-        color: #d9534f;
+        color: #de574b;
         margin-right: 0;
         margin-left: 6px;
         width: auto; }
+
+.reservation-modal .edit-contact input {
+  margin-right: 5px; }
 
 .create-reservation label {
   font-weight: 400; }
@@ -724,7 +746,7 @@ button.close {
   font-size: 18px; }
 
 .guests .glyphicon-exclamation-sign {
-  color: #d9534f;
+  color: #de574b;
   margin-right: 6px; }
 
 .week-selector {
@@ -796,7 +818,7 @@ button.close {
   color: #008000; }
 
 .diff-negative {
-  color: #d9534f; }
+  color: #de574b; }
 
 .event-color-sample {
   width: 30px;

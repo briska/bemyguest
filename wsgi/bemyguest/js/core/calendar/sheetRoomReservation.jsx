@@ -50,7 +50,6 @@ let SheetRoomReservation = React.createClass({
     },
 
     startDrag: function(e, dragType) {
-        e.stopPropagation();
         e.preventDefault();
         if (this.refs.roomReservationDetails.refs.wrappedElement.isOpened()) {
             this.refs.roomReservationDetails.refs.wrappedElement.close();

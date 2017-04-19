@@ -6,6 +6,7 @@ import Button from 'react-bootstrap/lib/Button';
 import nl2br from 'react-nl2br';
 import actions from 'core/actions';
 import EditTools from 'core/calendar/editReservation/editTools';
+import cx from 'classnames';
 
 let SpiritualGuide = React.createClass({
     getStateFromSource: function(propsSrc) {
@@ -58,8 +59,8 @@ let SpiritualGuide = React.createClass({
     render: function() {
         let {edit, saving, spiritualGuide} = this.state;
         return (
-            <div className="spiritual-guide form-group" onDoubleClick={this.startEditing}>
-                <label className="inline">{trans('SPIRITUAL_GUIDE')}:</label>
+            <div className={cx('spiritual-guide', 'form-group', edit && 'editing')} onDoubleClick={this.startEditing}>
+                <label className="inline">{trans('SPIRITUAL_GUIDE')}</label>
                 {edit &&
                     <input type="text" value={spiritualGuide} name="spiritualGuide" ref="focusTarget" onChange={this.handleChange} />}
                 {!edit && spiritualGuide && <span>{spiritualGuide}</span>}

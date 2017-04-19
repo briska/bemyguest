@@ -6,6 +6,7 @@ import Button from 'react-bootstrap/lib/Button';
 import nl2br from 'react-nl2br';
 import actions from 'core/actions';
 import EditTools from 'core/calendar/editReservation/editTools';
+import cx from 'classnames';
 
 let PricePayed = React.createClass({
     getStateFromSource: function(propsSrc) {
@@ -58,8 +59,8 @@ let PricePayed = React.createClass({
     render: function() {
         let {edit, saving, pricePayed} = this.state;
         return (
-            <div className="price-payed form-group" onDoubleClick={this.startEditing}>
-                <label className="inline">{trans('PRICE_PAYED')}:</label>
+            <div className={cx('price-payed', 'form-group', edit && 'editing')} onDoubleClick={this.startEditing}>
+                <label className="inline">{trans('PRICE_PAYED')}</label>
                 {edit &&
                     <input type="number" value={pricePayed} name="pricePayed" ref="focusTarget" onChange={this.handleChange} />}
                 {!edit &&

@@ -11,6 +11,7 @@ import nl2br from 'react-nl2br';
 import actions from 'core/actions';
 import {DATE_FORMAT} from 'core/enums';
 import EditTools from 'core/calendar/editReservation/editTools';
+import cx from 'classnames';
 
 let OverallDate = React.createClass({
     getStateFromSource: function(propsSrc) {
@@ -64,7 +65,7 @@ let OverallDate = React.createClass({
         let {edit, saving, dateFrom, dateTo} = this.state;
         if (edit) {
             return (
-                <div className="overall-date form-group">
+                <div className={cx('overall-date', 'form-group', edit && 'editing')}>
                     <div className="date">
                         <DatePicker
                             dateFormat="DD. MM. YYYY"

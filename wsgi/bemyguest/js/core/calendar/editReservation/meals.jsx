@@ -11,6 +11,7 @@ import {cellHeight, cellWidth, headHeight, monthHeight, MEAL_TYPES, DIETS, DAY_F
 import {diffDays} from 'core/utils/utils';
 import CalendarHeader from 'core/calendar/calendarHeader';
 import EditTools from 'core/calendar/editReservation/editTools';
+import cx from 'classnames';
 
 let Meals = React.createClass({
     getInitialState: function() {
@@ -64,7 +65,7 @@ let Meals = React.createClass({
         let {edit, saving} = this.state;
         let {meals, datesRange, guestsCount} = this.props;
         return (
-            <div className="meals form-group" onDoubleClick={this.startEditing}>
+            <div className={cx('meals', 'form-group', edit && 'editing')} onDoubleClick={this.startEditing}>
                 <h4>{trans('MEALS')}</h4>
                 <div className="meal-types calendar-aside" style={{marginTop: monthHeight + 'px'}}>
                     <div className="aside-cell" style={{height: headHeight + 'px'}}></div>

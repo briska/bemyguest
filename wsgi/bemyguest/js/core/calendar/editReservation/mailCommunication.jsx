@@ -6,6 +6,7 @@ import Button from 'react-bootstrap/lib/Button';
 import nl2br from 'react-nl2br';
 import actions from 'core/actions';
 import EditTools from 'core/calendar/editReservation/editTools';
+import cx from 'classnames';
 
 let MailCommunication = React.createClass({
     getStateFromSource: function(propsSrc) {
@@ -52,7 +53,7 @@ let MailCommunication = React.createClass({
     render: function() {
         let {edit, saving, mailCommunication} = this.state;
         return (
-            <div className="mail-communication form-group" onDoubleClick={this.startEditing}>
+            <div className={cx('mail-communication', 'form-group', edit && 'editing')} onDoubleClick={this.startEditing}>
                 <label className="block">{trans('MAIL_COMMUNICATION')}</label>
                 {edit &&
                     <textarea value={mailCommunication} name="mailCommunication" autoFocus onChange={this.handleChange} />}

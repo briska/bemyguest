@@ -6,6 +6,7 @@ import Button from 'react-bootstrap/lib/Button';
 import actions from 'core/actions';
 import {approvalBy} from 'core/utils/utils';
 import EditTools from 'core/calendar/editReservation/editTools';
+import cx from 'classnames';
 
 let Approval = React.createClass({
     getInitialState: function() {
@@ -44,7 +45,7 @@ let Approval = React.createClass({
         let {edit, saving} = this.state;
         let {days} = this.props;
         return (
-            <div className="approval form-group" onDoubleClick={this.startEditing}>
+            <div className={cx('approval', 'form-group', edit && 'editing')} onDoubleClick={this.startEditing}>
                 {edit &&
                     <span>{trans('APPROVE_RESERVATION')}</span>}
                 {!edit &&

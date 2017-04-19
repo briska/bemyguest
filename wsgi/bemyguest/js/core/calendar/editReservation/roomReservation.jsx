@@ -119,7 +119,7 @@ let RoomReservation = React.createClass({
         let guests = roomReservation ? context.getStore(GuestsStore).getGuests(roomReservation.guests) : [];
         if (edit) {
             return (
-                <div className="room-reservation form-group">
+                <div className="room-reservation form-group editing">
                     <ConfirmDialog
                         ref="confirm"
                         confirmBSStyle="danger" />
@@ -178,6 +178,7 @@ let RoomReservation = React.createClass({
                                     context={this.props.context}
                                     guest={guests[room.capacity]}
                                     extraBed={true}
+                                    onClear={() => this.setState({extraBed: false})}
                                     roomReservationFirstDay={dateFrom}
                                     roomReservationId={roomReservation && roomReservation.id} />}
                         </div>}
@@ -194,7 +195,7 @@ let RoomReservation = React.createClass({
 
         return (
             <div className="room-reservation form-group" onDoubleClick={this.startEditing}>
-                <h4><span className="room-name">{room.name}</span> <span className="house-name">({room.house.name})</span></h4>
+                <h4><span className="room-name">{room.name}</span> <span className="house-name">--- {room.house.name}</span></h4>
                 <div className="date">{dateFrom.format('D. MMMM YYYY')} - {dateTo.format('D. MMMM YYYY')}</div>
                 {_.map(guests, (guest) => {
                     let guestName = _.filter([guest.namePrefix, guest.name, guest.surname, guest.nameSuffix], null).join(' ');

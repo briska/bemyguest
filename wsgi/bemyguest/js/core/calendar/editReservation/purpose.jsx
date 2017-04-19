@@ -7,6 +7,7 @@ import nl2br from 'react-nl2br';
 import actions from 'core/actions';
 import Textarea from 'react-textarea-autosize';
 import EditTools from 'core/calendar/editReservation/editTools';
+import cx from 'classnames';
 
 let Purpose = React.createClass({
     getStateFromSource: function(propsSrc) {
@@ -53,7 +54,7 @@ let Purpose = React.createClass({
     render: function() {
         let {edit, saving, purpose} = this.state;
         return (
-            <div className="purpose form-group" onDoubleClick={this.startEditing}>
+            <div className={cx('purpose', 'form-group', edit && 'editing')} onDoubleClick={this.startEditing}>
                 <label className="block">{trans('PURPOSE')}</label>
                 {edit &&
                     <Textarea value={purpose} name="purpose" autoFocus onChange={this.handleChange} />}

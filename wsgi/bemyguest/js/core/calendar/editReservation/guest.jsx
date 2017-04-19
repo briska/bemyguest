@@ -65,6 +65,7 @@ let Guest = React.createClass({
 
     clearData: function() {
         this.setState(this.getStateFromSource(null));
+        if (this.props.onClear) this.props.onClear();
     },
 
     getGuest: function() {
@@ -145,7 +146,7 @@ let Guest = React.createClass({
             );
         }
         return (
-            <div className={cx('guest', extraBed ? 'extra-bed' : '')}>
+            <div className={cx('guest', extraBed && 'extra-bed', hasId && 'known-guest')}>
                 {hasId ?
                     <div className="known-guest-info">
                         <Glyphicon glyph={extraBed ? "plus" : "user"} />
