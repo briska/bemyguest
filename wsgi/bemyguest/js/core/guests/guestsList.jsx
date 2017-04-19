@@ -75,7 +75,7 @@ let GuestsList = React.createClass({
                 <table className={cx('guests-list-table', 'sub-section-table')}>
                     <thead>
                         <tr>
-                            <td>{trans('ID')}</td>
+                            <td></td>
                             <td>{trans('NAME_PREFIX')}</td>
                             <td>{trans('NAME')}</td>
                             <td>{trans('SURNAME')}</td>
@@ -89,7 +89,7 @@ let GuestsList = React.createClass({
                         </tr>
                     </thead>
                     <tbody>
-                        {_.map(guests, (guest, i) => {
+                        {_.map(guests, (guest, index) => {
                             let visitsCount = guest.visits.length;
                             let visitsPopup = null;
                             if (visitsCount > 0) {
@@ -103,7 +103,7 @@ let GuestsList = React.createClass({
                             }
                             return (
                                 <tr key={'guest-' + guest.id} onDoubleClick={() => this.startEditing(guest)}>
-                                    <td className="keep-right">{guest.id}</td>
+                                    <td className="keep-right">{index}</td>
                                     <td>{guest.namePrefix}</td>
                                     <td>{guest.name}</td>
                                     <td>{guest.surname}</td>
