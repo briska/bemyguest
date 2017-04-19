@@ -114,8 +114,9 @@ let RoomReservation = React.createClass({
     },
 
     render: function() {
-        let {context, roomReservation} = this.props;
         let {edit, saving, room, dateFrom, dateTo, extraBed} = this.state;
+        if (!this.props.canEdit) edit = false;
+        let {context, roomReservation} = this.props;
         let guests = roomReservation ? context.getStore(GuestsStore).getGuests(roomReservation.guests) : [];
         if (edit) {
             return (

@@ -53,6 +53,7 @@ let Purpose = React.createClass({
 
     render: function() {
         let {edit, saving, purpose} = this.state;
+        if (!this.props.canEdit) edit = false;
         return (
             <div className={cx('purpose', 'form-group', edit && 'editing')} onDoubleClick={this.startEditing}>
                 <label className="block">{trans('PURPOSE')}</label>

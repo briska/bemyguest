@@ -1,5 +1,6 @@
 {% load staticfiles %}
 {% load i18n %}
+{% load utils %}
 
 <!DOCTYPE HTML>
 <html>
@@ -11,6 +12,8 @@
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}" />
     <link rel="stylesheet" type="text/css" href="{% static 'css/gen/style.css' %}?v={{ static_version }}" />
+    <link rel="icon" type="image/png" href={% static 'img/favicon-32x32.png' %} sizes="32x32" />
+    <link rel="icon" type="image/png" href={% static 'img/favicon-16x16.png' %} sizes="16x16" />
     {% block head %}{% endblock %}
 </head>
 <body>
@@ -22,9 +25,13 @@
             <ul class="menu">
                 <li><a href="{% url 'calendar' %}">{% trans 'CALENDAR' %}</a></li>
                 <li><a href="{% url 'stats' %}">{% trans 'STATS' %}</a></li>
-                <li><a href="{% url 'guests' %}">{% trans 'GUESTS' %}</a></li>
-                <li><a href="{% url 'settings' %}">{% trans 'SETTINGS' %}</a></li>
-                <li><a href="{% url 'logout' %}">{% trans 'LOG_OUT' %}</a></li>
+                {% if request.user|can_edit %}
+                    <li><a href="{% url 'guests' %}">{% trans 'GUESTS' %}</a></li>
+                    <li><a href="{% url 'settings' %}">{% trans 'SETTINGS' %}</a></li>
+                {% endif %}
+                {% if request.user.is_authenticated %}
+                    <li><a href="{% url 'logout' %}">{% trans 'LOG_OUT' %}</a></li>
+                {% endif %}
             </ul>
         </div>
         <div id="content" class="container-fluid">

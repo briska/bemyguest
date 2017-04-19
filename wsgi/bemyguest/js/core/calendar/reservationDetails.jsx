@@ -4,6 +4,7 @@ const ReactDOM = require('react-dom');
 const trans = require('core/utils/trans');
 const cx = require('classnames');
 const moment = require('moment');
+const connectToStores = require('fluxible-addons-react/connectToStores');
 require('moment/locale/sk');
 import {cellWidth, cellHeight, headHeight, monthHeight, detailsWidth} from 'core/enums';
 import RoomsStore from 'core/roomsStore';
@@ -25,6 +26,7 @@ import Meals from 'core/calendar/editReservation/meals';
 import Approval from 'core/calendar/editReservation/approval';
 import ConfirmDialog from 'core/utils/confirmDialog';
 import actions from 'core/actions';
+import UserStore from 'core/user/userStore';
 
 let ReservationDetails = React.createClass({
     getInitialState: function(){
@@ -68,7 +70,7 @@ let ReservationDetails = React.createClass({
     },
 
     render: function() {
-        let {context, reservation} = this.props;
+        let {context, reservation, user} = this.props;
         let {show} = this.state;
         let datesRange = getDatesRange(reservation.dateFrom, reservation.dateTo);
         let isLastRoom = reservation.roomReservations.length == 1;
@@ -79,13 +81,13 @@ let ReservationDetails = React.createClass({
                     body={trans('CONFIRM_REMOVING_RESERVATION')}
                     confirmBSStyle="danger"/>
                 <Modal.Header closeButton>
-                    <Name context={context} reservationId={reservation.id} name={reservation.name} />
+                    <Name context={context} reservationId={reservation.id} name={reservation.name} canEdit={user.canEdit} />
                 </Modal.Header>
                 <Modal.Body>
                     {!reservation.approved &&
-                        <Approval context={context} reservationId={reservation.id} days={_.size(datesRange)} />}
-                    <OverallDate context={context} reservationId={reservation.id} reservationDateFrom={reservation.dateFrom} reservationDateTo={reservation.dateTo} />
-                    <GuestsCount context={context} reservationId={reservation.id} guestsCount={reservation.guestsCount} />
+                        <Approval context={context} reservationId={reservation.id} days={_.size(datesRange)} canEdit={user.canEdit} />}
+                    <OverallDate context={context} reservationId={reservation.id} reservationDateFrom={reservation.dateFrom} reservationDateTo={reservation.dateTo} canEdit={user.canEdit} />
+                    <GuestsCount context={context} reservationId={reservation.id} guestsCount={reservation.guestsCount} canEdit={user.canEdit} />
                     {_.map(reservation.roomReservations, (roomReservation) => {
                         return (
                             <RoomReservation
@@ -95,7 +97,8 @@ let ReservationDetails = React.createClass({
                                 roomReservation={roomReservation}
                                 reservationDateFrom={reservation.dateFrom}
                                 reservationDateTo={reservation.dateTo}
-                                isLastRoom={isLastRoom} />
+                                isLastRoom={isLastRoom}
+                                canEdit={user.canEdit} />
                         );
                     })}
                     <RoomReservation
@@ -103,29 +106,38 @@ let ReservationDetails = React.createClass({
                         context={context}
                         reservationId={reservation.id}
                         reservationDateFrom={reservation.dateFrom}
-                        reservationDateTo={reservation.dateTo} />
-                    <Meals context={context} reservationId={reservation.id} meals={reservation.meals} datesRange={datesRange} guestsCount={reservation.guestsCount} />
-                    <Purpose context={context} reservationId={reservation.id} purpose={reservation.purpose} />
-                    <SpiritualGuide context={context} reservationId={reservation.id} spiritualGuide={reservation.spiritualGuide} />
+                        reservationDateTo={reservation.dateTo}
+                        canEdit={user.canEdit} />
+                    <Meals context={context} reservationId={reservation.id} meals={reservation.meals} datesRange={datesRange} guestsCount={reservation.guestsCount} canEdit={user.canEdit} />
+                    <Purpose context={context} reservationId={reservation.id} purpose={reservation.purpose} canEdit={user.canEdit} />
+                    <SpiritualGuide context={context} reservationId={reservation.id} spiritualGuide={reservation.spiritualGuide} canEdit={user.canEdit} />
                     <Contact
                         context={context}
                         reservationId={reservation.id}
                         contactName={reservation.contactName}
                         contactMail={reservation.contactMail}
-                        contactPhone={reservation.contactPhone} />
-                    <PricePayed context={context} reservationId={reservation.id} pricePayed={reservation.pricePayed} />
-                    <Notes context={context} reservationId={reservation.id} notes={reservation.notes} />
-                    <MailCommunication context={context} reservationId={reservation.id} mailCommunication={reservation.mailCommunication} />
+                        contactPhone={reservation.contactPhone}
+                        canEdit={user.canEdit} />
+                    <PricePayed context={context} reservationId={reservation.id} pricePayed={reservation.pricePayed} canEdit={user.canEdit} />
+                    <Notes context={context} reservationId={reservation.id} notes={reservation.notes} canEdit={user.canEdit} />
+                    <MailCommunication context={context} reservationId={reservation.id} mailCommunication={reservation.mailCommunication} canEdit={user.canEdit} />
                 </Modal.Body>
                 <Modal.Footer>
-                    <span className="edit-label"><Glyphicon glyph="pencil" /> {trans('USE_DOUBLECLICK_TO_EDIT')}</span>
-                    <Button onClick={this.addNewRoomReservation} bsStyle="primary">{trans('ADD_NEW_ROOM_RESERVATION')}</Button>
-                    <Button onClick={this.remove} bsStyle="danger">{trans('REMOVE_RESERVATION')}</Button>
+                    {user.canEdit &&
+                        <span className="edit-label"><Glyphicon glyph="pencil" /> {trans('USE_DOUBLECLICK_TO_EDIT')}</span>}
+                    {user.canEdit &&
+                        <Button onClick={this.addNewRoomReservation} bsStyle="primary">{trans('ADD_NEW_ROOM_RESERVATION')}</Button>}
+                    {user.canEdit &&
+                        <Button onClick={this.remove} bsStyle="danger">{trans('REMOVE_RESERVATION')}</Button>}
                     <Button onClick={this.close}>{trans('CLOSE')}</Button>
                 </Modal.Footer>
             </Modal>
         );
     }
 });
+
+ReservationDetails = connectToStores(ReservationDetails, [RoomsStore, UserStore], (context, props) => ({
+    user: context.getStore(UserStore).getUser(),
+}));
 
 module.exports = ReservationDetails;

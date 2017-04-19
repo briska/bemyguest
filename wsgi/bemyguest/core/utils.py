@@ -58,3 +58,15 @@ def generate_dates_list(date_from, date_to, date_format):
 #     dateList = [(date_from + timedelta(days=i)).strftime(date_format) for i in range(r)]
     dateList = [date_from + timedelta(days=i) for i in range(r)]
     return dateList
+
+def can_read(user):
+    try:
+        return user.groups.first().name in ('admin', 'readonly')
+    except:
+        return False
+
+def can_edit(user):
+    try:
+        return user.groups.first().name == 'admin'
+    except:
+        return False

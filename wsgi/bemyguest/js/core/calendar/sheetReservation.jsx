@@ -27,7 +27,7 @@ let SheetReservation = React.createClass({
                             dateTo={dateTo}
                             reservation={reservation}
                             roomReservation={roomReservation}
-                            getReservationDetails={() => {return this.refs.reservationDetails;}} />
+                            getReservationDetails={() => this.refs.reservationDetails.refs.wrappedElement} />
                     );
                 })}
             </div>

@@ -64,13 +64,14 @@ let Contact = React.createClass({
 
     render: function() {
         let {edit, saving, contactName, contactMail, contactPhone} = this.state;
+        if (!this.props.canEdit) edit = false;
         let contact = _.filter([contactName, contactMail, contactPhone], null).join(', ');
         return (
             <div className={cx('contact', 'form-group', edit && 'editing')} onDoubleClick={this.startEditing}>
                 <label className="inline">{trans('CONTACT')}</label>
                 {edit &&
                     <span className="edit-contact">
-                        <input type="text" value={contactName} name="contactName"  ref="focusTarget" placeholder={trans('CONTACT_NAME')} onChange={this.handleChange} />
+                        <input type="text" value={contactName} name="contactName" ref="focusTarget" placeholder={trans('CONTACT_NAME')} onChange={this.handleChange} />
                         <input type="text" value={contactMail} name="contactMail" placeholder={trans('CONTACT_MAIL')} onChange={this.handleChange} />
                         <input type="text" value={contactPhone} name="contactPhone" placeholder={trans('CONTACT_PHONE')} onChange={this.handleChange} />
                     </span>}

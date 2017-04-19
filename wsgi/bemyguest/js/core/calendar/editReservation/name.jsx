@@ -52,6 +52,7 @@ let Name = React.createClass({
 
     render: function() {
         let {edit, saving, name} = this.state;
+        if (!this.props.canEdit) edit = false;
         return (
             <div className={cx('name', 'form-group', edit && 'editing')} onDoubleClick={this.startEditing}>
                 {edit &&

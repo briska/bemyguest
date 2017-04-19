@@ -14,6 +14,7 @@ import ConfirmDialog from 'core/utils/confirmDialog';
 
 let SheetRoomReservation = React.createClass({
     getInitialState: function(){
+        this.dragging = false;
         return {
             wasDetailsOpened: false,
             dragType: null,
@@ -50,6 +51,8 @@ let SheetRoomReservation = React.createClass({
     },
 
     startDrag: function(e, dragType) {
+        if (this.dragging) return;
+        this.dragging = true;
         e.preventDefault();
         if (this.refs.roomReservationDetails.refs.wrappedElement.isOpened()) {
             this.refs.roomReservationDetails.refs.wrappedElement.close();
@@ -88,6 +91,7 @@ let SheetRoomReservation = React.createClass({
     },
 
     stopDrag: function(e) {
+        this.dragging = false;
         let {context, reservation, roomReservation} = this.props;
         let {dragType, dragFromWidth, dragFromLeft, dragFromX, dragFromTop, dragFromY} = this.state;
         let $roomReservationEl = $(ReactDOM.findDOMNode(this));

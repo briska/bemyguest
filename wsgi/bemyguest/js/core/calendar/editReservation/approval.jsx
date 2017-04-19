@@ -43,6 +43,7 @@ let Approval = React.createClass({
 
     render: function() {
         let {edit, saving} = this.state;
+        if (!this.props.canEdit) edit = false;
         let {days} = this.props;
         return (
             <div className={cx('approval', 'form-group', edit && 'editing')} onDoubleClick={this.startEditing}>

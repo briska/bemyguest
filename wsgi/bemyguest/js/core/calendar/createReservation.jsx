@@ -29,14 +29,16 @@ let CreateReservation = React.createClass({
             contactPhone: '',
             notes: '',
             mailCommunication: '',
-            extraBed: false
+            extraBed: _.fromPairs(_.map(this.props.roomReservations, (roomReservation) => [roomReservation.roomId, false])),
         };
     },
 
     componentWillReceiveProps: function(nextProps) {
-        if (nextProps.capacity != this.props.capacity
-            || !_.isEqual(nextProps.datesRange, this.props.datesRange)) {
-            this.setState({guestsCount: nextProps.capacity});
+        if (nextProps.capacity !== this.props.capacity || !_.isEqual(nextProps.roomReservations, this.props.roomReservations)) {
+            this.setState({
+                guestsCount: nextProps.capacity,
+                extraBed: _.fromPairs(_.map(nextProps.roomReservations, (roomReservation) => [roomReservation.roomId, !!this.state.extraBed[roomReservation.roomId]])),
+            });
         }
     },
 
@@ -48,8 +50,12 @@ let CreateReservation = React.createClass({
         this.setState({show: true});
     },
 
-    openExtraBed: function() {
-        this.setState({extraBed: !this.state.extraBed});
+    openExtraBed: function(roomId) {
+        this.setState({extraBed: _.mapValues(this.state.extraBed, (value, key) => key == roomId ? true : value)});
+    },
+    
+    closeExtraBed: function(roomId) {
+        this.setState({extraBed: _.mapValues(this.state.extraBed, (value, key) => key == roomId ? false : value)});
     },
 
     close: function() {
@@ -67,7 +73,7 @@ let CreateReservation = React.createClass({
             rr.dateFrom = moment(roomReservation.dateFrom).hour(14).format(DATE_FORMAT);
             rr.dateTo = moment(roomReservation.dateTo).hour(10).format(DATE_FORMAT);
             rr.guests = [];
-            let totalGuestsCount = this.state.extraBed ? room.capacity + 1 : room.capacity;
+            let totalGuestsCount = this.state.extraBed[roomReservation.roomId] ? room.capacity + 1 : room.capacity;
             for (let index = 0; index < totalGuestsCount; index++) {
                 let guest = this.refs['guestR' + room.id + 'I' + index].getGuest();
                 if (guest) {
@@ -140,21 +146,23 @@ let CreateReservation = React.createClass({
                                 roomReservationFirstDay={roomReservation.dateFrom} />
                         );
                     })}
-                    {!extraBed &&
-                    <div className="guest open-extra-bed">
-                        <button className="as-link" onClick={this.openExtraBed}>
-                            <Glyphicon glyph='plus' />
-                            {trans('ADD_EXTRA_BED')}
-                        </button>
-                    </div>}
-                    {extraBed &&
-                    <Guest
-                        key={'guest-' + room.id + '-' + room.capacity}
-                        ref={'guestR' + room.id + 'I' + room.capacity}
-                        context={context}
-                        extraBed={true}
-                        noEdit={true}
-                        roomReservationFirstDay={roomReservation.dateFrom} />}
+                    {extraBed[roomReservation.roomId] ? (
+                        <Guest
+                            key={'guest-' + room.id + '-' + room.capacity}
+                            ref={'guestR' + room.id + 'I' + room.capacity}
+                            context={context}
+                            extraBed={true}
+                            noEdit={true}
+                            roomReservationFirstDay={roomReservation.dateFrom}
+                            onClear={() => this.closeExtraBed(roomReservation.roomId)} />
+                    ) : (
+                        <div className="guest open-extra-bed">
+                            <button className="as-link" onClick={() => this.openExtraBed(roomReservation.roomId)}>
+                                <Glyphicon glyph='plus' />
+                                {trans('ADD_EXTRA_BED')}
+                            </button>
+                        </div>
+                    )}
                 </div>
             );
         });
@@ -180,14 +188,12 @@ let CreateReservation = React.createClass({
                 </Modal.Header>
                 <Modal.Body>
                     <div className="form-group">
-                        <div>
-                            <label className="inline">{trans('RESERVATION_NAME')}</label>
-                            <input type="text" value={name} name="name" onChange={this.handleChange} />
-                        </div>
-                        <div>
-                            <label className="inline">{trans('GUESTS_COUNT')}</label>
-                            <input type="number" value={guestsCount} name="guestsCount" onChange={this.handleChange} />
-                        </div>
+                        <label className="inline">{trans('RESERVATION_NAME')}</label>
+                        <input type="text" value={name} name="name" onChange={this.handleChange} />
+                    </div>
+                    <div className="form-group">
+                        <label className="inline">{trans('GUESTS_COUNT')}</label>
+                        <input type="number" value={guestsCount} name="guestsCount" onChange={this.handleChange} />
                     </div>
                     <div className="form-group rooms">
                         {roomReservationsToRender}
@@ -218,19 +224,12 @@ let CreateReservation = React.createClass({
                         <input type="text" value={spiritualGuide} name="spiritualGuide" onChange={this.handleChange} />
                     </div>
                     <div className="form-group contact">
-                        <h4>{trans('CONTACT')}</h4>
-                        <div>
-                            <label className="inline">{trans('CONTACT_NAME')}</label>
-                            <input type="text" value={contactName} name="contactName" onChange={this.handleChange} />
-                        </div>
-                        <div>
-                            <label className="inline">{trans('CONTACT_MAIL')}</label>
-                            <input type="email" value={contactMail} name="contactMail" onChange={this.handleChange} />
-                        </div>
-                        <div>
-                            <label className="inline">{trans('CONTACT_PHONE')}</label>
-                            <input type="text" value={contactPhone} name="contactPhone" onChange={this.handleChange} />
-                        </div>
+                        <label className="inline">{trans('CONTACT')}</label>
+                        <span className="edit-contact">
+                            <input type="text" value={contactName} name="contactName" placeholder={trans('CONTACT_NAME')} onChange={this.handleChange} />
+                            <input type="text" value={contactMail} name="contactMail" placeholder={trans('CONTACT_MAIL')} onChange={this.handleChange} />
+                            <input type="text" value={contactPhone} name="contactPhone" placeholder={trans('CONTACT_PHONE')} onChange={this.handleChange} />
+                        </span>
                     </div>
                     <div className="form-group">
                         <label className="block">{trans('NOTES')}</label>

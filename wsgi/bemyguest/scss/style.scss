@@ -481,8 +481,6 @@ button.close {
             margin-right: -15px;
             background: $lightgray;
             padding: 20px 15px;
-            border-top: 1px solid $bordergray;
-            border-bottom: 1px solid $bordergray;
             
             &.name {
                 margin-bottom: -15px;
@@ -614,14 +612,6 @@ button.close {
 }
 
 .create-reservation {
-    label {
-       font-weight: 400;
-
-        &.inline {
-            width: 80px;
-        }
-    }
-
     textarea.mail-communication {
         height: 100px;
     }

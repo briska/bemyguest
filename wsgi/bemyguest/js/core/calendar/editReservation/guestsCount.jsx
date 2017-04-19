@@ -58,6 +58,7 @@ let GuestsCount = React.createClass({
 
     render: function() {
         let {edit, saving, guestsCount} = this.state;
+        if (!this.props.canEdit) edit = false;
         return (
             <div className={cx('guests-count', 'form-group', edit && 'editing')} onDoubleClick={this.startEditing}>
                 <label className="inline">{trans('GUESTS_COUNT')}</label>

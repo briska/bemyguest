@@ -63,6 +63,7 @@ let OverallDate = React.createClass({
 
     render: function() {
         let {edit, saving, dateFrom, dateTo} = this.state;
+        if (!this.props.canEdit) edit = false;
         if (edit) {
             return (
                 <div className={cx('overall-date', 'form-group', edit && 'editing')}>

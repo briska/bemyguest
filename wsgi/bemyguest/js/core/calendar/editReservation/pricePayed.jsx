@@ -58,6 +58,7 @@ let PricePayed = React.createClass({
 
     render: function() {
         let {edit, saving, pricePayed} = this.state;
+        if (!this.props.canEdit) edit = false;
         return (
             <div className={cx('price-payed', 'form-group', edit && 'editing')} onDoubleClick={this.startEditing}>
                 <label className="inline">{trans('PRICE_PAYED')}</label>

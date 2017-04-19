@@ -53,6 +53,7 @@ let Notes = React.createClass({
 
     render: function() {
         let {edit, saving, notes} = this.state;
+        if (!this.props.canEdit) edit = false;
         return (
             <div className={cx('notes', 'form-group', edit && 'editing')} onDoubleClick={this.startEditing}>
                 <label className="block">{trans('NOTES')}</label>

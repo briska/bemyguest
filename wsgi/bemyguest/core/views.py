@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from core.models import Room, House, Meal, RoomReservation
-from core.serializers import serialize_house, serialize_room
+from core.serializers import serialize_house, serialize_room, serialize_user
 from django.contrib.auth.forms import AuthenticationForm
 from django.views.decorators.debug import sensitive_post_parameters
 from django.views.decorators.csrf import csrf_exempt
@@ -13,7 +13,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.db.models.query import Prefetch
 import json
 from bemyguest import settings
-from core.utils import render_to_pdf, to_datetime, generate_dates_list
+from core.utils import render_to_pdf, to_datetime, generate_dates_list, can_read
 from django.http.response import HttpResponseBadRequest
 
 # Create your views here.
@@ -21,11 +21,14 @@ from django.http.response import HttpResponseBadRequest
 STATIC_VERSION = 3
 
 def react_base(request, page):
-    if not request.user.is_authenticated():
+    if not request.user.is_authenticated() or not can_read(request.user):
         data = {
-            'login_form': AuthenticationForm(request)
+            'login_form': AuthenticationForm(request),
+            'static_version': STATIC_VERSION,
+            'is_debug' : settings.DEBUG,
         }
         return render(request, 'login.html', data)
+    
     houses = []
     rooms = []
     for house in House.objects.all().prefetch_related(Prefetch('rooms', queryset=Room.objects.all())):
@@ -35,6 +38,7 @@ def react_base(request, page):
     request_data = {
         'houses': houses,
         'rooms': rooms,
+        'user': serialize_user(request.user)
     }
     data = {
         'page': page,
@@ -58,7 +62,9 @@ def user_login(request):
         else:
             add_message(request, ERROR, _('WRONG_USERNAME_OR_PASSWORD'))
             data = {
-                'login_form': AuthenticationForm(request)
+                'login_form': AuthenticationForm(request),
+                'static_version': STATIC_VERSION,
+                'is_debug' : settings.DEBUG,
             }
             return render(request, 'login.html', data)
     return redirect(reverse('calendar'))
@@ -73,8 +79,13 @@ def user_logout(request):
 
 @csrf_exempt
 def pdf_meals(request):
-    if request.user.is_anonymous():
-        return HttpResponseBadRequest("loggedOut")
+    if request.user.is_anonymous() or not can_read(request.user):
+        data = {
+            'login_form': AuthenticationForm(request),
+            'static_version': STATIC_VERSION,
+            'is_debug' : settings.DEBUG,
+        }
+        return render(request, 'login.html', data)
 
     if request.method == 'GET':
         date_from = request.GET.get('date_from', None)
@@ -97,8 +108,13 @@ def pdf_meals(request):
 
 @csrf_exempt
 def pdf_occupation(request):
-    if request.user.is_anonymous():
-        return HttpResponseBadRequest("loggedOut")
+    if request.user.is_anonymous() or not can_read(request.user):
+        data = {
+            'login_form': AuthenticationForm(request),
+            'static_version': STATIC_VERSION,
+            'is_debug' : settings.DEBUG,
+        }
+        return render(request, 'login.html', data)
 
     if request.method == 'GET':
         date_from = request.GET.get('date_from', None)

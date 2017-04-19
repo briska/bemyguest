@@ -16,6 +16,7 @@ import SheetReservations from 'core/calendar/sheetReservations';
 import NewReservation from 'core/calendar/newReservation';
 import DaySelector from 'core/calendar/DaySelector';
 import RoomsStore from 'core/roomsStore';
+import UserStore from 'core/user/userStore';
 import CalendarHeader from 'core/calendar/calendarHeader';
 import {getDatesRange, diffDays} from 'core/utils/utils';
 
@@ -46,6 +47,7 @@ let Calendar = React.createClass({
     },
 
     startSelectingNewReservation(e, roomId, date) {
+        if (!this.props.user.canEdit) return false;
         if (this.props.context.getStore(NewReservationStore).getRoomReservation(roomId)) return false;
         this.setState({selectingNewReservation: roomId, selectingFromX: e.clientX});
         this.props.context.getStore(NewReservationStore).selectRoom(roomId, date);
@@ -130,8 +132,9 @@ let Calendar = React.createClass({
     }
 });
 
-Calendar = connectToStores(Calendar, [RoomsStore], (context, props) => ({
-    rooms: context.getStore(RoomsStore).getRooms()
+Calendar = connectToStores(Calendar, [RoomsStore, UserStore], (context, props) => ({
+    user: context.getStore(UserStore).getUser(),
+    rooms: context.getStore(RoomsStore).getRooms(),
 }));
 
 module.exports = Calendar;

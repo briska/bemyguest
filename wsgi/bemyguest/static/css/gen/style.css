@@ -615,9 +615,7 @@ button.close {
     margin-left: -15px;
     margin-right: -15px;
     background: #f3f3f3;
-    padding: 20px 15px;
-    border-top: 1px solid #ddd;
-    border-bottom: 1px solid #ddd; }
+    padding: 20px 15px; }
     .reservation-modal .form-group.editing.name {
       margin-bottom: -15px; }
   .reservation-modal .form-group .edit-tools {
@@ -697,11 +695,6 @@ button.close {
 
 .reservation-modal .edit-contact input {
   margin-right: 5px; }
-
-.create-reservation label {
-  font-weight: 400; }
-  .create-reservation label.inline {
-    width: 80px; }
 
 .create-reservation textarea.mail-communication {
   height: 100px; }

@@ -2,9 +2,10 @@ const createStore = require('fluxible/addons/createStore');
 
 let UserStore = createStore({
     storeName: 'UserStore',
-
+    
     initialize: function() {
-        this._user = null;
+        // TODO: validate requestData (or find better way)
+        this._user = requestData.user;
         this._loggedOut = false;
         this._error = false;
     },

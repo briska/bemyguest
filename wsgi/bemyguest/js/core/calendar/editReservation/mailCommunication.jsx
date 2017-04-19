@@ -52,6 +52,7 @@ let MailCommunication = React.createClass({
 
     render: function() {
         let {edit, saving, mailCommunication} = this.state;
+        if (!this.props.canEdit) edit = false;
         return (
             <div className={cx('mail-communication', 'form-group', edit && 'editing')} onDoubleClick={this.startEditing}>
                 <label className="block">{trans('MAIL_COMMUNICATION')}</label>

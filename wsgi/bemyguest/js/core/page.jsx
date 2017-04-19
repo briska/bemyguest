@@ -16,10 +16,9 @@ let Page = React.createClass({
     },
 
     componentDidMount: function() {
-        this.props.context.executeAction(actions.loadUser);
-        this.props.context.executeAction(actions.loadEvents);
         this.props.context.executeAction(actions.loadReservations);
         this.props.context.executeAction(actions.loadGuests);
+        this.props.context.executeAction(actions.loadEvents);
     },
 
     render: function() {

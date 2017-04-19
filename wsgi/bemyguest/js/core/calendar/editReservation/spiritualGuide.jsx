@@ -58,6 +58,7 @@ let SpiritualGuide = React.createClass({
 
     render: function() {
         let {edit, saving, spiritualGuide} = this.state;
+        if (!this.props.canEdit) edit = false;
         return (
             <div className={cx('spiritual-guide', 'form-group', edit && 'editing')} onDoubleClick={this.startEditing}>
                 <label className="inline">{trans('SPIRITUAL_GUIDE')}</label>

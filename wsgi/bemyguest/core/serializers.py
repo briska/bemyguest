@@ -1,3 +1,4 @@
+from core.utils import can_read, can_edit
 def serialize_house(house):
     return {
         'id': house.id,
@@ -87,6 +88,8 @@ def serialize_user(user):
         'id': user.id,
         'username': user.username,
         'mail': user.email,
+        'canRead': can_read(user),
+        'canEdit': can_edit(user),
     }
 
 def serialize_event(event):
