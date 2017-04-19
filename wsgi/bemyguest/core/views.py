@@ -18,7 +18,7 @@ from django.http.response import HttpResponseBadRequest
 
 # Create your views here.
 
-STATIC_VERSION = 3
+STATIC_VERSION = 4
 
 def react_base(request, page):
     if not request.user.is_authenticated() or not can_read(request.user):
